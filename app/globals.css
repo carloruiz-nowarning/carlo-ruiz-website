@@ -3,25 +3,75 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #E9E7E3;
+  --ink: #111111;
+  --olive: #7B8C5A;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Auto-scroll marquee (duplicated content, scrolls left) */
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee-left var(--duration, 30s) linear infinite;
+}
+.marquee-track:hover,
+.marquee-track.paused {
+  animation-play-state: paused;
+}
+
+/* Marquee right (for alternating rows) */
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.marquee-track-right {
+  animation: marquee-right var(--duration, 35s) linear infinite;
+}
+.marquee-track-right:hover,
+.marquee-track-right.paused {
+  animation-play-state: paused;
+}
+
+/* Slow logo scroll for experience strip */
+@keyframes logo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.logo-scroll-track {
+  animation: logo-scroll 40s linear infinite;
+}
+
+/* Parallax image — moved via JS */
+.hero-image {
+  will-change: transform;
+}
+
+/* Campaign image vertical pan — plays once: top → bottom → top, then stops */
+@keyframes pan-y {
+  0%   { object-position: center top; }
+  50%  { object-position: center bottom; }
+  100% { object-position: center top; }
+}
+.campaign-pan {
+  animation: pan-y 16s ease-in-out 1 both;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
