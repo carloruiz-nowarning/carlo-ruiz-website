@@ -3,8 +3,8 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
 const experiences = [
-  { logo: "/assets/logos/EUNA.png",                name: "Euna Solutions",    role: "Digital Marketing Specialist", years: "2025–Present" },
   { logo: null,                                    name: "Independent",        role: "Founder & Consultant",         years: "2019–2025",    monogram: true },
+  { logo: "/assets/logos/EUNA.png",                name: "Euna Solutions",    role: "Digital Marketing Specialist", years: "2025–Present" },
   { logo: "/assets/logos/logo-bar-one-new.png",   name: "Bar One Lounge",    role: "Marketing Director",           years: "2023–2025" },
   { logo: "/assets/logos/logo-gilde-new.png",     name: "Gilde Brewery",     role: "Marketing & Events Manager",   years: "2022–2023" },
   { logo: "/assets/logos/The Happy Camper.png",   name: "The Happy Camper",  role: "Marketing Director",           years: "2021–2022" },
@@ -12,21 +12,30 @@ const experiences = [
 
 // All logos for the scrolling strip — greyed out
 const stripLogos = [
+  "/assets/logos/EUNA.png",
+  "/assets/logos/The Happy Camper.png",
+  "/assets/logos/extra-logo-494-systems.png",
+  "/assets/logos/extra-logo-creates-a-lott.png",
+  "/assets/logos/extra-logo-devoid.png",
+  "/assets/logos/extra-logo-medford-acres.png",
+  "/assets/logos/extra-logo-s-gothic.png",
+  "/assets/logos/extra-logo-s-organic.png",
+  "/assets/logos/extra-logo-sneak-shock.png",
+  "/assets/logos/logo-800latta.png",
   "/assets/logos/logo-acms-new.png",
   "/assets/logos/logo-bar-one-new.png",
+  "/assets/logos/logo-brenda-nova.png",
+  "/assets/logos/logo-coca-cola.png",
   "/assets/logos/logo-endurance-pt-new.png",
   "/assets/logos/logo-gilde-new.png",
-  "/assets/logos/logo-mobile-care-new.png",
-  "/assets/logos/logo-no-warning-new.png",
-  "/assets/logos/logo-tier-one.png",
   "/assets/logos/logo-green-star.png",
   "/assets/logos/logo-gshock.png",
-  "/assets/logos/logo-coca-cola.png",
+  "/assets/logos/logo-kai-o-ken.png",
+  "/assets/logos/logo-mobile-care-new.png",
+  "/assets/logos/logo-no-warning-new.png",
   "/assets/logos/logo-nupro.png",
   "/assets/logos/logo-sycamore.png",
-  "/assets/logos/logo-brenda-nova.png",
-  "/assets/logos/logo-kai-o-ken.png",
-  "/assets/logos/logo-800latta.png",
+  "/assets/logos/logo-tier-one.png",
 ];
 
 function ExperienceItem({

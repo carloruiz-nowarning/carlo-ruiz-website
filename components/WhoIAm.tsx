@@ -3,9 +3,9 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
 const paragraphs = [
-  "I'm a marketing leader who came up through graphic design and food science, which means I understand how things look, how they're made, and why people want them. I've built brands from nothing, led creative teams to run without me, and driven revenue across hospitality, food and beverage, and B2B technology. I work best when the strategy and the execution are the same job.",
-  "I move fluidly from data analysis to film direction to brand strategy to campaign execution. Whatever the moment calls for I am hands on; it's what lets me see the full picture and own the full cycle.",
-  "Outside of work I'm in the mountains, at a farmers market, behind a bar making cocktails, or in a kitchen cooking something from a part of the world I haven't been to yet. I'm into local live music, projection mapping and laser design, and I foster dogs between adventures. I stay curious on purpose. It makes the work better.",
+  "I'm a marketing leader who came up through graphic design and food science, which means I understand how things look, how they're made, and why people want them. I've built brands from nothing, led creative teams to run without me, and driven revenue across multiple sectors. I work best when the strategy, creative and execution are the same job.",
+  "Whatever the scope calls for, I’m hands on — it’s what lets me see the full picture and own the full cycle.",
+  "Outside of work I'm in the mountains, at farmers markets, behind a bar making cocktails, or in a kitchen cooking something from a part of the world I haven't been to yet. I'm into local live music, lighting design, pruning my plants, and caring for dogs. I stay curious on purpose. It makes the work better.",
 ];
 
 export default function WhoIAm() {
@@ -58,7 +58,7 @@ export default function WhoIAm() {
             </p>
           ))}
           <p className="text-sm text-[#111111]/30 italic pt-4 border-t border-[#111111]/8">
-            Also building something of my own, more soon.
+            Also building something of my own — more soon.
           </p>
         </motion.div>
 
@@ -68,7 +68,7 @@ export default function WhoIAm() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.7, bounce: 0, delay: 0.15 }}
-          className="relative aspect-[3/4] bg-[#111111] flex items-center justify-center overflow-hidden"
+          className="relative aspect-video md:aspect-[3/4] bg-[#111111] flex items-center justify-center overflow-hidden"
         >
           {/* TODO: replace with personal life video */}
           <span className="font-serif text-[6rem] text-white/10 select-none">CR</span>

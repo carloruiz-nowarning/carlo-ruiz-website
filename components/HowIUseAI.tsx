@@ -36,7 +36,7 @@ export default function HowIUseAI() {
 
         {/* Two-tile bento layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/8">
-          {/* Left tile — AI tools callouts */}
+          {/* Left tile — Agentic Stack */}
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +44,8 @@ export default function HowIUseAI() {
             transition={{ type: "spring", duration: 0.6, bounce: 0 }}
             className="bg-[#111111] p-10 flex flex-col gap-6"
           >
-            <p className="text-xs text-[#7B8C5A] tracking-widest uppercase mb-2">Tools in the stack</p>
+            <p className="text-xs text-[#7B8C5A] tracking-widest uppercase mb-2">Agentic Stack</p>
+
             {aiTools.map((tool, i) => (
               <motion.div
                 key={tool.name}
@@ -72,16 +73,10 @@ export default function HowIUseAI() {
             className="bg-white/[0.04] p-10 flex flex-col justify-center gap-6"
           >
             <p className="text-white/70 leading-relaxed text-lg">
-              I use AI the way a good editor uses a red pen, not to write the piece for me, but to make what I&apos;m already thinking sharper and faster.
+              I use AI the way a good editor uses a red pen, not to think for me, but to make what I&apos;m already thinking sharper and faster.
             </p>
             <p className="text-white/70 leading-relaxed text-lg">
-              In my work it collapses the gap between a brief and a first draft. Creatively it helps me pressure test ideas I already have. Where it becomes genuinely powerful is connecting siloed data across platforms into one view.
-            </p>
-            <p className="text-white/70 leading-relaxed text-lg">
-              Most organizations are sitting on insights they cannot see because their data lives in six different places. I have built a unified intelligence layer, pulling ad performance, CRM behavior, email engagement, and social analytics into a single engine that influences the next move.
-            </p>
-            <p className="text-white/50 leading-relaxed">
-              But I wield it. I am the creative. I understand human connection, a finger on the pulse of culture, and what a specific market actually cares about right now.
+              The tools change. The principle doesn&apos;t. AI accelerates execution, reveals patterns in complex data, and helps move ideas from concept to action. The judgment, strategy, and creative direction are still mine.
             </p>
           </motion.div>
         </div>
@@ -89,10 +84,10 @@ export default function HowIUseAI() {
         {/* 4 callout tiles */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/8 mt-px">
           {[
-            { label: "Brief → Draft", body: "Speed without sacrificing voice. I move from a client brief to a polished first draft in a fraction of the time, without losing the strategic nuance that makes it land." },
+            { label: "Brief → Draft", body: "Speed without losing strategic nuance. I move from a client brief to a polished first draft in a fraction of the time." },
             { label: "Pressure Testing", body: "Validate ideas before spending. I use AI to stress-test creative concepts, messaging hierarchies, and campaign strategies before a dollar hits the media plan." },
-            { label: "Unified Intelligence", body: "Connecting siloed data into one view. Ad performance, CRM behavior, email engagement, social analytics, synthesized into a single engine that shapes the next move." },
-            { label: "Culture Pulse", body: "AI informs, human instinct decides. I use it to stay ahead of cultural shifts and emerging signals, then apply judgment about what actually matters for a specific brand and market." },
+            { label: "Unified Intelligence", body: "Connecting siloed data into one view, a single engine that shapes the next move and gets the right data to the right people before they need it." },
+            { label: "Culture Pulse", body: "AI informs. Human instinct decides. I use it to identify emerging signals, then apply judgment about what actually matters for a specific brand and audience." },
           ].map((tile, i) => (
             <motion.div
               key={tile.label}

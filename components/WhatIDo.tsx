@@ -65,7 +65,7 @@ function BrandLogoPanel() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", duration: 0.4, bounce: 0, delay: i * 0.04 }}
-            className="bg-white p-5 flex flex-col items-center gap-3 group"
+            className="bg-white p-5 flex flex-col items-center gap-3 group rounded-xl"
           >
             <div className="relative w-full h-10">
               <Image
@@ -83,25 +83,6 @@ function BrandLogoPanel() {
         ))}
       </div>
 
-      {/* PDF download buttons */}
-      <div className="flex gap-3 flex-wrap">
-        <a
-          href="/assets/tier-one/tier-one-case-study.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs border border-[#7B8C5A] text-[#7B8C5A] px-4 py-2 rounded-full hover:bg-[#7B8C5A] hover:text-white transition-colors duration-200 active:scale-[0.97]"
-        >
-          Tier One Case Study ↗
-        </a>
-        <a
-          href="/assets/acms-brand-presentation.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs border border-[#7B8C5A] text-[#7B8C5A] px-4 py-2 rounded-full hover:bg-[#7B8C5A] hover:text-white transition-colors duration-200 active:scale-[0.97]"
-        >
-          ACMS Brand Presentation ↗
-        </a>
-      </div>
     </div>
   );
 }
@@ -124,6 +105,8 @@ function CampaignPanel({ onLightbox }: { onLightbox: (src: string, alt: string) 
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", duration: 0.4, bounce: 0, delay: i * 0.06 }}
+            role="button"
+            tabIndex={0}
             className="relative overflow-hidden cursor-zoom-in group"
             style={{ height: "180px" }}
             onClick={() => onLightbox(img.src, img.alt)}
@@ -142,14 +125,6 @@ function CampaignPanel({ onLightbox }: { onLightbox: (src: string, alt: string) 
         ))}
       </div>
 
-      <a
-        href="/assets/campaigns/cola-gshock-campaign.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="self-start text-xs border border-[#7B8C5A] text-[#7B8C5A] px-4 py-2 rounded-full hover:bg-[#7B8C5A] hover:text-white transition-colors duration-200 active:scale-[0.97]"
-      >
-        Coca-Cola × G-Shock Campaign PDF ↗
-      </a>
     </div>
   );
 }
@@ -169,10 +144,10 @@ function ContentPanel() {
   return (
     <div className="flex flex-col gap-4">
       <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
-      {/* ~90% padding = roughly half the natural 178% portrait height */}
+      {/* ~130% padding = taller portrait crop */}
       <div
         key={video.id}
-        style={{ padding: "90% 0 0 0", position: "relative" }}
+        style={{ padding: "130% 0 0 0", position: "relative" }}
         className="bg-[#111111] overflow-hidden rounded-xl"
       >
         <iframe
@@ -217,6 +192,8 @@ function DesignPanel({ onLightbox }: { onLightbox: (src: string, alt: string) =>
   return (
     <div className="flex flex-col gap-3">
       <div
+        role="button"
+        tabIndex={0}
         className="relative w-full bg-[#111111] overflow-hidden cursor-zoom-in group"
         style={{ height: "280px" }}
         onClick={() => onLightbox(styleScapes[idx].src, styleScapes[idx].alt)}
@@ -273,6 +250,8 @@ function WebPanel({ onLightbox }: { onLightbox: (src: string, alt: string) => vo
   return (
     <div className="flex flex-col gap-3">
       <div
+        role="button"
+        tabIndex={0}
         className="relative w-full bg-[#111111] overflow-hidden cursor-zoom-in group"
         style={{ height: "280px" }}
         onClick={() => onLightbox(webImages[idx].src, webImages[idx].alt)}
@@ -317,31 +296,31 @@ function WebPanel({ onLightbox }: { onLightbox: (src: string, alt: string) => vo
 const tabs = [
   {
     id: "brand", label: "Brand",
-    approach: "I don't have a default design direction. I read the market, understand who we're talking to, and build from there. The work looks different every time because we are solving for different goals each time.",
+    approach: "I don't have a default design direction. I read the market, understand who I'm talking to, and build from there. The work looks different every time because I am solving for different goals each time.",
     outcome: "Brands across multiple sectors: manufacturing, public sector, SaaS, disaster recovery, CPG e-commerce, healthcare, luxury hospitality, community health, food and beverage, real estate, and social impact.",
     visual: "brand",
   },
   {
     id: "campaigns", label: "Campaigns",
-    approach: "Data backed execution and strategy, syndication management, segmentation, A/B testing, multi-channel orchestration, GTM thinking. I lead with strategy and show execution. The brief tells me what it needs. I make sure it lands.",
+    approach: "The brief tells me what it needs. I make sure it lands. I lead with data-backed strategy: segmentation, A/B testing, multi-channel management, GTM thinking, and follow through to execution.",
     outcome: "Global brand collaboration (Coca-Cola × G-Shock, 2024), 1,000+ person events at Gilde, gamified SMS/email segmentation at Bar One, e-commerce to distribution at Happy Camper.",
     visual: "campaigns",
   },
   {
     id: "content", label: "Content",
-    approach: "Content is a revenue tool, not a vanity play. I built Bar One's presence from zero with one question driving every decision: what gets people through the door? Everything is content. You just have to know what to do with it.",
-    outcome: "Grew Bar One from zero to 20k followers in under a year. Measurable increase in reservations and in-venue revenue driven by content strategy.",
+    approach: "Content is a revenue tool, not a vanity play. I built Bar One's presence from zero with one question driving every decision: what gets people through the door? Everything is content. It's knowing what to do with it.",
+    outcome: "Grew Bar One from zero to 20k followers in under a year. Measurable increase in reservations and in-venue revenue driven by strategic content and partnerships.",
     visual: "content",
   },
   {
     id: "design", label: "Design",
-    approach: "Design is a business decision disguised as an aesthetic one. I design for context, not style. The brief tells me what it needs to look like. I know how to execute it based on market data.",
-    outcome: "Range across 6+ sectors, multiple brand identities built end-to-end, creative teams built and run autonomously.",
+    approach: "Good design gets noticed. Great design gets adopted. I design for context. The brief tells me what we need, then market data and culture tell me what it looks like.",
+    outcome: "Range across 8+ sectors, multiple brand identities built end-to-end, creative teams built and run autonomously.",
     visual: "design",
   },
   {
     id: "web", label: "Web",
-    approach: "I start with the goal, not the layout. Who is this for, what do they need to do, and what do we need them to believe by the time they leave? The design follows from there.",
+    approach: "I start with the goal, not the layout. Who is this for, what do they need to do, what do we need them to believe by the time they leave? The design follows from there with a human-first approach.",
     outcome: "Full website rebrand at Tier One Graphics and Euna Solutions: competitor analysis, market research, population targeting, wireframe, and execution.",
     visual: "web",
   },
