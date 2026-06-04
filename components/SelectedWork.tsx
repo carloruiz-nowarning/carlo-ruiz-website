@@ -68,6 +68,22 @@ const works = [
   },
 ];
 
+function WorkButton({ link }: { link: string | null }) {
+  if (link) {
+    return (
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs border border-[#7B8C5A] text-[#7B8C5A] px-4 py-2 rounded-full hover:bg-[#7B8C5A] hover:text-white transition-colors duration-200 active:scale-[0.97] whitespace-nowrap flex-shrink-0"
+      >
+        View Project ↗
+      </a>
+    );
+  }
+  return <span className="text-xs text-[#111111]/20 whitespace-nowrap flex-shrink-0">Coming Soon</span>;
+}
+
 export default function SelectedWork() {
   const reduce = useReducedMotion();
 
@@ -94,7 +110,6 @@ export default function SelectedWork() {
         </motion.h2>
       </div>
 
-      {/* Work rows */}
       <div className="divide-y divide-[#111111]/8">
         {works.map((work, i) => (
           <motion.div
@@ -103,44 +118,52 @@ export default function SelectedWork() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", duration: 0.5, bounce: 0, delay: i * 0.05 }}
-            className="px-6 md:px-12 lg:px-20 py-8 grid grid-cols-[80px_1fr_1fr_auto] gap-8 items-center max-w-7xl mx-auto"
+            className="px-6 md:px-12 lg:px-20 py-8 max-w-7xl mx-auto"
           >
-            {/* Logo */}
-            <div className="flex items-center gap-2">
-              {work.logos.length > 0 ? (
-                work.logos.map((src, j) => (
-                  <div key={j} className="relative h-8 w-10 flex-shrink-0">
-                    <Image src={src} alt="" fill className="object-contain grayscale" />
-                  </div>
-                ))
-              ) : (
-                <span className="font-serif text-2xl text-[#111111]/20">—</span>
-              )}
+            {/* Desktop layout */}
+            <div className="hidden md:grid grid-cols-[80px_1fr_1fr_auto] gap-8 items-center">
+              <div className="flex items-center gap-2">
+                {work.logos.length > 0 ? (
+                  work.logos.map((src, j) => (
+                    <div key={j} className="relative h-8 w-10 flex-shrink-0">
+                      <Image src={src} alt="" fill className="object-contain grayscale" />
+                    </div>
+                  ))
+                ) : (
+                  <span className="font-serif text-2xl text-[#111111]/20">—</span>
+                )}
+              </div>
+              <div>
+                <p className="font-medium text-[#111111] text-sm">{work.client}</p>
+                <p className="text-xs text-[#7B8C5A] mt-0.5">{work.category}</p>
+              </div>
+              <p className="text-sm text-[#111111]/55 leading-relaxed">{work.description}</p>
+              <WorkButton link={work.link} />
             </div>
 
-            {/* Client + category */}
-            <div>
-              <p className="font-medium text-[#111111] text-sm">{work.client}</p>
-              <p className="text-xs text-[#7B8C5A] mt-0.5">{work.category}</p>
-            </div>
-
-            {/* Description */}
-            <p className="text-sm text-[#111111]/55 leading-relaxed">{work.description}</p>
-
-            {/* Button */}
-            <div>
-              {work.link ? (
-                <a
-                  href={work.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs border border-[#7B8C5A] text-[#7B8C5A] px-4 py-2 rounded-full hover:bg-[#7B8C5A] hover:text-white transition-colors duration-200 active:scale-[0.97] whitespace-nowrap"
-                >
-                  View Project ↗
-                </a>
-              ) : (
-                <span className="text-xs text-[#111111]/20 px-4 py-2">Coming Soon</span>
-              )}
+            {/* Mobile layout */}
+            <div className="md:hidden">
+              {/* Logo + name stacked */}
+              <div className="flex items-center gap-3 mb-3">
+                {work.logos.length > 0 ? (
+                  work.logos.map((src, j) => (
+                    <div key={j} className="relative h-7 w-9 flex-shrink-0">
+                      <Image src={src} alt="" fill className="object-contain grayscale" />
+                    </div>
+                  ))
+                ) : (
+                  <span className="font-serif text-xl text-[#111111]/20">—</span>
+                )}
+                <div>
+                  <p className="font-medium text-[#111111] text-sm">{work.client}</p>
+                  <p className="text-xs text-[#7B8C5A] mt-0.5">{work.category}</p>
+                </div>
+              </div>
+              {/* Description + button on same row */}
+              <div className="flex items-start gap-4">
+                <p className="text-sm text-[#111111]/55 leading-relaxed flex-1">{work.description}</p>
+                <WorkButton link={work.link} />
+              </div>
             </div>
           </motion.div>
         ))}
