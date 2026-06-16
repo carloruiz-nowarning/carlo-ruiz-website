@@ -20,7 +20,7 @@ const tiles = [
   {
     label: "Resume",
     value: "Download PDF",
-    href: "/assets/resume/Carlo_Ruiz_Resume-website.pdf",
+    href: "/assets/resume/Carlo_Ruiz_Resume_Website.docx",
     cta: "Download ↓",
     icon: "↓",
     download: true,

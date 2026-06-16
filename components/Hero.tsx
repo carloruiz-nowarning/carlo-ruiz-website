@@ -1,7 +1,49 @@
 "use client";
 import Image from "next/image";
-import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+
+const sectors = [
+  "Manufacturing", "Public Sector", "SaaS", "Disaster Recovery",
+  "CPG & E-Commerce", "Healthcare", "Luxury Hospitality",
+  "Community Health", "Food & Beverage", "Real Estate", "Social Impact",
+];
+
+function SectorsDropdown({ light = false }: { light?: boolean }) {
+  const [open, setOpen] = useState(false);
+  const btnColor = light
+    ? "text-white underline underline-offset-2 decoration-white/40"
+    : "text-[#111111]/65 underline underline-offset-2 decoration-[#111111]/30";
+  const dropBg = light ? "bg-black/80 backdrop-blur-sm" : "bg-[#111111]";
+
+  return (
+    <span className="relative inline-block">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className={`${btnColor} text-inherit font-inherit leading-inherit cursor-pointer`}
+      >
+        multiple sectors {open ? "▴" : "▾"}
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ type: "spring", duration: 0.25, bounce: 0 }}
+            className={`absolute left-0 top-full mt-2 z-[100] ${dropBg} rounded-lg px-4 py-3 min-w-[200px] shadow-xl`}
+          >
+            <ul className="flex flex-col gap-1.5">
+              {sectors.map((s) => (
+                <li key={s} className="text-xs text-white/70 tracking-wide">{s}</li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </span>
+  );
+}
 
 const heroLogos = [
   "/assets/logos/EUNA.png",
@@ -73,7 +115,7 @@ export default function Hero() {
               transition={{ type: "spring", duration: 0.7, bounce: 0, delay: 0.4 }}
               className="text-[clamp(1rem,1.8vw,1.25rem)] leading-relaxed text-[#111111]/70 max-w-xl"
             >
-              Give me a brand and a goal. I&apos;ll build the strategy, craft the content, ship the site, run the campaigns, and track the data.
+              You provide a brand and a goal. I&apos;ll build the strategy, craft the content, ship the site, run the campaigns, and track the data.
             </motion.p>
           </div>
           <motion.div
@@ -181,7 +223,7 @@ export default function Hero() {
         </div>
         <div className="flex-1 flex items-end pb-6 px-5 bg-[#E9E7E3]">
           <p className="text-[0.8rem] text-[#111111]/65 leading-relaxed">
-            I work best where strategy, creative, and execution are the same job. I&apos;ve spent the last six years proving that across hospitality, SaaS, manufacturing, healthcare, and nonprofit.
+            I work best where strategy, creative, and execution are the same job. Six years across <SectorsDropdown light={false} />.
           </p>
         </div>
       </div>
@@ -205,7 +247,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 lg:px-20 pb-12 max-w-3xl">
           <p className="text-white/90 text-[clamp(1rem,1.6vw,1.2rem)] leading-relaxed">
-            I work best where strategy, creative, and execution are the same job. I&apos;ve spent the last six years proving that across hospitality, SaaS, manufacturing, healthcare, and nonprofit.
+            I work best where strategy, creative, and execution are the same job. Six years across <SectorsDropdown light={true} />.
           </p>
         </div>
       </div>
