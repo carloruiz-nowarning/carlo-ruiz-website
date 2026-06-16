@@ -164,7 +164,7 @@ export default function Hero() {
             transition={{ type: "spring", duration: 0.7, bounce: 0, delay: 0.4 }}
             className="text-[1.05rem] leading-relaxed text-[#111111]/70 mb-8"
           >
-            Give me a brand and a goal. I&apos;ll build the strategy, craft the content, ship the site, run the campaigns, and track the data.
+            You provide a brand and a goal. I&apos;ll build the strategy, craft the content, ship the site, run the campaigns, and track the data.
           </motion.p>
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 14 }}
