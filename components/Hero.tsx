@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 const sectors = [
@@ -11,13 +11,24 @@ const sectors = [
 
 function SectorsDropdown({ light = false }: { light?: boolean }) {
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
   const btnColor = light
     ? "text-white underline underline-offset-2 decoration-white/40"
     : "text-[#111111]/65 underline underline-offset-2 decoration-[#111111]/30";
-  const dropBg = light ? "bg-black/80 backdrop-blur-sm" : "bg-[#111111]";
+  const dropBg = light ? "bg-black/85 backdrop-blur-sm" : "bg-[#111111]";
+
+  // Close when clicking anywhere outside the dropdown
+  useEffect(() => {
+    if (!open) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [open]);
 
   return (
-    <span className="relative inline-block">
+    <span ref={ref} className="relative inline-block">
       <button
         onClick={() => setOpen((o) => !o)}
         className={`${btnColor} text-inherit font-inherit leading-inherit cursor-pointer`}
@@ -31,11 +42,11 @@ function SectorsDropdown({ light = false }: { light?: boolean }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
             transition={{ type: "spring", duration: 0.25, bounce: 0 }}
-            className={`absolute left-0 bottom-full mb-2 z-[100] ${dropBg} rounded-lg px-4 py-3 min-w-[200px] shadow-xl`}
+            className={`absolute left-0 bottom-full mb-2 z-[100] ${dropBg} rounded-lg px-5 py-4 w-max shadow-xl`}
           >
-            <ul className="grid grid-cols-2 gap-x-5 gap-y-1.5">
+            <ul className="flex flex-col gap-2">
               {sectors.map((s) => (
-                <li key={s} className="text-xs text-white/70 tracking-wide whitespace-nowrap">{s}</li>
+                <li key={s} className="text-xs text-white/75 tracking-wide whitespace-nowrap leading-none">{s}</li>
               ))}
             </ul>
           </motion.div>
@@ -223,7 +234,7 @@ export default function Hero() {
         </div>
         <div className="flex-1 flex items-end pb-6 px-5 bg-[#E9E7E3]">
           <p className="text-[0.8rem] text-[#111111]/65 leading-relaxed">
-            I work best where strategy, creative, and execution are the same job. Six years across <SectorsDropdown light={false} />.
+            I work best when strategy, creative, and execution are the same job. Six years across <SectorsDropdown light={false} />.
           </p>
         </div>
       </div>
@@ -247,7 +258,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 lg:px-20 pb-12 max-w-3xl">
           <p className="text-white/90 text-[clamp(1rem,1.6vw,1.2rem)] leading-relaxed">
-            I work best where strategy, creative, and execution are the same job. Six years across <SectorsDropdown light={true} />.
+            I work best when strategy, creative, and execution are the same job. Six years across <SectorsDropdown light={true} />.
           </p>
         </div>
       </div>
