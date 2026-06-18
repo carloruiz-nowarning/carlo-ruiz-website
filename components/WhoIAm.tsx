@@ -12,14 +12,14 @@ export default function WhoIAm() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="who-i-am" className="py-24 bg-[#E9E7E3]">
+    <section id="who-i-am" className="py-28 md:py-40 bg-[#E9E7E3]">
       <div className="px-6 md:px-12 lg:px-20">
         <motion.p
           initial={reduce ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-16 max-w-7xl mx-auto"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-16 max-w-7xl mx-auto"
         >
           Who I Am
         </motion.p>

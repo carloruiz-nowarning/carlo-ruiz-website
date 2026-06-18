@@ -27,7 +27,7 @@ export default function HowIUseAI() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="ai" className="py-24 px-6 md:px-12 lg:px-20 bg-[#111111] text-white">
+    <section id="ai" className="py-28 md:py-40 px-6 md:px-12 lg:px-20 bg-[#111111] text-white">
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
@@ -36,7 +36,7 @@ export default function HowIUseAI() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-4"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-4"
         >
           How I Use AI
         </motion.p>

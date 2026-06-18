@@ -27,15 +27,15 @@ function SectorsDropdown({ light = false }: { light?: boolean }) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -6 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
+            exit={{ opacity: 0, y: 6 }}
             transition={{ type: "spring", duration: 0.25, bounce: 0 }}
-            className={`absolute left-0 top-full mt-2 z-[100] ${dropBg} rounded-lg px-4 py-3 min-w-[200px] shadow-xl`}
+            className={`absolute left-0 bottom-full mb-2 z-[100] ${dropBg} rounded-lg px-4 py-3 min-w-[200px] shadow-xl`}
           >
-            <ul className="flex flex-col gap-1.5">
+            <ul className="grid grid-cols-2 gap-x-5 gap-y-1.5">
               {sectors.map((s) => (
-                <li key={s} className="text-xs text-white/70 tracking-wide">{s}</li>
+                <li key={s} className="text-xs text-white/70 tracking-wide whitespace-nowrap">{s}</li>
               ))}
             </ul>
           </motion.div>
@@ -194,7 +194,7 @@ export default function Hero() {
         initial={reduce ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ type: "spring", duration: 0.8, bounce: 0, delay: 0.6 }}
-        className="overflow-hidden py-6 pointer-events-none"
+        className="overflow-hidden py-6 pointer-events-none edge-fade-x"
       >
         <div
           className="marquee-track flex gap-10 items-center"

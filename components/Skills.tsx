@@ -79,7 +79,7 @@ function AutoScrollRow({ skills, speed, reverse }: { skills: string[]; speed: nu
 
   return (
     <div
-      className="overflow-hidden py-1 cursor-grab select-none"
+      className="overflow-hidden py-1 cursor-grab select-none edge-fade-x"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={() => { handleMouseLeave(); handleMouseUp(); }}
       onMouseDown={handleMouseDown}
@@ -119,14 +119,14 @@ export default function Skills() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="skills" className="py-24 overflow-hidden bg-[#E9E7E3]">
+    <section id="skills" className="py-28 md:py-40 overflow-hidden bg-[#E9E7E3]">
       <div className="px-6 md:px-12 lg:px-20 mb-10">
         <motion.p
           initial={reduce ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-2"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-2"
         >
           Skills
         </motion.p>
@@ -151,7 +151,7 @@ export default function Skills() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-10"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-10"
         >
           What I Use
         </motion.p>

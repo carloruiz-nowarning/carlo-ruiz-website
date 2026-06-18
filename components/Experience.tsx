@@ -84,7 +84,7 @@ export default function Experience() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="experience" className="py-24 bg-[#E9E7E3]">
+    <section id="experience" className="py-28 md:py-40 bg-[#E9E7E3]">
       <div className="px-6 md:px-12 lg:px-20">
         <div className="max-w-7xl mx-auto">
           <motion.p
@@ -92,7 +92,7 @@ export default function Experience() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-            className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-16"
+            className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-16"
           >
             Where I&apos;ve Worked
           </motion.p>
@@ -106,7 +106,7 @@ export default function Experience() {
       </div>
 
       {/* Slow-scrolling logo strip */}
-      <div className="overflow-hidden border-t border-[#111111]/8 pt-10">
+      <div className="overflow-hidden border-t border-[#111111]/8 pt-10 edge-fade-x">
         <div className="logo-scroll-track flex gap-12 w-max items-center px-12">
           {[...stripLogos, ...stripLogos].map((src, i) => (
             <div key={i} className="relative flex-shrink-0 h-8 w-24 opacity-25 grayscale">

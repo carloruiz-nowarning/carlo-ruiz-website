@@ -44,14 +44,14 @@ export default function Results() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="results" className="py-24 px-6 md:px-12 lg:px-20 bg-[#111111]">
+    <section id="results" className="py-28 md:py-40 px-6 md:px-12 lg:px-20 bg-[#111111]">
       <div className="max-w-7xl mx-auto">
         <motion.p
           initial={reduce ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-4"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-4"
         >
           Results
         </motion.p>

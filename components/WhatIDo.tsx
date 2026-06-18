@@ -353,14 +353,14 @@ export default function WhatIDo() {
   const tab = tabs.find((t) => t.id === active)!;
 
   return (
-    <section id="what-i-do" className="py-24 px-6 md:px-12 lg:px-20 bg-[#E9E7E3]">
+    <section id="what-i-do" className="py-28 md:py-40 px-6 md:px-12 lg:px-20 bg-[#E9E7E3]">
       <div className="max-w-7xl mx-auto">
         <motion.p
           initial={reduce ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-3"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-3"
         >
           What I Bring to the Table
         </motion.p>

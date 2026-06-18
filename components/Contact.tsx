@@ -31,14 +31,14 @@ export default function Contact() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="contact" className="py-24 px-6 md:px-12 lg:px-20 bg-[#F0EDE8]">
+    <section id="contact" className="py-28 md:py-40 px-6 md:px-12 lg:px-20 bg-[#F0EDE8]">
       <div className="max-w-7xl mx-auto">
         <motion.p
           initial={reduce ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-          className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-4"
+          className="eyebrow text-sm text-[#7B8C5A] tracking-widest uppercase mb-4"
         >
           Contact
         </motion.p>
