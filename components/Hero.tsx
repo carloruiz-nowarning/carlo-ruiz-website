@@ -110,7 +110,7 @@ export default function Hero() {
               transition={{ type: "spring", duration: 0.8, bounce: 0, delay: 0.2 }}
               className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-5"
             >
-              Marketing &amp; Creative Director
+              Marketing &amp; Creative Professional
             </motion.p>
             <motion.h1
               initial={reduce ? false : { opacity: 0, y: 20 }}
@@ -159,7 +159,7 @@ export default function Hero() {
             transition={{ type: "spring", duration: 0.8, bounce: 0, delay: 0.2 }}
             className="text-sm text-[#7B8C5A] tracking-widest uppercase mb-5"
           >
-            Marketing &amp; Creative Director
+            Marketing &amp; Creative Professional
           </motion.p>
           <motion.h1
             initial={reduce ? false : { opacity: 0, y: 20 }}
