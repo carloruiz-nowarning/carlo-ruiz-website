@@ -20,6 +20,9 @@
 .DS_Store
 *.pem
 
+# TES mock — 116MB of unoptimized source GIFs, kept out of git history
+/public/tesmock/assets/animations/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
