@@ -636,8 +636,10 @@
    ========================================================= */
 
 /* ---- Hero campaign scene image (canoe SVG, background recolored to the splash green) ---- */
-.hc-lp .hc-hero { position: relative; }
+.hc-lp .hc-hero { position: relative; padding-bottom: 0; }
 .hc-lp .hc-hero .hc-container { position: relative; z-index: 2; }
+/* Canoe scene sits flush against the bottom edge of the hero band. */
+.hc-lp .hc-hero-scene-img { margin-bottom: -1px; vertical-align: bottom; }
 .hc-lp .hc-hero-scene-img {
   display: block;
   width: 100%;
