@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Happy Camper, Wholesale Ordering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#004833; --cream:#F4F1E6; --yellow:#F0E66D; --orange:#D28113;
+  --mid:#399C62; --sky:#7DC4EC; --ink:#2C3028;
+  --disp:'Bowlby One',system-ui,sans-serif; --mono:'Space Mono',ui-monospace,monospace; --body:'Inter',system-ui,sans-serif;
+  --line:rgba(44,48,40,.14);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);background:var(--cream);line-height:1.5;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3,h4{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--mono)}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.disp{font-family:var(--disp);text-transform:uppercase;line-height:1;letter-spacing:.01em}
+
+/* ---- Age gate ---- */
+#agegate{position:fixed;inset:0;z-index:100;background:var(--green);color:var(--cream);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
+#agegate .box{max-width:440px}
+#agegate img{width:150px;margin:0 auto 24px;filter:brightness(0) invert(1)}
+#agegate h1{font-family:var(--disp);font-size:34px;line-height:1.05;margin-bottom:14px}
+#agegate p{color:rgba(244,241,230,.8);font-size:15px;margin:0 0 24px}
+#agegate .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--body);font-weight:600;font-size:14px;letter-spacing:.04em;padding:14px 26px;border-radius:10px;border:2px solid transparent;text-decoration:none}
+.btn--y{background:var(--yellow);color:var(--green)}
+.btn--o{background:var(--orange);color:var(--cream)}
+.btn--o[disabled]{opacity:.4;cursor:not-allowed}
+.btn--ghost{background:transparent;color:var(--cream);border-color:var(--cream)}
+.btn--dark{background:var(--green);color:var(--cream)}
+.btn--sm{padding:9px 16px;font-size:13px}
+.btn--block{width:100%}
+
+/* ---- Header + sticky tier bar ---- */
+header.top{background:var(--green);color:var(--cream);position:sticky;top:0;z-index:40}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.top .logo{height:34px;filter:brightness(0) invert(1)}
+.top nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.top nav::-webkit-scrollbar{display:none}
+.top nav a{color:rgba(244,241,230,.82);text-decoration:none;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-family:var(--mono);padding:8px 10px;white-space:nowrap;border-radius:8px}
+.top nav a:hover{color:var(--cream);background:rgba(255,255,255,.08)}
+.cartbtn{position:relative;background:var(--yellow);color:var(--green);border:0;border-radius:10px;padding:10px 16px;font-weight:600;font-size:13px;white-space:nowrap}
+.cartbtn .count{font-family:var(--mono)}
+
+/* tier bar */
+.tierbar{background:#00382790;background:#013a2b;border-top:1px solid rgba(255,255,255,.12)}
+.tierbar .wrap{padding:10px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tiertrack{flex:1;min-width:220px}
+.tiertrack .meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow);margin-bottom:6px}
+.bar{height:10px;border-radius:99px;background:rgba(255,255,255,.14);overflow:hidden}
+.bar>i{display:block;height:100%;width:0;background:var(--orange);border-radius:99px;transition:width .25s ease}
+.tiermsg{color:var(--cream);font-size:13px;max-width:520px}
+.tiermsg b{color:var(--yellow)}
+
+/* ---- Catalogue ---- */
+main{padding:28px 0 80px}
+.hero{background:var(--green);color:var(--cream);border-radius:18px;padding:30px;margin-bottom:30px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-end}
+.hero h1{font-family:var(--disp);font-size:clamp(28px,4vw,44px);line-height:.95;max-width:16ch}
+.hero p{color:rgba(244,241,230,.82);margin:12px 0 0;max-width:52ch;font-size:15px}
+.hero .terms{font-family:var(--mono);font-size:11px;color:var(--yellow);letter-spacing:.06em;line-height:1.7;text-transform:uppercase}
+.secthead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:34px 0 16px;border-bottom:2px solid var(--line);padding-bottom:10px}
+.secthead h2{font-family:var(--disp);font-size:clamp(20px,3vw,30px);color:var(--green)}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--green);color:var(--cream);border-color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:#fbf9f1;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;position:relative}
+.card .imgwrap{aspect-ratio:1/1;background:#fff;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.card .imgwrap img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;background:var(--mid);color:var(--cream);font-family:var(--disp);font-size:15px;line-height:1.1}
+.best{position:absolute;top:10px;left:10px;background:var(--yellow);color:var(--green);font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:6px;z-index:2}
+.card .cat{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+.card h3{font-family:var(--body);font-weight:600;font-size:16px;margin:3px 0 2px;line-height:1.15}
+.card .fmt{font-size:12px;color:#6b6f66}
+.card .price{margin-top:auto;padding-top:10px}
+.card .msrp{font-size:12px;color:#6b6f66}
+.card .yours{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--green)}
+.card .yours small{font-family:var(--body);font-weight:400;font-size:11px;color:#6b6f66}
+.stepper{display:flex;align-items:center;gap:8px;margin-top:10px}
+.stepper button{width:34px;height:34px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:18px;line-height:1;color:var(--green)}
+.stepper .qty{flex:1;text-align:center;font-family:var(--mono);font-weight:700}
+.stepper .moqnote{font-family:var(--mono);font-size:10px;color:#6b6f66;text-transform:uppercase;letter-spacing:.06em}
+.addrow{margin-top:8px}
+
+/* ---- Basket drawer ---- */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:50;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--cream);z-index:60;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.drawer header{background:var(--green);color:var(--cream);padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.drawer header h2{font-family:var(--disp);font-size:20px}
+.drawer .x{background:none;border:0;color:var(--cream);font-size:26px;line-height:1}
+.drawer .items{flex:1;overflow:auto;padding:12px 20px}
+.li{display:grid;grid-template-columns:52px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.li img,.li .noimg{width:52px;height:52px;border-radius:8px;object-fit:contain;background:#fff}
+.li .noimg{font-size:9px;padding:4px}
+.li .nm{font-weight:600;font-size:14px;line-height:1.2}
+.li .sub{font-size:11px;color:#6b6f66;font-family:var(--mono)}
+.li .lineprice{font-family:var(--mono);font-weight:700;text-align:right}
+.li .ministep{display:flex;align-items:center;gap:6px;margin-top:5px}
+.li .ministep button{width:24px;height:24px;border:1px solid var(--line);background:#fff;border-radius:6px;color:var(--green)}
+.li .ministep span{font-family:var(--mono);font-size:12px;min-width:26px;text-align:center}
+.li .rm{background:none;border:0;color:var(--orange);font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;padding:0;margin-top:4px}
+.summary{border-top:2px solid var(--green);padding:16px 20px;background:#fbf9f1}
+.summary .r{display:flex;justify-content:space-between;font-size:13px;margin:5px 0}
+.summary .r.big{font-family:var(--disp);font-size:20px;color:var(--green);margin-top:10px}
+.summary .r .mono{font-family:var(--mono)}
+.summary .save{color:var(--mid);font-weight:600}
+.emptybasket{padding:40px 20px;text-align:center;color:#6b6f66}
+
+/* ---- Checkout + summary views ---- */
+.view{display:none}
+.view.active{display:block}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:720px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.field label .req{color:var(--orange)}
+.field input,.field select,.field textarea{font-family:var(--body);font-size:14px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.field .err{color:#b3402b;font-size:11px;display:none}
+.field.invalid .err{display:block}
+.field.invalid input,.field.invalid select{border-color:#b3402b}
+.ack{display:flex;gap:10px;align-items:flex-start;max-width:720px;margin:16px 0;font-size:13px;color:var(--ink)}
+.ack input{margin-top:3px}
+.backlink{background:none;border:0;color:var(--orange);font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;padding:0;margin-bottom:14px}
+
+/* order summary doc */
+.doc{max-width:820px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.doc .dhead{background:var(--green);color:var(--cream);padding:22px 26px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.doc .dhead img{height:30px;filter:brightness(0) invert(1)}
+.doc .dhead .tier{font-family:var(--mono);text-align:right;font-size:12px;letter-spacing:.08em}
+.doc .dhead .tier b{display:block;font-family:var(--disp);font-size:22px;letter-spacing:0}
+.doc .body{padding:22px 26px}
+.doc table{width:100%;border-collapse:collapse;font-size:13px}
+.doc th,.doc td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+.doc td.n,.doc th.n{text-align:right;font-family:var(--mono)}
+.doc tfoot td{border:0;padding-top:6px}
+.totals{margin-top:16px;margin-left:auto;max-width:340px}
+.totals .r{display:flex;justify-content:space-between;font-size:14px;margin:6px 0}
+.totals .r .mono{font-family:var(--mono)}
+.totals .r.grand{font-family:var(--disp);font-size:20px;color:var(--green);border-top:2px solid var(--green);padding-top:10px;margin-top:10px}
+.totals .r.margin{color:var(--mid);font-weight:600}
+.legal{font-size:11px;color:#6b6f66;line-height:1.6;margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.docactions{display:flex;gap:12px;margin:18px 0;flex-wrap:wrap}
+footer.legal-foot{background:var(--green);color:rgba(244,241,230,.75);font-size:11px;line-height:1.7;padding:26px 0}
+footer.legal-foot .wrap{max-width:900px}
+
+@media(max-width:640px){
+  .formgrid{grid-template-columns:1fr}
+  .hero{padding:22px}
+  .top .wrap{gap:10px}
+}
+@media print{
+  header.top,.tierbar,.scrim,.drawer,.docactions,footer.legal-foot,.backlink{display:none!important}
+  body{background:#fff}
+  .doc{border:0;max-width:none}
+  main{padding:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= AGE GATE (21+) ================= -->
+<div id="agegate">
+  <div class="box">
+    <img src="assets/hc-logo-white.png" alt="The Happy Camper" onerror="this.style.display='none'">
+    <h1>Are you 21 or older?</h1>
+    <p>This is a wholesale ordering menu for licensed retail buyers. You must be 21 or older to continue.</p>
+    <div class="row">
+      <button class="btn btn--y" id="age-yes">Yes, I am 21+</button>
+      <a class="btn btn--ghost" href="https://www.google.com">No, exit</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="top">
+  <div class="wrap">
+    <img class="logo" src="assets/hc-logo-white.png" alt="The Happy Camper" onerror="this.src='assets/hc-logo-2026.png'">
+    <nav id="catnav"></nav>
+    <button class="cartbtn" id="openCart">Basket <span class="count" id="cartCount">0</span></button>
+  </div>
+  <div class="tierbar">
+    <div class="wrap">
+      <div class="tiertrack">
+        <div class="meta"><span id="tierName">List</span><span id="tierNext"></span></div>
+        <div class="bar"><i id="tierFill"></i></div>
+      </div>
+      <div class="tiermsg" id="tierMsg">Build a basket to see your volume pricing update live.</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ===== CATALOGUE VIEW ===== -->
+  <section class="view active" id="view-catalogue">
+    <div class="hero">
+      <div>
+        <h1>Wholesale Ordering</h1>
+        <p>Browse the line, build a basket, and your price updates live as your order grows. Bigger single orders unlock better pricing, all the way to 35 percent off list.</p>
+      </div>
+      <div class="terms">Net 15 on approved accounts<br>Net 30 from Tier 5<br>Order by 2pm, ships next business day<br>Pricing holds 90 days</div>
+    </div>
+    <div id="bestStripWrap"></div>
+    <div id="catalogue"></div>
+  </section>
+
+  <!-- ===== CHECKOUT VIEW ===== -->
+  <section class="view" id="view-checkout">
+    <button class="backlink" data-goto="catalogue">&larr; Back to catalogue</button>
+    <h2 class="disp" style="color:var(--green);font-size:28px;margin-bottom:6px">Checkout</h2>
+    <p class="mono" style="font-size:12px;color:#6b6f66;margin:0 0 20px">No payment is taken here. Your order goes to a Happy Camper rep who confirms stock and invoices separately.</p>
+    <form id="orderForm" novalidate>
+      <div class="formgrid">
+        <div class="field full"><label>Store / business name <span class="req">*</span></label><input name="store" required><span class="err">Required</span></div>
+        <div class="field"><label>Buyer name <span class="req">*</span></label><input name="buyer" required><span class="err">Required</span></div>
+        <div class="field"><label>Email <span class="req">*</span></label><input name="email" type="email" required><span class="err">Enter a valid email</span></div>
+        <div class="field"><label>Phone <span class="req">*</span></label><input name="phone" required><span class="err">Required</span></div>
+        <div class="field"><label>Hemp / tobacco licence number <span class="req">*</span></label><input name="licence" required><span class="err">Required for this channel</span></div>
+        <div class="field full"><label>Shipping address <span class="req">*</span></label><input name="address" required><span class="err">Required</span></div>
+        <div class="field"><label>City <span class="req">*</span></label><input name="city" required><span class="err">Required</span></div>
+        <div class="field"><label>State <span class="req">*</span></label><input name="state" required><span class="err">Required</span></div>
+      </div>
+      <!-- TODO: no approved-state list yet. Add a real state restriction rule here. -->
+      <label class="ack"><input type="checkbox" name="ack" required> I confirm I am a licensed buyer and I am responsible for verifying that these products are legal to sell in my state.</label>
+      <button class="btn btn--o" type="submit">Place wholesale order</button>
+    </form>
+  </section>
+
+  <!-- ===== ORDER SUMMARY VIEW ===== -->
+  <section class="view" id="view-summary">
+    <div class="docactions">
+      <button class="btn btn--dark" onclick="window.print()">Download / print PDF</button>
+      <button class="btn btn--ghost" style="color:var(--green);border-color:var(--green)" data-goto="catalogue">Start a new order</button>
+    </div>
+    <div class="doc" id="doc"></div>
+  </section>
+</main>
+
+<!-- ================= BASKET DRAWER ================= -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Basket">
+  <header><h2>Your Basket</h2><button class="x" id="closeCart">&times;</button></header>
+  <div class="items" id="basketItems"></div>
+  <div class="summary" id="basketSummary"></div>
+</aside>
+
+<footer class="legal-foot">
+  <div class="wrap">
+    Hemp-derived, compliant with the 2018 Farm Bill. Contains THC. Not for sale to persons under 21. Keep out of reach of children and pets. Verify state and local regulations before resale. Certificates of analysis available on request.
+  </div>
+</footer>
+
+<script src="products.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var money=function(n){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
+  var round2=function(n){return Math.round((n+Number.EPSILON)*100)/100};
+
+  /* ---------- PRICING ENGINE ----------
+     CONVENTION: tier thresholds are measured on the LIST-PRICE SUBTOTAL
+     (sum of list x qty), BEFORE any discount. The tier's percentage is then
+     taken straight off each SKU's list price. Change TIERS/thresholds here. */
+  var TIERS=[
+    {name:'List',min:0,off:0},
+    {name:'Tier 1',min:2500,off:0.05},
+    {name:'Tier 2',min:5000,off:0.10},
+    {name:'Tier 3',min:7500,off:0.15},
+    {name:'Tier 4',min:10000,off:0.20},
+    {name:'Tier 5',min:25000,off:0.25},
+    {name:'Tier 6',min:50000,off:0.30},
+    {name:'Tier 7',min:100000,off:0.35}
+  ];
+  var MIN_ORDER=500, HANDLING=35;
+  var PRODUCTS=window.HC_PRODUCTS||[];
+  var BYID={}; PRODUCTS.forEach(function(p){BYID[p.id]=p});
+
+  function tierFor(listSub){var t=TIERS[0];for(var i=0;i<TIERS.length;i++){if(listSub>=TIERS[i].min)t=TIERS[i]}return t}
+  function nextTierFor(listSub){for(var i=0;i<TIERS.length;i++){if(TIERS[i].min>listSub)return TIERS[i]}return null}
+
+  function compute(){
+    var listSub=0,msrpTotal=0,units=0;
+    Object.keys(basket).forEach(function(id){
+      var p=BYID[id],q=basket[id]; if(!p)return;
+      listSub+=p.list*q; msrpTotal+=p.msrp*q; units+=q;
+    });
+    listSub=round2(listSub); msrpTotal=round2(msrpTotal);
+    var tier=tierFor(listSub);
+    var orderTotal=0;
+    Object.keys(basket).forEach(function(id){var p=BYID[id];if(p)orderTotal+=round2(p.list*(1-tier.off))*basket[id]});
+    orderTotal=round2(orderTotal);
+    var handling=(listSub>0&&listSub<MIN_ORDER)?HANDLING:0;
+    var grand=round2(orderTotal+handling);
+    var savedVsList=round2(listSub-orderTotal);
+    var marginDollars=round2(msrpTotal-orderTotal);          // buyer's retail margin (fine to show)
+    var marginPct=msrpTotal>0?round2(marginDollars/msrpTotal*100):0;
+    return {listSub:listSub,msrpTotal:msrpTotal,units:units,tier:tier,orderTotal:orderTotal,
+            handling:handling,grand:grand,savedVsList:savedVsList,marginDollars:marginDollars,marginPct:marginPct};
+  }
+
+  /* ---------- STATE ---------- */
+  var basket={};
+  try{basket=JSON.parse(localStorage.getItem('hc_basket'))||{}}catch(e){basket={}}
+  function save(){localStorage.setItem('hc_basket',JSON.stringify(basket))}
+  function setQty(id,q){var p=BYID[id];if(!p)return;q=Math.max(0,Math.round(q/p.moq)*p.moq);if(q<=0)delete basket[id];else basket[id]=q;save();renderAll()}
+  function addMoq(id,dir){var p=BYID[id];if(!p)return;setQty(id,(basket[id]||0)+dir*p.moq)}
+
+  /* ---------- RENDER: catalogue ---------- */
+  var CATS=['Seltzer','Feel Good','Happy Days','Hippie Crippler','Prerolls','Flower','Live Resin Vapes','House'];
+  function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-')}
+  function imgHTML(p,cls){
+    if(p.img) return '<img src="assets/'+p.img+'" alt="'+p.name+'" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=&quot;noimg&quot;>'+p.name.replace(/'/g,'')+'</div>\'">';
+    return '<div class="noimg">'+p.name+'</div>';
+  }
+  function cardHTML(p){
+    var t=tierFor(compute().listSub);
+    var yours=round2(p.list*(1-t.off));
+    var q=basket[p.id]||0;
+    return '<div class="card">'+
+      (p.bestseller?'<span class="best">Best Seller</span>':'')+
+      '<div class="imgwrap">'+imgHTML(p)+'</div>'+
+      '<div class="cat">'+p.cat+(p.grade?' &middot; '+p.grade:'')+'</div>'+
+      '<h3>'+p.name+'</h3>'+
+      '<div class="fmt">'+[p.format,p.size].filter(Boolean).join(', ')+'</div>'+
+      '<div class="price">'+
+        '<div class="msrp">MSRP '+money(p.msrp)+' each</div>'+
+        '<div class="yours">'+money(yours)+' <small>your price / unit</small></div>'+
+        '<div class="stepper" data-id="'+p.id+'">'+
+          '<button data-act="minus" aria-label="Remove one case">&minus;</button>'+
+          '<span class="qty">'+q+'</span>'+
+          '<button data-act="plus" aria-label="Add one case">+</button>'+
+        '</div>'+
+        '<div class="moqnote">Orders in cases of '+p.moq+'</div>'+
+      '</div></div>';
+  }
+  function renderCatalogue(){
+    var nav=$('#catnav');nav.innerHTML=CATS.map(function(c){return '<a href="#cat-'+slug(c)+'">'+c+'</a>'}).join('');
+    // combined best-seller strip
+    var best=PRODUCTS.filter(function(p){return p.bestseller});
+    $('#bestStripWrap').innerHTML = best.length? (
+      '<div class="secthead"><h2>Best Sellers</h2></div><div class="grid">'+best.map(cardHTML).join('')+'</div>'
+    ):'';
+    var html='';
+    CATS.forEach(function(c){
+      var items=PRODUCTS.filter(function(p){return p.cat===c});
+      if(!items.length)return;
+      var grades=(c==='Prerolls'||c==='Flower');
+      html+='<div id="cat-'+slug(c)+'" class="secthead"><h2>'+c+'</h2>'+
+        (grades?'<div class="filters" data-cat="'+slug(c)+'"><button class="chip" aria-pressed="true" data-g="all">All</button>'+
+          ['House','Premium','Exotic','Reserve'].filter(function(g){return items.some(function(p){return p.grade===g})}).map(function(g){return '<button class="chip" data-g="'+g+'">'+g+'</button>'}).join('')+'</div>':'')+
+        '</div>';
+      html+='<div class="grid" data-grid="'+slug(c)+'">'+items.map(cardHTML).join('')+'</div>';
+    });
+    $('#catalogue').innerHTML=html;
+  }
+
+  /* ---------- RENDER: basket ---------- */
+  function basketRowHTML(id){
+    var p=BYID[id],q=basket[id],t=tierFor(compute().listSub);
+    var yours=round2(p.list*(1-t.off));
+    return '<div class="li">'+
+      (p.img?'<img src="assets/'+p.img+'" alt="">':'<div class="noimg">'+p.name+'</div>')+
+      '<div><div class="nm">'+p.name+'</div><div class="sub">'+[p.format,p.size].filter(Boolean).join(', ')+'</div>'+
+        '<div class="ministep" data-id="'+id+'"><button data-act="minus">&minus;</button><span>'+q+'</span><button data-act="plus">+</button></div>'+
+        '<button class="rm" data-rm="'+id+'">Remove</button></div>'+
+      '<div><div class="lineprice">'+money(round2(yours*q))+'</div><div class="sub" style="text-align:right">'+q+' x '+money(yours)+'</div></div>'+
+    '</div>';
+  }
+  function progressLine(c){
+    var nt=nextTierFor(c.listSub);
+    if(c.listSub>0&&c.listSub<MIN_ORDER){
+      return 'Orders under '+money(MIN_ORDER)+' add a '+money(HANDLING)+' handling charge. Add <b>'+money(MIN_ORDER-c.listSub)+'</b> to remove it.';
+    }
+    if(!nt) return 'You are at <b>'+c.tier.name+'</b>, the best pricing available.';
+    var addNeeded=round2(nt.min-c.listSub);
+    // extra savings = bigger discount applied to the projected next-tier subtotal
+    var extra=round2((nt.off-c.tier.off)*nt.min);
+    return 'You are at <b>'+c.tier.name+'</b>. Add <b>'+money(addNeeded)+'</b> to reach <b>'+nt.name+'</b> and save about <b>'+money(extra)+'</b> more on an order that size.';
+  }
+  function renderBasket(){
+    var c=compute();
+    var ids=Object.keys(basket);
+    $('#basketItems').innerHTML = ids.length? ids.map(basketRowHTML).join('') : '<div class="emptybasket">Your basket is empty. Add cases from the catalogue to see volume pricing.</div>';
+    var s='';
+    if(ids.length){
+      s+='<div class="r"><span>List value</span><span class="mono">'+money(c.listSub)+'</span></div>';
+      s+='<div class="r save"><span>Volume discount ('+Math.round(c.tier.off*100)+'% off)</span><span class="mono">-'+money(c.savedVsList)+'</span></div>';
+      if(c.handling>0) s+='<div class="r"><span>Handling (under '+money(MIN_ORDER)+')</span><span class="mono">'+money(c.handling)+'</span></div>';
+      s+='<div class="r big"><span>Your total</span><span class="mono">'+money(c.grand)+'</span></div>';
+      s+='<div class="r"><span>Retails for (MSRP)</span><span class="mono">'+money(c.msrpTotal)+'</span></div>';
+      s+='<div class="r save"><span>Your retail margin</span><span class="mono">'+money(c.marginDollars)+' ('+c.marginPct.toFixed(1)+'%)</span></div>';
+      s+='<div class="r" style="margin:12px 0;font-size:13px;color:var(--ink)">'+progressLine(c)+'</div>';
+      s+='<button class="btn btn--o btn--block" id="goCheckout">Checkout</button>';
+    }
+    $('#basketSummary').innerHTML=s;
+  }
+
+  /* ---------- RENDER: tier bar ---------- */
+  function renderTierBar(){
+    var c=compute();
+    $('#tierName').textContent=c.tier.name;
+    var nt=nextTierFor(c.listSub);
+    var fill,label;
+    if(!nt){fill=100;label='Max tier'}
+    else{var span=nt.min-c.tier.min;fill=span>0?Math.min(100,Math.max(0,(c.listSub-c.tier.min)/span*100)):0;label='Next: '+nt.name+' at '+money(nt.min)}
+    $('#tierNext').textContent=label;
+    $('#tierFill').style.width=fill+'%';
+    $('#tierMsg').innerHTML = c.units? progressLine(c) : 'Build a basket to see your volume pricing update live.';
+    $('#cartCount').textContent=c.units;
+  }
+
+  function renderAll(){renderCatalogue();renderBasket();renderTierBar()}
+
+  /* ---------- EVENTS ---------- */
+  document.addEventListener('click',function(e){
+    var step=e.target.closest('.stepper');
+    if(step&&e.target.dataset.act){addMoq(step.dataset.id,e.target.dataset.act==='plus'?1:-1);return}
+    var mini=e.target.closest('.ministep');
+    if(mini&&e.target.dataset.act){addMoq(mini.dataset.id,e.target.dataset.act==='plus'?1:-1);return}
+    if(e.target.dataset.rm){setQty(e.target.dataset.rm,0);return}
+    if(e.target.dataset.goto){showView(e.target.dataset.goto);return}
+    var chip=e.target.closest('.chip');
+    if(chip){var box=chip.parentNode;box.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===chip)});
+      var g=chip.dataset.g,grid=$('[data-grid="'+box.dataset.cat+'"]');
+      grid.querySelectorAll('.card').forEach(function(card){
+        var name=card.querySelector('.cat').textContent;
+        card.style.display=(g==='all'||name.indexOf(g)>-1)?'':'none';
+      });return}
+    if(e.target.id==='goCheckout'){closeCart();showView('checkout')}
+  });
+  function openCart(){$('#drawer').classList.add('open');$('#scrim').classList.add('open')}
+  function closeCart(){$('#drawer').classList.remove('open');$('#scrim').classList.remove('open')}
+  $('#openCart').onclick=openCart; $('#closeCart').onclick=closeCart; $('#scrim').onclick=closeCart;
+
+  function showView(v){document.querySelectorAll('.view').forEach(function(x){x.classList.remove('active')});$('#view-'+v).classList.add('active');window.scrollTo(0,0)}
+
+  /* age gate */
+  if(localStorage.getItem('hc_age_ok')==='1'){$('#agegate').style.display='none'}
+  $('#age-yes').onclick=function(){localStorage.setItem('hc_age_ok','1');$('#agegate').style.display='none'};
+
+  /* checkout submit */
+  $('#orderForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var f=e.target,ok=true;
+    Array.prototype.forEach.call(f.elements,function(el){
+      if(!el.name||el.type==='submit')return;
+      var field=el.closest('.field');
+      var bad=(el.required&&!el.value.trim())||(el.type==='email'&&el.value&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+      if(el.type==='checkbox'&&el.required&&!el.checked)bad=true;
+      if(field)field.classList.toggle('invalid',bad);
+      if(bad)ok=false;
+    });
+    if(!ok)return;
+    buildSummary(f);
+    submitToRep(f);          // see TODO inside
+    showView('summary');
+  });
+
+  /* ---------- ORDER SUMMARY DOC ---------- */
+  var lastOrder=null;
+  function buildSummary(f){
+    var c=compute();
+    var rows=Object.keys(basket).map(function(id){
+      var p=BYID[id],q=basket[id],yours=round2(p.list*(1-c.tier.off));
+      return '<tr><td>'+p.name+'<div style="font-size:11px;color:#6b6f66">'+[p.cat,p.format,p.size].filter(Boolean).join(', ')+'</div></td>'+
+        '<td class="n">'+q+'</td><td class="n">'+money(p.list)+'</td><td class="n">'+money(yours)+'</td><td class="n">'+money(round2(yours*q))+'</td></tr>';
+    }).join('');
+    var d=new Date();
+    var doc='<div class="dhead"><img src="assets/hc-logo-white.png" alt="The Happy Camper" onerror="this.style.display=\'none\'">'+
+      '<div class="tier"><span>Tier reached</span><b>'+c.tier.name+'</b>'+Math.round(c.tier.off*100)+'% off list</div></div>'+
+      '<div class="body">'+
+      '<p class="mono" style="font-size:12px;color:#6b6f66;margin:0 0 14px">Order request '+d.toLocaleDateString('en-US')+'. No payment taken. A rep will confirm stock and invoice separately.</p>'+
+      '<table><thead><tr><th>Product</th><th class="n">Qty</th><th class="n">List</th><th class="n">Your price</th><th class="n">Extended</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+      '<div class="totals">'+
+        '<div class="r"><span>List value</span><span class="mono">'+money(c.listSub)+'</span></div>'+
+        '<div class="r margin"><span>Saved vs list ('+Math.round(c.tier.off*100)+'%)</span><span class="mono">-'+money(c.savedVsList)+'</span></div>'+
+        (c.handling>0?'<div class="r"><span>Handling</span><span class="mono">'+money(c.handling)+'</span></div>':'')+
+        '<div class="r grand"><span>Total spend</span><span class="mono">'+money(c.grand)+'</span></div>'+
+        '<div class="r"><span>Total MSRP value</span><span class="mono">'+money(c.msrpTotal)+'</span></div>'+
+        '<div class="r margin"><span>Your gross margin</span><span class="mono">'+money(c.marginDollars)+' ('+c.marginPct.toFixed(1)+'%)</span></div>'+
+      '</div>'+
+      '<div class="legal">Payment terms: Net 15 on approved accounts, Net 30 from Tier 5, card on the first two orders. Orders confirmed by 2pm ship the next business day. Pricing holds 90 days.<br><br>'+
+      'Hemp-derived, compliant with the 2018 Farm Bill. Contains THC. Not for sale to persons under 21. Keep out of reach of children and pets. Verify state and local regulations before resale. Certificates of analysis available on request.</div>'+
+      '</div>';
+    $('#doc').innerHTML=doc;
+    lastOrder={fields:{},lines:basket,totals:c};
+    Array.prototype.forEach.call(f.elements,function(el){if(el.name&&el.type!=='submit'&&el.type!=='checkbox')lastOrder.fields[el.name]=el.value});
+  }
+
+  function submitToRep(f){
+    /* TODO: point the order at a real BDR email / routing rule.
+       Two no-backend options, pick one in the handoff:
+       1) A form-to-email service (Formspree/Basin): set ENDPOINT below and this will POST the order JSON.
+       2) mailto fallback (opens the buyer's mail client) if no endpoint is set. */
+    var ENDPOINT=''; // e.g. 'https://formspree.io/f/XXXXXXXX'  [TODO: BDR email / endpoint]
+    var payload={fields:lastOrder.fields,tier:lastOrder.totals.tier.name,total:lastOrder.totals.grand,
+      lines:Object.keys(basket).map(function(id){return {sku:id,name:BYID[id].name,qty:basket[id]}})};
+    if(ENDPOINT){try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})}catch(e){}}
+  }
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
