@@ -103,7 +103,7 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
 .totals .r.save{color:var(--mid);font-weight:600}
 .legal{font-size:11px;color:#6b6f66;line-height:1.6;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
 
-.mbar{display:none}
+.mbar,.sheet,.sheet-scrim{display:none}
 @media(max-width:860px){
   .app{grid-template-columns:1fr}
   .panel{position:static;height:auto;border-left:0;border-top:1px solid var(--line)}
@@ -123,6 +123,24 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
   .doc{border-radius:0}
   .docactions{max-width:none;margin:0;padding:10px;position:sticky;top:0;z-index:2}
   .parties{gap:16px}
+  .sheet-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:34;opacity:0;pointer-events:none;transition:opacity .2s}
+  .sheet-scrim.open{opacity:1;pointer-events:auto}
+  .sheet{display:flex;flex-direction:column;position:fixed;left:0;right:0;bottom:0;z-index:35;background:var(--cream);border-radius:16px 16px 0 0;max-height:85vh;transform:translateY(100%);transition:transform .25s ease;box-shadow:0 -10px 40px rgba(0,0,0,.3)}
+  .sheet.open{transform:none}
+  .sheet-head{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;border-bottom:1px solid var(--line);position:relative}
+  .sheet-head h3{font-family:var(--disp);font-size:15px;color:var(--green);text-transform:uppercase;flex:1;text-align:center}
+  .sheet-head .handle{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:42px;height:4px;border-radius:99px;background:var(--line)}
+  .sheet-head button{background:none;border:0;color:var(--orange);font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+  .sheet-body{overflow:auto;padding:12px 16px;-webkit-overflow-scrolling:touch}
+  .sli{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
+  .sli .snm{font-weight:600;font-size:14px;line-height:1.15}
+  .sli .smeta{font-size:11px;color:#6b6f66;font-family:var(--mono)}
+  .sli .sministep{display:flex;align-items:center;gap:6px;margin-top:6px}
+  .sli .sministep button{width:30px;height:30px;border:1px solid var(--line);background:#fff;border-radius:7px;color:var(--green);font-size:16px}
+  .sli .sministep span{font-family:var(--mono);min-width:34px;text-align:center}
+  .sli .sext{font-family:var(--mono);font-weight:700;text-align:right;white-space:nowrap}
+  .sli .srm{display:block;background:none;border:0;color:var(--orange);font-family:var(--mono);font-size:10px;text-transform:uppercase;padding:0;margin-top:6px}
+  .sheet-acts{display:grid;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:#fbf9f1}
 }
 @media(max-width:560px){ .acct{grid-template-columns:1fr} }
 @media print{
@@ -188,8 +206,20 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
   </aside>
 </div>
 
-<!-- MOBILE ORDER BAR (mobile only) -->
+<!-- MOBILE ORDER BAR (mobile only): tap to pull up the order sheet -->
 <div class="mbar" id="mbar"></div>
+
+<!-- MOBILE ORDER SHEET (mobile only) -->
+<div class="sheet-scrim" id="sheetScrim"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-head"><span class="handle"></span><h3>Current order</h3><button id="sheetClose">Done</button></div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-acts">
+    <button class="btn btn--dark btn--block" data-sheet-act="receipt">Order receipt (buyer copy)</button>
+    <button class="btn btn--o btn--block" data-sheet-act="invoice">Generate invoice</button>
+    <button class="btn btn--ghost btn--block" data-sheet-act="clear">Clear order</button>
+  </div>
+</div>
 
 <!-- DOC OVERLAY -->
 <div class="docwrap" id="docwrap">
@@ -272,6 +302,25 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
     if(!nt)return 'At <b>'+c.tier.name+'</b>, best pricing available.';
     return 'At <b>'+c.tier.name+'</b>. Add <b>'+money(r2(nt.min-c.ls))+'</b> to reach <b>'+nt.name+'</b> ('+Math.round(nt.off*100)+'% off).';
   }
+  function totalsHTML(c){
+    return '<div class="r"><span>Items</span><span class="mono">'+c.units+' units</span></div>'+
+      '<div class="r"><span>List value</span><span class="mono">'+money(c.ls)+'</span></div>'+
+      '<div class="r save"><span>Volume discount ('+Math.round(c.tier.off*100)+'%)</span><span class="mono">-'+money(c.saved)+'</span></div>'+
+      (c.handling>0?'<div class="r"><span>Handling</span><span class="mono">'+money(c.handling)+'</span></div>':'')+
+      '<div class="r due"><span>Total due</span><span class="mono">'+money(c.grand)+'</span></div>'+
+      '<div class="r"><span>Retails for (MSRP)</span><span class="mono">'+money(c.ms)+'</span></div>'+
+      '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>';
+  }
+  function renderSheet(){
+    var c=compute(),ids=Object.keys(order),body=$('#sheetBody');if(!body)return;
+    var head='<div class="tierbox" style="margin-bottom:4px"><div class="tname">'+c.tier.name+'</div><div class="msg">'+(c.units?progress(c):'Add items to build the order.')+'</div></div>';
+    var items=ids.length?ids.map(function(id){var p=BYID[id],q=order[id],y=r2(p.list*(1-c.tier.off));
+      return '<div class="sli"><div><div class="snm">'+p.name+'</div><div class="smeta">'+[p.cat,p.format].filter(Boolean).join(' &middot; ')+' &middot; case '+p.moq+'</div>'+
+        '<div class="sministep" data-id="'+id+'"><button data-act="minus">&minus;</button><span>'+q+'</span><button data-act="plus">+</button></div>'+
+        '<button class="srm" data-rm="'+id+'">Remove</button></div><div class="sext">'+money(r2(y*q))+'</div></div>';
+    }).join(''):'<div class="empty">No items yet. Add cases from the catalog.</div>';
+    body.innerHTML=head+items+(c.units?'<div class="tot" style="margin-top:12px">'+totalsHTML(c)+'</div>':'');
+  }
   function renderPanel(){
     var c=compute();
     $('#pTier').textContent=c.tier.name;
@@ -279,26 +328,15 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
     if(!nt){fill=100}else{var sp=nt.min-c.tier.min;fill=sp>0?Math.min(100,Math.max(0,(c.ls-c.tier.min)/sp*100)):0}
     $('#pFill').style.width=fill+'%';
     $('#pMsg').innerHTML=c.units?progress(c):'Add items to build the order.';
-    var t=$('#pTot');
-    if(!c.units){t.innerHTML='<div class="empty">No items yet.</div>'}
-    else{
-      t.innerHTML=
-        '<div class="r"><span>Items</span><span class="mono">'+c.units+' units</span></div>'+
-        '<div class="r"><span>List value</span><span class="mono">'+money(c.ls)+'</span></div>'+
-        '<div class="r save"><span>Volume discount ('+Math.round(c.tier.off*100)+'%)</span><span class="mono">-'+money(c.saved)+'</span></div>'+
-        (c.handling>0?'<div class="r"><span>Handling</span><span class="mono">'+money(c.handling)+'</span></div>':'')+
-        '<div class="r due"><span>Total due</span><span class="mono">'+money(c.grand)+'</span></div>'+
-        '<div class="r"><span>Retails for (MSRP)</span><span class="mono">'+money(c.ms)+'</span></div>'+
-        '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>';
-    }
+    $('#pTot').innerHTML = c.units ? totalsHTML(c) : '<div class="empty">No items yet.</div>';
     var has=c.units>0;
     $('#genReceipt').disabled=!has;$('#genInvoice').disabled=!has;$('#clearOrder').disabled=!has;
-    var mb=$('#mbar');
-    mb.innerHTML = has
-      ? '<div class="mt">'+c.tier.name+' &middot; '+c.units+' units<b>'+money(c.grand)+' due</b></div><button class="btn btn--y" data-mbar>Review &amp; invoice</button>'
-      : '<div class="mt">No items yet<b>$0.00</b></div>';
+    document.querySelectorAll('[data-sheet-act]').forEach(function(b){b.disabled=!has});
+    $('#mbar').innerHTML = has
+      ? '<div class="mt">'+c.tier.name+' &middot; '+c.units+' units<b>'+money(c.grand)+' due</b></div><button class="btn btn--y" data-mbar>View order</button>'
+      : '<div class="mt">No items yet<b>$0.00 due</b></div><button class="btn btn--y" data-mbar>View order</button>';
   }
-  function renderAll(){renderRows();renderPanel()}
+  function renderAll(){renderRows();renderPanel();renderSheet()}
 
   /* ---- account fields ---- */
   function bindAcct(){
@@ -316,13 +354,19 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
     if(cell&&e.target.dataset.act){var id=cell.parentNode.parentNode.dataset.id,p=BYID[id];setQty(id,(order[id]||0)+(e.target.dataset.act==='plus'?p.moq:-p.moq));return}
     var chip=e.target.closest('.chip');
     if(chip){document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===chip)});filter.cat=chip.dataset.c;renderRows();return}
-    if(e.target.closest('[data-mbar]')){var pnl=document.querySelector('.panel');if(pnl)pnl.scrollIntoView({behavior:'smooth'});return}
+    var sms=e.target.closest('.sministep');
+    if(sms&&e.target.dataset.act){var sid=sms.dataset.id,sp=BYID[sid];setQty(sid,(order[sid]||0)+(e.target.dataset.act==='plus'?sp.moq:-sp.moq));return}
+    if(e.target.dataset.rm){setQty(e.target.dataset.rm,0);return}
+    var sa=e.target.closest('[data-sheet-act]');
+    if(sa){var a=sa.dataset.sheetAct;if(a==='clear')clearOrder();else if(a==='receipt'){closeSheet();genReceipt()}else if(a==='invoice'){closeSheet();genInvoice()}return}
+    if(e.target.closest('[data-mbar]')){openSheet();return}
   });
   document.addEventListener('change',function(e){
     if(e.target.dataset.input){setQty(e.target.dataset.input,parseInt(e.target.value||'0',10))}
   });
   $('#q').addEventListener('input',function(){filter.q=this.value;renderRows()});
-  $('#clearOrder').onclick=function(){order={};saveOrder();renderAll()};
+  function clearOrder(){order={};saveOrder();renderAll()}
+  $('#clearOrder').onclick=clearOrder;
   $('#newOrder').onclick=function(){if(confirm('Start a new order? This clears items and buyer info.')){order={};acct={};saveOrder();localStorage.removeItem('hc_bdr_acct');document.querySelectorAll('.acct input').forEach(function(el){el.value=''});$('#rep').value='';renderAll()}};
   $('#docBack').onclick=function(){$('#docwrap').classList.remove('open')};
 
@@ -353,7 +397,7 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
 
   function openDoc(html){$('#doc').innerHTML=html;$('#docwrap').classList.add('open');$('#docwrap').scrollTop=0}
 
-  $('#genReceipt').onclick=function(){
+  function genReceipt(){
     var c=compute(),d=new Date();
     openDoc(
       '<div class="dhead">'+LOGO+'<div class="rt"><b>Order receipt</b>'+d.toLocaleDateString('en-US')+'<br>Tier '+c.tier.name.replace('Tier ','')+' &middot; '+Math.round(c.tier.off*100)+'% off list</div></div>'+
@@ -368,9 +412,9 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
         '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>'+
       '</div><div class="legal">'+TERMS+'<br><br>'+LEGAL+'</div></div>'
     );
-  };
+  }
 
-  $('#genInvoice').onclick=function(){
+  function genInvoice(){
     var c=compute(),d=new Date(),inv=nextInvNo();
     openDoc(
       '<div class="dhead">'+LOGO+'<div class="rt"><b>Invoice</b>'+inv+'<br>Date '+d.toLocaleDateString('en-US')+'<br>Amount due '+money(c.grand)+'</div></div>'+
@@ -384,7 +428,14 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
       '</div>'+
       '<div class="legal">'+TERMS+'<br><br>This invoice reflects wholesale pricing at the tier reached on this order. '+LEGAL+'</div></div>'
     );
-  };
+  }
+
+  $('#genReceipt').onclick=genReceipt;
+  $('#genInvoice').onclick=genInvoice;
+  function openSheet(){renderSheet();$('#sheet').classList.add('open');$('#sheetScrim').classList.add('open')}
+  function closeSheet(){$('#sheet').classList.remove('open');$('#sheetScrim').classList.remove('open')}
+  $('#sheetClose').onclick=closeSheet;
+  $('#sheetScrim').onclick=closeSheet;
 
   renderChips();bindAcct();renderAll();
 })();
