@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="/internal/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Happy Camper Order Desk (Internal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#004833;--cream:#F4F1E6;--yellow:#F0E66D;--orange:#D28113;--mid:#399C62;--sky:#7DC4EC;--ink:#2C3028;
+ --disp:'Bowlby One',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--body:'Inter',system-ui,sans-serif;--line:rgba(44,48,40,.14)}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);background:var(--cream);line-height:1.45;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3,h4{margin:0}
+.mono{font-family:var(--mono)}
+input,select{font-family:var(--body);font-size:13px;padding:8px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:13px;letter-spacing:.03em;padding:11px 16px;border-radius:9px;border:2px solid transparent}
+.btn--y{background:var(--yellow);color:var(--green)}
+.btn--o{background:var(--orange);color:var(--cream)}
+.btn--dark{background:var(--green);color:var(--cream)}
+.btn--ghost{background:transparent;color:var(--green);border-color:var(--green)}
+.btn--block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* top bar */
+.bar{background:var(--green);color:var(--cream);position:sticky;top:0;z-index:20}
+.bar .in{display:flex;align-items:center;gap:14px;padding:12px 18px;flex-wrap:wrap}
+.bar .brand{font-family:var(--disp);font-size:18px;text-transform:uppercase;letter-spacing:.02em}
+.bar .tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--yellow);color:var(--green);padding:3px 7px;border-radius:5px}
+.bar .rep{margin-left:auto;display:flex;align-items:center;gap:8px}
+.bar .rep label{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--yellow)}
+.bar .rep input{width:180px}
+
+/* layout */
+.app{display:grid;grid-template-columns:1fr 360px;gap:0;align-items:start}
+.catalog{padding:16px 18px;min-height:100vh}
+.panel{position:sticky;top:57px;height:calc(100vh - 57px);overflow:auto;background:#fbf9f1;border-left:1px solid var(--line);padding:16px}
+
+/* catalog controls */
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.controls input#q{max-width:280px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:6px 11px;border-radius:99px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--green);color:var(--cream);border-color:var(--green)}
+
+/* product rows */
+table.rows{width:100%;border-collapse:collapse}
+table.rows th{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#6b6f66;text-align:left;padding:6px 8px;border-bottom:2px solid var(--line)}
+table.rows td{padding:8px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.n,th.n{text-align:right;font-family:var(--mono)}
+.pname{font-weight:600;font-size:14px;line-height:1.15}
+.pmeta{font-size:11px;color:#6b6f66}
+.best{display:inline-block;background:var(--yellow);color:var(--green);font-family:var(--mono);font-weight:700;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:2px 5px;border-radius:4px;margin-left:6px}
+.grp{font-family:var(--disp);text-transform:uppercase;font-size:15px;color:var(--green);padding:16px 8px 4px}
+.qtycell{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.qtycell button{width:28px;height:28px;border:1px solid var(--line);background:#fff;border-radius:7px;color:var(--green);font-size:16px;line-height:1}
+.qtycell input{width:56px;text-align:center;font-family:var(--mono);font-weight:700;padding:6px}
+.rowsel{background:#fffef4}
+
+/* order panel */
+.panel h2{font-family:var(--disp);font-size:16px;color:var(--green);text-transform:uppercase;margin-bottom:10px}
+.acct{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.acct .full{grid-column:1/-1}
+.acct label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6b6f66;margin-bottom:3px}
+.tierbox{background:var(--green);color:var(--cream);border-radius:12px;padding:12px;margin-bottom:12px}
+.tierbox .tname{font-family:var(--disp);font-size:20px;text-transform:uppercase}
+.tierbox .bar2{height:8px;border-radius:99px;background:rgba(255,255,255,.18);margin:8px 0 6px;overflow:hidden}
+.tierbox .bar2>i{display:block;height:100%;background:var(--yellow);width:0;transition:width .2s}
+.tierbox .msg{font-size:12px;color:rgba(244,241,230,.9)}
+.tierbox .msg b{color:var(--yellow)}
+.tot .r{display:flex;justify-content:space-between;font-size:13px;margin:5px 0}
+.tot .r.due{font-family:var(--disp);font-size:20px;color:var(--green);border-top:2px solid var(--green);padding-top:9px;margin-top:9px}
+.tot .r .mono{font-family:var(--mono)}
+.tot .save{color:var(--mid);font-weight:600}
+.acts{display:grid;gap:8px;margin-top:14px}
+.hintline{font-size:11px;color:#6b6f66;font-family:var(--mono);margin-top:8px}
+.empty{color:#6b6f66;font-size:13px;padding:8px 0}
+
+/* doc overlay (receipt / invoice) */
+.docwrap{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);overflow:auto;padding:24px}
+.docwrap.open{display:block}
+.docactions{max-width:820px;margin:0 auto 12px;display:flex;gap:10px}
+.doc{max-width:820px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.doc .dhead{background:var(--green);color:var(--cream);padding:22px 26px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.doc .dhead img{height:30px}
+.doc .dhead .rt{text-align:right;font-family:var(--mono);font-size:12px;line-height:1.6}
+.doc .dhead .rt b{font-family:var(--disp);font-size:20px;letter-spacing:0;display:block}
+.doc .body{padding:22px 26px}
+.parties{display:flex;gap:30px;flex-wrap:wrap;font-size:13px;margin-bottom:16px}
+.parties h4{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#6b6f66;margin-bottom:4px}
+.doc table.lines{width:100%;border-collapse:collapse;font-size:13px}
+.doc table.lines th,.doc table.lines td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left}
+.doc table.lines td.n,.doc table.lines th.n{text-align:right;font-family:var(--mono)}
+.totals{margin-left:auto;max-width:340px;margin-top:14px}
+.totals .r{display:flex;justify-content:space-between;font-size:14px;margin:6px 0}
+.totals .r .mono{font-family:var(--mono)}
+.totals .r.grand{font-family:var(--disp);font-size:20px;color:var(--green);border-top:2px solid var(--green);padding-top:10px;margin-top:8px}
+.totals .r.save{color:var(--mid);font-weight:600}
+.legal{font-size:11px;color:#6b6f66;line-height:1.6;margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+
+.mbar{display:none}
+@media(max-width:860px){
+  .app{grid-template-columns:1fr}
+  .panel{position:static;height:auto;border-left:0;border-top:1px solid var(--line)}
+  table.rows th:nth-child(2),table.rows td:nth-child(2),
+  table.rows th:nth-child(5),table.rows td:nth-child(5){display:none} /* hide List + Extended cols on mobile; totals live in the bar/panel */
+  .qtycell input{width:52px}
+  .qtycell button{width:34px;height:34px}
+  body{padding-bottom:70px}
+  .mbar{display:flex;align-items:center;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:30;
+    background:var(--green);color:var(--cream);padding:10px 14px;box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+  .mbar .mt{flex:1;font-family:var(--mono);font-size:12px;line-height:1.25}
+  .mbar .mt b{font-family:var(--disp);font-size:16px;display:block;letter-spacing:0}
+  .mbar button{white-space:nowrap;padding:12px 16px}
+  .bar .rep{margin-left:0;width:100%}
+  .bar .rep input{flex:1;width:auto}
+  .docwrap{padding:0}
+  .doc{border-radius:0}
+  .docactions{max-width:none;margin:0;padding:10px;position:sticky;top:0;z-index:2}
+  .parties{gap:16px}
+}
+@media(max-width:560px){ .acct{grid-template-columns:1fr} }
+@media print{
+  body>*{display:none!important}
+  .docwrap{display:block!important;position:static;background:#fff;padding:0}
+  .docactions{display:none!important}
+  .doc{box-shadow:none;max-width:none;border-radius:0}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="in">
+    <span class="brand">Happy Camper Order Desk</span>
+    <span class="tag">Internal</span>
+    <div class="rep">
+      <label for="rep">Rep</label>
+      <input id="rep" placeholder="Your name">
+      <button class="btn btn--y" id="newOrder">New order</button>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- CATALOG -->
+  <section class="catalog">
+    <div class="controls">
+      <input id="q" placeholder="Search product or SKU...">
+      <div id="chips"></div>
+    </div>
+    <div id="rows"></div>
+  </section>
+
+  <!-- ORDER PANEL -->
+  <aside class="panel">
+    <h2>Buyer / Account</h2>
+    <div class="acct">
+      <div class="full"><label>Store / business</label><input name="store" placeholder="Account name"></div>
+      <div><label>Buyer name</label><input name="buyer"></div>
+      <div><label>Phone</label><input name="phone"></div>
+      <div class="full"><label>Email</label><input name="email" type="email"></div>
+      <div class="full"><label>Hemp / tobacco licence #</label><input name="licence"></div>
+      <div class="full"><label>Shipping address</label><input name="address"></div>
+      <div><label>City</label><input name="city"></div>
+      <div><label>State</label><input name="state"></div>
+    </div>
+
+    <div class="tierbox">
+      <div class="tname" id="pTier">List</div>
+      <div class="bar2"><i id="pFill"></i></div>
+      <div class="msg" id="pMsg">Add items to build the order.</div>
+    </div>
+
+    <div class="tot" id="pTot"><div class="empty">No items yet.</div></div>
+
+    <div class="acts">
+      <button class="btn btn--dark btn--block" id="genReceipt" disabled>Order receipt (buyer copy)</button>
+      <button class="btn btn--o btn--block" id="genInvoice" disabled>Generate invoice</button>
+      <button class="btn btn--ghost btn--block" id="clearOrder" disabled>Clear order</button>
+    </div>
+    <div class="hintline">Prices match the live buyer menu. Only list, tier and MSRP are ever shown.</div>
+  </aside>
+</div>
+
+<!-- MOBILE ORDER BAR (mobile only) -->
+<div class="mbar" id="mbar"></div>
+
+<!-- DOC OVERLAY -->
+<div class="docwrap" id="docwrap">
+  <div class="docactions">
+    <button class="btn btn--dark" onclick="window.print()">Print / save PDF</button>
+    <button class="btn btn--ghost" style="background:#fff" id="docBack">Back to order</button>
+  </div>
+  <div class="doc" id="doc"></div>
+</div>
+
+<script src="products.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var money=function(n){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
+  var r2=function(n){return Math.round((n+Number.EPSILON)*100)/100};
+
+  /* Same tier engine + convention as the buyer menu: thresholds on LIST-price subtotal. */
+  var TIERS=[{name:'List',min:0,off:0},{name:'Tier 1',min:2500,off:.05},{name:'Tier 2',min:5000,off:.10},
+    {name:'Tier 3',min:7500,off:.15},{name:'Tier 4',min:10000,off:.20},{name:'Tier 5',min:25000,off:.25},
+    {name:'Tier 6',min:50000,off:.30},{name:'Tier 7',min:100000,off:.35}];
+  var MIN_ORDER=500,HANDLING=35;
+  var PRODUCTS=window.HC_PRODUCTS||[],BYID={};PRODUCTS.forEach(function(p){BYID[p.id]=p});
+  var CATS=['Seltzer','Feel Good','Happy Days','Hippie Crippler','Prerolls','Flower','Live Resin Vapes','House'];
+  function tierFor(ls){var t=TIERS[0];for(var i=0;i<TIERS.length;i++)if(ls>=TIERS[i].min)t=TIERS[i];return t}
+  function nextTierFor(ls){for(var i=0;i<TIERS.length;i++)if(TIERS[i].min>ls)return TIERS[i];return null}
+
+  var order={}; try{order=JSON.parse(localStorage.getItem('hc_bdr_order'))||{}}catch(e){order={}}
+  function saveOrder(){localStorage.setItem('hc_bdr_order',JSON.stringify(order))}
+  var acct={}; try{acct=JSON.parse(localStorage.getItem('hc_bdr_acct'))||{}}catch(e){acct={}}
+
+  function compute(){
+    var ls=0,ms=0,units=0;
+    Object.keys(order).forEach(function(id){var p=BYID[id],q=order[id];if(!p)return;ls+=p.list*q;ms+=p.msrp*q;units+=q});
+    ls=r2(ls);ms=r2(ms);var t=tierFor(ls),ot=0;
+    Object.keys(order).forEach(function(id){var p=BYID[id];if(p)ot+=r2(p.list*(1-t.off))*order[id]});
+    ot=r2(ot);var h=(ls>0&&ls<MIN_ORDER)?HANDLING:0;
+    return {ls:ls,ms:ms,units:units,tier:t,order:ot,handling:h,grand:r2(ot+h),saved:r2(ls-ot),
+            margin:r2(ms-ot),marginPct:ms>0?r2((ms-ot)/ms*100):0};
+  }
+
+  /* ---- catalog ---- */
+  var filter={cat:'all',q:''};
+  function setQty(id,q){var p=BYID[id];if(!p)return;q=Math.max(0,Math.round(q/p.moq)*p.moq);if(q<=0)delete order[id];else order[id]=q;saveOrder();renderAll()}
+  function renderChips(){
+    $('#chips').innerHTML='<button class="chip" data-c="all" aria-pressed="true">All</button>'+
+      CATS.map(function(c){return '<button class="chip" data-c="'+c+'">'+c+'</button>'}).join('');
+  }
+  function rowHTML(p,off){
+    var yours=r2(p.list*(1-off)),q=order[p.id]||0,ext=r2(yours*q);
+    return '<tr class="'+(q>0?'rowsel':'')+'" data-id="'+p.id+'">'+
+      '<td><div class="pname">'+p.name+(p.bestseller?'<span class="best">Best</span>':'')+'</div>'+
+        '<div class="pmeta">'+[p.cat,p.format,p.size,p.grade].filter(Boolean).join(' &middot; ')+' &middot; case of '+p.moq+'</div></td>'+
+      '<td class="n">'+money(p.list)+'</td>'+
+      '<td class="n"><b>'+money(yours)+'</b></td>'+
+      '<td><div class="qtycell"><button data-act="minus">&minus;</button>'+
+        '<input type="number" inputmode="numeric" min="0" step="'+p.moq+'" value="'+q+'" data-input="'+p.id+'">'+
+        '<button data-act="plus">+</button></div></td>'+
+      '<td class="n">'+(q>0?money(ext):'&mdash;').replace('&mdash;','-')+'</td></tr>';
+  }
+  function renderRows(){
+    var off=compute().tier.off,q=filter.q.toLowerCase();
+    var html='<table class="rows"><thead><tr><th>Product</th><th class="n">List</th><th class="n">Tier price</th><th style="text-align:center">Cases</th><th class="n">Extended</th></tr></thead><tbody>';
+    CATS.forEach(function(c){
+      if(filter.cat!=='all'&&filter.cat!==c)return;
+      var items=PRODUCTS.filter(function(p){return p.cat===c&&(!q||(p.name+' '+p.id+' '+p.grade).toLowerCase().indexOf(q)>-1)});
+      if(!items.length)return;
+      html+='<tr><td colspan="5" class="grp">'+c+'</td></tr>';
+      html+=items.map(function(p){return rowHTML(p,off)}).join('');
+    });
+    html+='</tbody></table>';
+    $('#rows').innerHTML=html;
+  }
+
+  /* ---- panel ---- */
+  function progress(c){
+    var nt=nextTierFor(c.ls);
+    if(c.ls>0&&c.ls<MIN_ORDER)return 'Under '+money(MIN_ORDER)+': a '+money(HANDLING)+' handling charge applies. Add <b>'+money(MIN_ORDER-c.ls)+'</b> to remove it.';
+    if(!nt)return 'At <b>'+c.tier.name+'</b>, best pricing available.';
+    return 'At <b>'+c.tier.name+'</b>. Add <b>'+money(r2(nt.min-c.ls))+'</b> to reach <b>'+nt.name+'</b> ('+Math.round(nt.off*100)+'% off).';
+  }
+  function renderPanel(){
+    var c=compute();
+    $('#pTier').textContent=c.tier.name;
+    var nt=nextTierFor(c.ls),fill,msg;
+    if(!nt){fill=100}else{var sp=nt.min-c.tier.min;fill=sp>0?Math.min(100,Math.max(0,(c.ls-c.tier.min)/sp*100)):0}
+    $('#pFill').style.width=fill+'%';
+    $('#pMsg').innerHTML=c.units?progress(c):'Add items to build the order.';
+    var t=$('#pTot');
+    if(!c.units){t.innerHTML='<div class="empty">No items yet.</div>'}
+    else{
+      t.innerHTML=
+        '<div class="r"><span>Items</span><span class="mono">'+c.units+' units</span></div>'+
+        '<div class="r"><span>List value</span><span class="mono">'+money(c.ls)+'</span></div>'+
+        '<div class="r save"><span>Volume discount ('+Math.round(c.tier.off*100)+'%)</span><span class="mono">-'+money(c.saved)+'</span></div>'+
+        (c.handling>0?'<div class="r"><span>Handling</span><span class="mono">'+money(c.handling)+'</span></div>':'')+
+        '<div class="r due"><span>Total due</span><span class="mono">'+money(c.grand)+'</span></div>'+
+        '<div class="r"><span>Retails for (MSRP)</span><span class="mono">'+money(c.ms)+'</span></div>'+
+        '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>';
+    }
+    var has=c.units>0;
+    $('#genReceipt').disabled=!has;$('#genInvoice').disabled=!has;$('#clearOrder').disabled=!has;
+    var mb=$('#mbar');
+    mb.innerHTML = has
+      ? '<div class="mt">'+c.tier.name+' &middot; '+c.units+' units<b>'+money(c.grand)+' due</b></div><button class="btn btn--y" data-mbar>Review &amp; invoice</button>'
+      : '<div class="mt">No items yet<b>$0.00</b></div>';
+  }
+  function renderAll(){renderRows();renderPanel()}
+
+  /* ---- account fields ---- */
+  function bindAcct(){
+    document.querySelectorAll('.acct input').forEach(function(el){
+      if(acct[el.name])el.value=acct[el.name];
+      el.addEventListener('input',function(){acct[el.name]=el.value;localStorage.setItem('hc_bdr_acct',JSON.stringify(acct))});
+    });
+    var rep=$('#rep');if(acct.rep)rep.value=acct.rep;
+    rep.addEventListener('input',function(){acct.rep=rep.value;localStorage.setItem('hc_bdr_acct',JSON.stringify(acct))});
+  }
+
+  /* ---- events ---- */
+  document.addEventListener('click',function(e){
+    var cell=e.target.closest('.qtycell');
+    if(cell&&e.target.dataset.act){var id=cell.parentNode.parentNode.dataset.id,p=BYID[id];setQty(id,(order[id]||0)+(e.target.dataset.act==='plus'?p.moq:-p.moq));return}
+    var chip=e.target.closest('.chip');
+    if(chip){document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===chip)});filter.cat=chip.dataset.c;renderRows();return}
+    if(e.target.closest('[data-mbar]')){var pnl=document.querySelector('.panel');if(pnl)pnl.scrollIntoView({behavior:'smooth'});return}
+  });
+  document.addEventListener('change',function(e){
+    if(e.target.dataset.input){setQty(e.target.dataset.input,parseInt(e.target.value||'0',10))}
+  });
+  $('#q').addEventListener('input',function(){filter.q=this.value;renderRows()});
+  $('#clearOrder').onclick=function(){order={};saveOrder();renderAll()};
+  $('#newOrder').onclick=function(){if(confirm('Start a new order? This clears items and buyer info.')){order={};acct={};saveOrder();localStorage.removeItem('hc_bdr_acct');document.querySelectorAll('.acct input').forEach(function(el){el.value=''});$('#rep').value='';renderAll()}};
+  $('#docBack').onclick=function(){$('#docwrap').classList.remove('open')};
+
+  /* ---- invoice number sequence ---- */
+  function nextInvNo(){
+    var d=new Date(),ymd=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+    var seq=parseInt(localStorage.getItem('hc_inv_seq')||'0',10)+1;localStorage.setItem('hc_inv_seq',seq);
+    return 'INV-'+ymd+'-'+String(seq).padStart(3,'0');
+  }
+
+  function lineRows(c){
+    return Object.keys(order).map(function(id){
+      var p=BYID[id],q=order[id],yours=r2(p.list*(1-c.tier.off));
+      return '<tr><td>'+p.name+'<div style="font-size:11px;color:#6b6f66">'+[p.cat,p.format,p.size,p.grade].filter(Boolean).join(', ')+'</div></td>'+
+        '<td class="n">'+q+'</td><td class="n">'+money(p.list)+'</td><td class="n">'+money(yours)+'</td><td class="n">'+money(r2(yours*q))+'</td></tr>';
+    }).join('');
+  }
+  function partyBlocks(){
+    var a=acct;
+    return '<div class="parties">'+
+      '<div><h4>Bill / ship to</h4>'+(a.store||'[store]')+'<br>'+(a.buyer||'')+'<br>'+(a.address||'')+'<br>'+[a.city,a.state].filter(Boolean).join(', ')+'<br>'+(a.phone||'')+' '+(a.email||'')+'<br>Licence: '+(a.licence||'[on file]')+'</div>'+
+      '<div><h4>From</h4>The Happy Camper<br>Wholesale<br>Rep: '+(a.rep||'[rep]')+'<br>Orders: beahappycamper.com</div>'+
+    '</div>';
+  }
+  var TERMS='Payment terms: Net 15 on approved accounts, Net 30 from Tier 5, card on the first two orders. Orders confirmed by 2pm ship the next business day. Pricing holds 90 days.';
+  var LEGAL='Hemp-derived, compliant with the 2018 Farm Bill. Contains THC. Not for sale to persons under 21. Keep out of reach of children and pets. Verify state and local regulations before resale. Certificates of analysis available on request.';
+  var LOGO='<img src="assets/hc-logo-2026.png" alt="The Happy Camper" onerror="this.onerror=null;this.style.display=\'none\'">';
+
+  function openDoc(html){$('#doc').innerHTML=html;$('#docwrap').classList.add('open');$('#docwrap').scrollTop=0}
+
+  $('#genReceipt').onclick=function(){
+    var c=compute(),d=new Date();
+    openDoc(
+      '<div class="dhead">'+LOGO+'<div class="rt"><b>Order receipt</b>'+d.toLocaleDateString('en-US')+'<br>Tier '+c.tier.name.replace('Tier ','')+' &middot; '+Math.round(c.tier.off*100)+'% off list</div></div>'+
+      '<div class="body">'+partyBlocks()+
+      '<table class="lines"><thead><tr><th>Product</th><th class="n">Qty</th><th class="n">List</th><th class="n">Your price</th><th class="n">Extended</th></tr></thead><tbody>'+lineRows(c)+'</tbody></table>'+
+      '<div class="totals">'+
+        '<div class="r"><span>List value</span><span class="mono">'+money(c.ls)+'</span></div>'+
+        '<div class="r save"><span>Saved vs list</span><span class="mono">-'+money(c.saved)+'</span></div>'+
+        (c.handling>0?'<div class="r"><span>Handling</span><span class="mono">'+money(c.handling)+'</span></div>':'')+
+        '<div class="r grand"><span>Order total</span><span class="mono">'+money(c.grand)+'</span></div>'+
+        '<div class="r"><span>Total MSRP value</span><span class="mono">'+money(c.ms)+'</span></div>'+
+        '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>'+
+      '</div><div class="legal">'+TERMS+'<br><br>'+LEGAL+'</div></div>'
+    );
+  };
+
+  $('#genInvoice').onclick=function(){
+    var c=compute(),d=new Date(),inv=nextInvNo();
+    openDoc(
+      '<div class="dhead">'+LOGO+'<div class="rt"><b>Invoice</b>'+inv+'<br>Date '+d.toLocaleDateString('en-US')+'<br>Amount due '+money(c.grand)+'</div></div>'+
+      '<div class="body">'+partyBlocks()+
+      '<table class="lines"><thead><tr><th>Product</th><th class="n">Qty</th><th class="n">List</th><th class="n">Unit price</th><th class="n">Amount</th></tr></thead><tbody>'+lineRows(c)+'</tbody></table>'+
+      '<div class="totals">'+
+        '<div class="r"><span>Subtotal (list)</span><span class="mono">'+money(c.ls)+'</span></div>'+
+        '<div class="r save"><span>Volume discount ('+Math.round(c.tier.off*100)+'%)</span><span class="mono">-'+money(c.saved)+'</span></div>'+
+        (c.handling>0?'<div class="r"><span>Handling</span><span class="mono">'+money(c.handling)+'</span></div>':'')+
+        '<div class="r grand"><span>Total due</span><span class="mono">'+money(c.grand)+'</span></div>'+
+      '</div>'+
+      '<div class="legal">'+TERMS+'<br><br>This invoice reflects wholesale pricing at the tier reached on this order. '+LEGAL+'</div></div>'
+    );
+  };
+
+  renderChips();bindAcct();renderAll();
+})();
+</script>
+</body>
+</html>
