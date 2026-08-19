@@ -4,9 +4,24 @@
     {
       "name": "carlo-site",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000,
       "autoPort": false
+    },
+    {
+      "name": "hc-menu",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8124",
+        "--directory",
+        "/private/tmp/claude-501/-Users-carloruiz-Carlo-Ruiz-Website/b1880418-9e19-424e-aadf-3e70d9280d98/scratchpad/hc-menu-preview"
+      ],
+      "port": 8124
     }
   ]
 }
