@@ -1,0 +1,235 @@
+/* ============================================================
+   TES — glass.css
+   Glassmorphism component system + liquid section transitions
+   ============================================================ */
+
+/* ---------- Base glass ---------- */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--r-lg);
+  transition: border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              transform var(--dur) var(--ease),
+              background var(--dur) var(--ease);
+}
+
+.glass:hover {
+  border-color: rgba(204, 0, 0, 0.5);
+  box-shadow: 0 0 30px rgba(204, 0, 0, 0.15),
+              inset 0 0 30px rgba(204, 0, 0, 0.05);
+}
+
+/* Red-tinted variant */
+.glass-red {
+  background: rgba(204, 0, 0, 0.08);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(204, 0, 0, 0.25);
+  border-radius: var(--r-lg);
+  transition: border-color var(--dur) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              transform var(--dur) var(--ease);
+}
+.glass-red:hover {
+  border-color: rgba(204, 0, 0, 0.65);
+  box-shadow: 0 0 34px rgba(204, 0, 0, 0.22),
+              inset 0 0 30px rgba(204, 0, 0, 0.06);
+}
+
+/* Padding helpers */
+.glass-pad    { padding: clamp(24px, 3vw, 40px); }
+.glass-pad-lg { padding: clamp(32px, 4vw, 56px); }
+
+/* Lift on hover — for interactive cards only */
+.glass-lift:hover { transform: translateY(-4px); }
+
+/* Top red accent bar (testimonials, feature cards) */
+.glass-accent-top {
+  position: relative;
+  overflow: hidden;
+}
+.glass-accent-top::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red-deep), var(--red-vivid), var(--red-deep));
+}
+
+/* ---------- Service card ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  height: 100%;
+}
+
+.card-media {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.card-media .placeholder-img {
+  aspect-ratio: auto;
+  height: 100%;
+  width: 100%;
+  border: none;
+  border-bottom: 1.5px dashed rgba(204, 0, 0, 0.4);
+  border-radius: 0;
+}
+
+.card-body {
+  padding: clamp(22px, 2.4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1 1 auto;
+}
+.card-body h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(21px, 2.2vw, 27px);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+.card-body p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  flex: 1 1 auto;
+}
+.card-body .link-red { margin-top: 6px; align-self: flex-start; }
+
+.card-specs {
+  display: grid;
+  gap: 7px;
+  margin-top: 4px;
+}
+.card-specs li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+.card-specs li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 9px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--red-vivid);
+}
+
+/* ---------- Certification card ---------- */
+.cert-card {
+  padding: clamp(24px, 3vw, 36px);
+  text-align: center;
+  border-radius: var(--r-lg);
+}
+.cert-mark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(20px, 2.2vw, 26px);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--white);
+  line-height: 1.1;
+}
+.cert-role {
+  margin-top: 12px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red-vivid);
+  font-weight: 600;
+}
+.cert-note {
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* ---------- Liquid section transitions ---------- */
+/*
+   Waves are SVG data-URIs whose fill must match the NEXT section's
+   background, so the sections appear to melt into one another.
+   Direction alternates via the -alt variants.
+*/
+
+.wave-host { position: relative; }
+
+.section-wave-bottom::after,
+.section-wave-bottom-alt::after,
+.section-wave-top::before,
+.section-wave-top-alt::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: clamp(48px, 6vw, 90px);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Bottom waves — fill = --black-soft (#111111) */
+.section-wave-bottom::after {
+  bottom: -1px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z' fill='%23111111'/%3E%3C/svg%3E");
+}
+/* Alternate direction */
+.section-wave-bottom-alt::after {
+  bottom: -1px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,0 1080,80 1440,40 L1440,80 L0,80 Z' fill='%23111111'/%3E%3C/svg%3E");
+}
+
+/* Pure-black fill variants */
+.section-wave-bottom.wave-black::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z' fill='%23080808'/%3E%3C/svg%3E");
+}
+.section-wave-bottom-alt.wave-black::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,0 1080,80 1440,40 L1440,80 L0,80 Z' fill='%23080808'/%3E%3C/svg%3E");
+}
+
+/* Red fill — for melting INTO the red CTA banner */
+.section-wave-bottom.wave-red::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z' fill='%23CC0000'/%3E%3C/svg%3E");
+}
+
+/* Top waves — sit at the top edge of a section, fill = PREVIOUS section bg */
+.section-wave-top::before {
+  top: -1px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,0 1080,80 1440,40 L1440,0 L0,0 Z' fill='%23111111'/%3E%3C/svg%3E");
+}
+.section-wave-top-alt::before {
+  top: -1px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,80 1080,0 1440,40 L1440,0 L0,0 Z' fill='%23111111'/%3E%3C/svg%3E");
+}
+.section-wave-top.wave-black::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,0 1080,80 1440,40 L1440,0 L0,0 Z' fill='%23080808'/%3E%3C/svg%3E");
+}
+.section-wave-top-alt.wave-black::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 80' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,40 C360,80 1080,0 1440,40 L1440,0 L0,0 Z' fill='%23080808'/%3E%3C/svg%3E");
+}
+
+/* ---------- Section background tones ---------- */
+.bg-black      { background: var(--black); }
+.bg-black-soft { background: var(--black-soft); }
+.bg-black-mid  { background: var(--black-mid); }
+.bg-red-tint   { background: rgba(204, 0, 0, 0.06); }
+
+/* Fallback for browsers without backdrop-filter */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass    { background: rgba(26, 26, 26, 0.92); }
+  .glass-red { background: rgba(72, 8, 8, 0.92); }
+  .nav      { background: rgba(8, 8, 8, 0.96); }
+}
