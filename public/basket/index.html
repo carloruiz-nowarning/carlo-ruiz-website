@@ -369,6 +369,25 @@ footer.legal-foot .wrap{max-width:900px}
     $('#catalogue').innerHTML=html;
   }
 
+  /* Cheap re-render for basket changes: update quantity + price text on every existing
+     card in place, without touching <img> nodes. A full innerHTML rebuild here would
+     destroy and recreate all 77 images on every +/- tap, causing a visible blank flash
+     while the browser redecodes each one. This patches text only, so images never reload. */
+  function patchCatalogue(){
+    var t=tierFor(compute().listSub);
+    PRODUCTS.forEach(function(p){
+      var yours=round2(p.list*(1-t.off));
+      var q=basket[p.id]||0;
+      document.querySelectorAll('.stepper[data-id="'+p.id+'"]').forEach(function(step){
+        var qtyEl=step.querySelector('.qty');
+        if(qtyEl) qtyEl.textContent=q;
+        var card=step.closest('.card');
+        var yEl=card&&card.querySelector('.yours');
+        if(yEl) yEl.innerHTML=money(yours)+' <small>your price / unit</small>';
+      });
+    });
+  }
+
   /* ---------- RENDER: basket ---------- */
   function basketRowHTML(id){
     var p=BYID[id],q=basket[id],t=tierFor(compute().listSub);
@@ -422,25 +441,6 @@ footer.legal-foot .wrap{max-width:900px}
     $('#tierFill').style.width=fill+'%';
     $('#tierMsg').innerHTML = c.units? progressLine(c) : 'Build a basket to see your volume pricing update live.';
     $('#cartCount').textContent=c.units;
-  }
-
-  /* Cheap re-render for basket changes: update quantity + price text on every existing
-     card in place, without touching <img> nodes. A full innerHTML rebuild here would
-     destroy and recreate all 77 images on every +/- tap, causing a visible blank flash
-     while the browser redecodes each one. This patches text only, so images never reload. */
-  function patchCatalogue(){
-    var t=tierFor(compute().listSub);
-    PRODUCTS.forEach(function(p){
-      var yours=round2(p.list*(1-t.off));
-      var q=basket[p.id]||0;
-      document.querySelectorAll('.stepper[data-id="'+p.id+'"]').forEach(function(step){
-        var qtyEl=step.querySelector('.qty');
-        if(qtyEl) qtyEl.textContent=q;
-        var card=step.closest('.card');
-        var yEl=card&&card.querySelector('.yours');
-        if(yEl) yEl.innerHTML=money(yours)+' <small>your price / unit</small>';
-      });
-    });
   }
 
   var catalogueBuilt=false;
@@ -526,24 +526,27 @@ footer.legal-foot .wrap{max-width:900px}
   }
 
   function submitToRep(f){
-    /* All order requests route to sales@beahappycamper.com.
-       No backend: this opens the buyer's mail client, pre-addressed and pre-filled with the
-       order, so they just hit send. To switch to a silent server-side submission instead
-       (a form-to-email service like Formspree/Basin, or your own endpoint), set ENDPOINT
-       below and this will POST the order JSON there instead of opening mail. */
+    /* All order requests route to sales@beahappycamper.com, submitted silently via Formspree.
+       If that POST ever fails (endpoint down, network error), this falls back to opening the
+       buyer's mail client pre-addressed and pre-filled, so an order never just disappears. */
     var TO_EMAIL='sales@beahappycamper.com';
-    var ENDPOINT=''; // e.g. 'https://formspree.io/f/XXXXXXXX'
-    var payload={fields:lastOrder.fields,tier:lastOrder.totals.tier.name,total:lastOrder.totals.grand,
-      lines:Object.keys(basket).map(function(id){return {sku:id,name:BYID[id].name,qty:basket[id]}})};
-    if(ENDPOINT){try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})}catch(e){}return}
+    var ENDPOINT='https://formspree.io/f/xqpzjpqp';
     var c=lastOrder.totals,fl=lastOrder.fields;
-    var subject='Wholesale order request, '+(fl.store||'new buyer')+' ('+c.tier.name+', '+money(c.grand)+')';
-    var lines=payload.lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
-    var body='Store: '+(fl.store||'')+'\nBuyer: '+(fl.buyer||'')+'\nEmail: '+(fl.email||'')+'\nPhone: '+(fl.phone||'')+
-      '\nLicence: '+(fl.licence||'Not provided')+'\nSales rep: '+(fl.rep||'Not provided')+
-      '\nAddress: '+(fl.address||'')+', '+(fl.city||'')+' '+(fl.state||'')+
-      '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+lines;
-    window.location.href='mailto:'+TO_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    var lines=Object.keys(basket).map(function(id){return {sku:id,name:BYID[id].name,qty:basket[id]}});
+    var payload={fields:fl,tier:c.tier.name,total:c.grand,lines:lines};
+
+    function mailFallback(){
+      var subject='Wholesale order request, '+(fl.store||'new buyer')+' ('+c.tier.name+', '+money(c.grand)+')';
+      var linesTxt=lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
+      var body='Store: '+(fl.store||'')+'\nBuyer: '+(fl.buyer||'')+'\nEmail: '+(fl.email||'')+'\nPhone: '+(fl.phone||'')+
+        '\nLicence: '+(fl.licence||'Not provided')+'\nSales rep: '+(fl.rep||'Not provided')+
+        '\nAddress: '+(fl.address||'')+', '+(fl.city||'')+' '+(fl.state||'')+
+        '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+linesTxt;
+      window.location.href='mailto:'+TO_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    }
+    fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(res){if(!res.ok)mailFallback()})
+      .catch(mailFallback);
   }
 
   renderAll();

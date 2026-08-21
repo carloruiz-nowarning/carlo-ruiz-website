@@ -398,21 +398,30 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
   function openDoc(html){$('#doc').innerHTML=html;$('#docwrap').classList.add('open');$('#docwrap').scrollTop=0}
 
   /* Every receipt and invoice generated here also goes to sales@beahappycamper.com as an
-     archival copy, same as the buyer checkout on the wholesale menu. No backend: this opens
-     a pre-filled mailto so the rep just hits send. Fires right after the doc renders, so the
-     on-screen copy is unaffected either way. */
+     archival copy, submitted silently via the same Formspree endpoint as the buyer checkout.
+     If that POST ever fails, this falls back to a pre-filled mailto so the copy never just
+     disappears. Fires right after the doc renders, so the on-screen copy is unaffected either way. */
   var SALES_EMAIL='sales@beahappycamper.com';
+  var ARCHIVE_ENDPOINT='https://formspree.io/f/xqpzjpqp';
   function mailArchiveCopy(kind,ref,c){
     var a=acct;
-    var subject=kind+' copy'+(ref?(' '+ref):'')+', '+(a.store||'no account name')+' ('+c.tier.name+', '+money(c.grand)+')';
-    var lines=Object.keys(order).map(function(id){return '- '+BYID[id].name+' x'+order[id]}).join('\n');
-    var body='Type: '+kind+(ref?('\nRef: '+ref):'')+
-      '\nRep: '+(a.rep||'Not provided')+
-      '\nStore: '+(a.store||'Not provided')+'\nBuyer: '+(a.buyer||'')+'\nEmail: '+(a.email||'')+'\nPhone: '+(a.phone||'')+
-      '\nLicence: '+(a.licence||'Not provided')+
-      '\nAddress: '+(a.address||'')+', '+[a.city,a.state].filter(Boolean).join(', ')+
-      '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+lines;
-    window.location.href='mailto:'+SALES_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    var lines=Object.keys(order).map(function(id){return {sku:id,name:BYID[id].name,qty:order[id]}});
+    var payload={kind:kind,ref:ref,fields:a,tier:c.tier.name,total:c.grand,lines:lines};
+
+    function mailFallback(){
+      var subject=kind+' copy'+(ref?(' '+ref):'')+', '+(a.store||'no account name')+' ('+c.tier.name+', '+money(c.grand)+')';
+      var linesTxt=lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
+      var body='Type: '+kind+(ref?('\nRef: '+ref):'')+
+        '\nRep: '+(a.rep||'Not provided')+
+        '\nStore: '+(a.store||'Not provided')+'\nBuyer: '+(a.buyer||'')+'\nEmail: '+(a.email||'')+'\nPhone: '+(a.phone||'')+
+        '\nLicence: '+(a.licence||'Not provided')+
+        '\nAddress: '+(a.address||'')+', '+[a.city,a.state].filter(Boolean).join(', ')+
+        '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+linesTxt;
+      window.location.href='mailto:'+SALES_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    }
+    fetch(ARCHIVE_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(function(res){if(!res.ok)mailFallback()})
+      .catch(mailFallback);
   }
 
   function genReceipt(){
