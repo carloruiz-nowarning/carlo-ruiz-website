@@ -3,38 +3,763 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>The Happy Camper Distro</title>
+<title>The Happy Camper, Wholesale</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-:root{--green:#004833;--cream:#F4F1E6;--yellow:#F0E66D;--orange:#D28113;--ink:#2C3028;
-  --disp:'Bowlby One',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;--body:'Inter',system-ui,sans-serif}
-*{box-sizing:border-box}
-html,body{margin:0;padding:0}
-body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--green);color:var(--cream);
-  font-family:var(--body);text-align:center;padding:24px}
-.wrap{max-width:520px}
-h1{font-family:var(--disp);text-transform:uppercase;font-size:clamp(30px,6vw,44px);line-height:1.05;margin:0 0 10px}
-p.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--yellow);margin:0 0 18px}
-p.sub{color:rgba(244,241,230,.78);font-size:15px;margin:0 0 34px}
-.row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-a.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px;
-  padding:16px 28px;border-radius:10px;text-decoration:none;border:2px solid transparent;min-width:200px}
-a.btn--yellow{background:var(--yellow);color:var(--green)}
-a.btn--ghost{background:transparent;color:var(--cream);border-color:var(--cream)}
+/* ===== HAPPY CAMPER WHOLESALE HOMEPAGE. All styles scoped under .hc-lp ===== */
+.hc-lp {
+  /* Brand palette */
+  --hc-green: #004833;
+  --hc-cream: #F4F1E6;
+  --hc-yellow: #F0E66D;
+  --hc-midgreen: #399C62;
+  --hc-orange: #D28113;
+  --hc-sky: #7DC4EC;
+  --hc-ink: #2C3028;
+
+  /* Type families */
+  --hc-display: 'Archivo Black', 'Arial Black', 'Arial', sans-serif;
+  --hc-head: 'Oswald', 'Arial Narrow', sans-serif;
+  --hc-mono: 'Space Mono', ui-monospace, monospace;
+  --hc-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii from the Kikin system */
+  --hc-r-card: 20px;
+  --hc-r-btn: 10px;
+  --hc-r-pill: 9999px;
+
+  /* Layout */
+  --hc-maxw: 1200px;
+
+  font-family: var(--hc-body);
+  color: var(--hc-ink);
+  background: var(--hc-cream);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: 100%;
+}
+.hc-lp *,
+.hc-lp *::before,
+.hc-lp *::after { box-sizing: border-box; }
+
+.hc-lp img { display: block; max-width: 100%; height: auto; }
+
+.hc-lp a { color: inherit; text-decoration: none; }
+
+/* ---- Layout helpers ---- */
+.hc-lp .hc-container {
+  width: 100%;
+  max-width: var(--hc-maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.hc-lp .hc-section { padding: 80px 0; }
+.hc-lp .hc-dark  { background: var(--hc-green); color: var(--hc-cream); }
+.hc-lp .hc-cream { background: var(--hc-cream); color: var(--hc-ink); }
+
+/* ---- Type ---- */
+.hc-lp .hc-eyebrow {
+  font-family: var(--hc-mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hc-orange);
+  margin: 0 0 20px;
+  display: block;
+}
+.hc-lp .hc-dark .hc-eyebrow { color: var(--hc-yellow); }
+
+.hc-lp .hc-display {
+  font-family: var(--hc-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.hc-lp .hc-h2 {
+  font-family: var(--hc-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  font-size: clamp(36px, 6.4vw, 68px);
+  margin: 0 0 20px;
+  color: var(--hc-green);
+}
+.hc-lp .hc-dark .hc-h2 { color: var(--hc-cream); }
+
+.hc-lp .hc-h3 {
+  font-family: var(--hc-head);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  font-size: clamp(22px, 3vw, 30px);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+.hc-lp .hc-h4 {
+  font-family: var(--hc-head);
+  font-weight: 600;
+  line-height: 1;
+  font-size: 20px;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.hc-lp .hc-lead {
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.45;
+  max-width: 620px;
+  margin: 0 0 8px;
+}
+.hc-lp .hc-body { font-size: 16px; line-height: 1.5; margin: 0 0 12px; }
+.hc-lp .hc-muted { opacity: 0.82; }
+
+/* ---- Buttons ---- */
+.hc-lp .hc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--hc-body);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 15px 28px;
+  border-radius: var(--hc-r-btn);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform .12s ease, background-color .15s ease, color .15s ease;
+}
+.hc-lp .hc-btn:hover { transform: translateY(-2px); }
+.hc-lp .hc-btn--yellow { background: var(--hc-yellow); color: var(--hc-green); }
+.hc-lp .hc-btn--yellow:hover { background: #f4ec8a; }
+.hc-lp .hc-btn--orange { background: var(--hc-orange); color: var(--hc-cream); }
+.hc-lp .hc-btn--orange:hover { background: #b96f0e; }
+.hc-lp .hc-btn--ghost-light { background: transparent; color: var(--hc-cream); border-color: var(--hc-cream); }
+.hc-lp .hc-btn--ghost-light:hover { background: var(--hc-cream); color: var(--hc-green); }
+.hc-lp .hc-btn--ghost-dark { background: transparent; color: var(--hc-green); border-color: var(--hc-green); }
+.hc-lp .hc-btn--ghost-dark:hover { background: var(--hc-green); color: var(--hc-cream); }
+.hc-lp .hc-btn--sm { padding: 10px 18px; font-size: 12px; }
+.hc-lp .hc-btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* ---- Sticker + patch badge motifs ---- */
+.hc-lp .hc-patch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+  border-radius: var(--hc-r-pill);
+  background: var(--hc-midgreen);
+  color: var(--hc-cream);
+  border: 3px solid var(--hc-cream);
+  outline: 2px solid var(--hc-midgreen);
+  padding: 16px;
+}
+
+/* =========================================================
+   AGE GATE (this domain has no WordPress 21+ popup, unlike
+   beahappycamper.com; localStorage-persisted, no age data stored elsewhere)
+   ========================================================= */
+.hc-lp #hc-agegate {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--hc-green); color: var(--hc-cream);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 24px;
+}
+.hc-lp #hc-agegate .hc-gate-box { max-width: 440px; }
+.hc-lp #hc-agegate img { width: 150px; margin: 0 auto 24px; filter: invert(1) brightness(1.9); }
+.hc-lp #hc-agegate h1 { font-family: var(--hc-display); text-transform: uppercase; font-size: 34px; line-height: 1.05; margin: 0 0 14px; }
+.hc-lp #hc-agegate p { color: rgba(244,241,230,.8); font-size: 15px; margin: 0 0 24px; }
+.hc-lp #hc-agegate .hc-gate-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* =========================================================
+   NAV
+   ========================================================= */
+.hc-lp .hc-nav { position: sticky; top: 0; z-index: 30; background: var(--hc-green); }
+.hc-lp .hc-nav .hc-container { display: flex; align-items: center; gap: 20px; height: 66px; }
+.hc-lp .hc-nav-logo { height: 32px; filter: invert(1) brightness(1.9); flex-shrink: 0; }
+.hc-lp .hc-nav-links { display: flex; gap: 4px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+.hc-lp .hc-nav-links::-webkit-scrollbar { display: none; }
+.hc-lp .hc-nav-links a {
+  font-family: var(--hc-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(244,241,230,.78); padding: 8px 10px; border-radius: 8px; white-space: nowrap;
+}
+.hc-lp .hc-nav-links a:hover { color: var(--hc-cream); background: rgba(255,255,255,.08); }
+
+/* =========================================================
+   1. HERO
+   ========================================================= */
+.hc-lp .hc-hero { position: relative; overflow: hidden; padding-bottom: 0; }
+.hc-lp .hc-hero .hc-container { position: relative; z-index: 2; }
+.hc-lp .hc-hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
+  align-items: center;
+}
+.hc-lp .hc-hero-eyebrow {
+  font-family: var(--hc-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hc-yellow);
+  margin: 0 0 24px;
+}
+.hc-lp .hc-hero-title {
+  font-size: clamp(46px, 8.6vw, 96px);
+  color: var(--hc-cream);
+  margin-bottom: 22px;
+}
+.hc-lp .hc-hero-title .hc-hl { color: var(--hc-yellow); }
+.hc-lp .hc-hero-sub {
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.4;
+  max-width: 520px;
+  margin: 0 0 32px;
+  color: var(--hc-cream);
+}
+.hc-lp .hc-hero-cans { display: flex; align-items: flex-end; justify-content: center; gap: 0; }
+.hc-lp .hc-hero-cans img { width: 34%; transition: transform .35s ease; }
+.hc-lp .hc-hero-cans img:hover { transform: translateY(-10px); }
+.hc-lp .hc-hero-cans img:nth-child(2) { width: 38%; margin: 0 -4%; z-index: 2; }
+.hc-lp .hc-hero-scene-img { display: block; width: 100%; height: auto; margin-top: 44px; margin-bottom: -1px; vertical-align: bottom; pointer-events: none; }
+
+/* =========================================================
+   2. SELTZER FEATURE
+   ========================================================= */
+.hc-lp .hc-seltzer-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 44px; }
+.hc-lp .hc-msrp-tag { font-family: var(--hc-display); color: var(--hc-orange); font-size: clamp(30px, 5vw, 48px); line-height: 0.8; }
+.hc-lp .hc-msrp-tag small { display: block; font-family: var(--hc-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--hc-ink); text-transform: uppercase; margin-top: 8px; }
+.hc-lp .hc-flavor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
+.hc-lp .hc-flavor { border-radius: var(--hc-r-card); border: 1px solid rgba(44,48,40,0.14); background: #fbf9f1; padding: 28px 24px 24px; text-align: center; border-top: 6px solid var(--hc-flavor, var(--hc-sky)); transition: transform .25s ease; }
+.hc-lp .hc-flavor:hover { transform: translateY(-6px); }
+.hc-lp .hc-flavor img { height: 240px; width: auto; margin: 0 auto 20px; }
+.hc-lp .hc-flavor .hc-dose { display: inline-block; font-family: var(--hc-mono); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--hc-green); background: var(--hc-flavor, var(--hc-sky)); padding: 6px 12px; border-radius: var(--hc-r-pill); margin-top: 4px; }
+.hc-lp ul.hc-selling { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px; margin: 0 0 32px; padding: 0; }
+.hc-lp .hc-selling li { list-style: none; padding-left: 26px; position: relative; font-size: 16px; line-height: 1.45; }
+.hc-lp .hc-selling li::before { content: ""; position: absolute; left: 0; top: 8px; width: 12px; height: 12px; border-radius: var(--hc-r-pill); background: var(--hc-midgreen); }
+.hc-lp .hc-specstrip { display: flex; flex-wrap: wrap; gap: 10px 12px; padding: 20px; border-radius: var(--hc-r-card); background: var(--hc-green); }
+.hc-lp .hc-specstrip span { font-family: var(--hc-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--hc-cream); background: rgba(244,241,230,0.10); padding: 8px 12px; border-radius: var(--hc-r-btn); }
+
+/* =========================================================
+   3. THE LINE
+   ========================================================= */
+.hc-lp .hc-cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.hc-lp .hc-cat { border-radius: var(--hc-r-card); background: var(--hc-cream); border: 1px solid rgba(244,241,230,0.16); overflow: hidden; display: flex; flex-direction: column; transition: transform .25s ease; }
+.hc-lp .hc-cat:hover { transform: translateY(-4px); }
+.hc-lp .hc-cat-img { background: #fbf9f1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.hc-lp .hc-cat-img img { width: 110px; height: 110px; object-fit: contain; }
+.hc-lp .hc-cat-body { padding: 20px 20px 22px; flex: 1; display: flex; flex-direction: column; }
+.hc-lp .hc-cat-num { font-family: var(--hc-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--hc-orange); margin-bottom: 8px; }
+.hc-lp .hc-cat-desc { font-size: 13.5px; line-height: 1.45; margin: 0 0 14px; color: var(--hc-ink); flex: 1; }
+.hc-lp .hc-cat-price { font-family: var(--hc-mono); font-weight: 700; font-size: 12.5px; letter-spacing: 0.02em; color: var(--hc-green); padding-top: 12px; border-top: 1px solid rgba(44,48,40,0.14); }
+
+/* =========================================================
+   4. SELL SHEET DOWNLOAD
+   ========================================================= */
+.hc-lp .hc-dl { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 28px; border-radius: var(--hc-r-card); background: #fbf9f1; border: 1px solid rgba(44,48,40,0.14); }
+.hc-lp .hc-dl-kicker { font-family: var(--hc-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hc-orange); }
+.hc-lp .hc-dl-name { font-family: var(--hc-head); font-weight: 600; font-size: 24px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
+
+/* =========================================================
+   5. TESTING
+   ========================================================= */
+.hc-lp .hc-test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.hc-lp .hc-test-list { padding: 0; margin: 20px 0 0; }
+.hc-lp .hc-test-list li { list-style: none; font-family: var(--hc-mono); font-size: 14px; letter-spacing: 0.02em; padding: 12px 0; border-bottom: 1px solid rgba(244,241,230,0.22); color: var(--hc-cream); }
+.hc-lp .hc-sticker-cluster { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
+.hc-lp .hc-sticker-cluster img { width: clamp(104px, 15vw, 156px); height: auto; }
+.hc-lp .hc-sticker-cluster img:nth-child(1) { transform: rotate(-7deg); }
+.hc-lp .hc-sticker-cluster img:nth-child(2) { transform: rotate(5deg); margin-top: 28px; }
+.hc-lp .hc-sticker-cluster img:nth-child(3) { transform: rotate(-4deg); }
+
+/* Full-width illustrated scene band */
+.hc-lp .hc-scene-band { display: block; line-height: 0; background: var(--hc-cream); overflow: hidden; }
+.hc-lp .hc-scene-band img { width: 100%; height: auto; display: block; }
+
+/* =========================================================
+   6. OUR ROOTS
+   ========================================================= */
+.hc-lp .hc-roots { max-width: 860px; margin: 0 auto; text-align: center; }
+.hc-lp .hc-roots-img { display: block; width: 100%; max-width: 780px; height: auto; margin: 28px auto 34px; }
+.hc-lp .hc-roots-copy { max-width: 760px; margin: 0 auto; text-align: left; }
+.hc-lp .hc-roots-copy p { font-size: 16px; line-height: 1.65; margin: 0 0 16px; color: var(--hc-ink); }
+
+/* =========================================================
+   7. CONTACT
+   ========================================================= */
+.hc-lp .hc-contact-simple { max-width: 640px; margin: 0 auto; text-align: center; }
+.hc-lp .hc-contact-simple .hc-lead { margin-left: auto; margin-right: auto; }
+.hc-lp .hc-contact-email { margin-top: 28px; font-family: var(--hc-mono); font-size: clamp(14px, 2.4vw, 18px); text-transform: none; letter-spacing: 0.02em; word-break: break-word; }
+
+/* =========================================================
+   8. FOOTER
+   ========================================================= */
+.hc-lp .hc-footer { padding: 56px 0 48px; border-top: 4px solid var(--hc-yellow); }
+.hc-lp .hc-footer-logo { width: 170px; margin-bottom: 24px; filter: invert(1) brightness(1.9); }
+.hc-lp .hc-legal { font-family: var(--hc-body); font-size: 13px; line-height: 1.6; max-width: 720px; color: var(--hc-cream); opacity: 0.9; }
+.hc-lp .hc-footer-meta { margin-top: 24px; font-family: var(--hc-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--hc-cream); opacity: 0.75; }
+
+/* =========================================================
+   Dividers, badges, motion (unchanged from the brand system)
+   ========================================================= */
+.hc-lp .hc-divider { display: flex; align-items: center; justify-content: center; margin: 0 auto 36px; }
+.hc-lp .hc-divider svg { width: 190px; height: 38px; display: block; }
+.hc-lp .hc-dark .hc-divider svg .hc-pine { fill: var(--hc-midgreen); }
+.hc-lp .hc-dark .hc-divider svg .hc-baseline { stroke: rgba(244,241,230,0.35); }
+
+.hc-lp .hc-reveal { opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease; }
+.hc-lp .hc-reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hc-lp .hc-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .hc-lp .hc-fill { --p: 1 !important; }
+  .hc-lp .hc-hero-cans img:hover, .hc-lp .hc-flavor:hover, .hc-lp .hc-cat:hover { transform: none; }
+}
+
+.hc-lp .hc-fill { display: inline-block; }
+.hc-lp .hc-dark .hc-fill { color: var(--hc-cream); }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hc-lp .hc-fill {
+    --p: 0; color: transparent; -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text; background-clip: text;
+    background-repeat: no-repeat; background-size: 100% 220%;
+    background-position: 0 calc((1 - var(--p)) * 100%);
+    background-image: linear-gradient(180deg, var(--hc-fill-on) 0%, var(--hc-fill-on) 46%, var(--hc-fill-off) 60%, var(--hc-fill-off) 100%);
+  }
+  .hc-lp .hc-dark .hc-fill { --hc-fill-on: var(--hc-midgreen); --hc-fill-off: rgba(244,241,230,0.24); }
+}
+
+.hc-lp .hc-has-badges { position: relative; overflow: hidden; }
+.hc-lp .hc-has-badges > .hc-container { position: relative; z-index: 1; }
+.hc-lp .hc-badge {
+  position: absolute; z-index: 0; width: clamp(88px, 11vw, 140px); height: auto; pointer-events: none;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.16)); transform: rotate(var(--rot, 0deg));
+  animation: hc-badgefloat 9s ease-in-out infinite;
+}
+@keyframes hc-badgefloat { 0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); } 50% { transform: translateY(-12px) rotate(var(--rot, 0deg)); } }
+.hc-lp .hc-badge--tr { top: 40px; right: -34px; --rot: 8deg; animation-delay: 0s; }
+.hc-lp .hc-badge--tl { top: 56px; left: -40px; --rot: -9deg; animation-delay: .6s; }
+.hc-lp .hc-badge--br { bottom: 40px; right: -30px; --rot: -7deg; animation-delay: 1.1s; }
+.hc-lp .hc-badge--bl { bottom: 48px; left: -36px; --rot: 7deg; animation-delay: .3s; }
+.hc-lp .hc-badge--d1 { top: 5%; left: 3%; --rot: -8deg; animation-delay: 0s; }
+.hc-lp .hc-badge--d2 { top: 9%; right: 4%; --rot: 7deg; animation-delay: .5s; }
+
+.hc-lp .hc-statement { max-width: 900px; margin: 0 auto; text-align: center; }
+.hc-lp .hc-statement .hc-h2 { font-size: clamp(40px, 7vw, 84px); }
+.hc-lp .hc-statement-sub { margin: 22px auto 0; max-width: 640px; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+  .hc-lp .hc-section { padding: 60px 0; }
+  .hc-lp .hc-badge { width: 68px; }
+  .hc-lp .hc-badge--tr { top: 10px; right: 8px; }
+  .hc-lp .hc-badge--tl { top: 10px; left: 8px; }
+  .hc-lp .hc-badge--br { bottom: 10px; right: 8px; }
+  .hc-lp .hc-badge--bl { bottom: 10px; left: 8px; }
+  .hc-lp .hc-badge--d1 { top: 6px; left: 6px; right: auto; }
+  .hc-lp .hc-badge--d2 { top: 6px; right: 6px; left: auto; }
+  .hc-lp .hc-hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .hc-lp .hc-hero-cans { max-width: 420px; margin: 0 auto; }
+  .hc-lp .hc-flavor-grid { grid-template-columns: 1fr; }
+  .hc-lp .hc-flavor img { height: 260px; }
+  .hc-lp .hc-cat-grid { grid-template-columns: 1fr 1fr; }
+  .hc-lp .hc-test-grid, .hc-lp .hc-contact-grid { grid-template-columns: 1fr; }
+  .hc-lp .hc-selling { grid-template-columns: 1fr; }
+  .hc-lp .hc-dl { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 560px) {
+  .hc-lp .hc-container { padding: 0 18px; }
+  .hc-lp .hc-cat-grid { grid-template-columns: 1fr; }
+  .hc-lp .hc-btn { width: 100%; }
+  .hc-lp .hc-btn-row { flex-direction: column; }
+}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <p class="eyebrow">The Happy Camper Distro</p>
-    <h1>Wholesale, All In One Place</h1>
-    <p class="sub">This page is a placeholder while the site is built out. Pick a tool below.</p>
-    <div class="row">
-      <a class="btn btn--yellow" href="/basket/">Wholesale Menu</a>
-      <a class="btn btn--ghost" href="/internal/">Order Desk</a>
+
+<div class="hc-lp">
+
+  <!-- ============================ AGE GATE ============================ -->
+  <!-- This domain sits outside WordPress, so it has no existing 21+ popup to rely on
+       (beahappycamper.com's is separate). Added for consistency with the wholesale
+       ordering app at /basket, which already gates on age. -->
+  <div id="hc-agegate">
+    <div class="hc-gate-box">
+      <img src="hc-assets/hc-logo-2026.png" alt="The Happy Camper">
+      <h1>Are You 21 Or Older?</h1>
+      <p>This site is for licensed wholesale buyers. You must be 21 or older to continue.</p>
+      <div class="hc-gate-row">
+        <button class="hc-btn hc-btn--yellow" id="hc-age-yes" type="button">Yes, I Am 21+</button>
+        <a class="hc-btn hc-btn--ghost-light" href="https://www.google.com">No, Exit</a>
+      </div>
     </div>
   </div>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="hc-nav">
+    <div class="hc-container">
+      <img class="hc-nav-logo" src="hc-assets/hc-logo-2026.png" alt="The Happy Camper">
+      <nav class="hc-nav-links">
+        <a href="#hc-seltzer">Seltzer</a>
+        <a href="#hc-line">The Line</a>
+        <a href="#hc-testing">Testing</a>
+        <a href="#hc-about">Roots</a>
+        <a href="#hc-contact">Contact</a>
+      </nav>
+      <a class="hc-btn hc-btn--yellow hc-btn--sm" href="/basket/">Start An Order</a>
+    </div>
+  </header>
+
+  <!-- ============================ 1. HERO ============================ -->
+  <section class="hc-hero hc-dark hc-section">
+    <div class="hc-container">
+      <div class="hc-hero-grid">
+        <div class="hc-hero-copy">
+          <p class="hc-hero-eyebrow">The Happy Camper &middot; Wholesale</p>
+          <h1 class="hc-display hc-hero-title">Fill The Whole<br>Hemp Shelf.<br><span class="hc-hl">One Invoice.</span></h1>
+          <p class="hc-hero-sub">Eight categories, beverage through flower, from a single vendor. Live tier pricing, no back-and-forth on a quote.</p>
+          <div class="hc-btn-row">
+            <a class="hc-btn hc-btn--yellow" href="/basket/">Start Wholesale Order</a>
+            <a class="hc-btn hc-btn--ghost-light" href="#hc-contact">Talk To Us</a>
+          </div>
+        </div>
+        <div class="hc-hero-cans">
+          <img src="hc-assets/seltzer-1-front.png" alt="Blueberry Lavender seltzer can">
+          <img src="hc-assets/seltzer-2-front.png" alt="Tahitian Lime seltzer can">
+          <img src="hc-assets/seltzer-3-front.png" alt="Mango Haze seltzer can">
+        </div>
+      </div>
+    </div>
+    <img class="hc-hero-scene-img" src="hc-assets/scene-canoe.png" alt="" aria-hidden="true">
+  </section>
+
+  <!-- ======================= 2. SELTZER FEATURE ======================= -->
+  <section id="hc-seltzer" class="hc-cream hc-section hc-has-badges">
+    <img class="hc-badge hc-badge--tr" src="hc-assets/sticker-be-wild.png" alt="" aria-hidden="true">
+    <img class="hc-badge hc-badge--bl" src="hc-assets/sticker-life-on-land.png" alt="" aria-hidden="true">
+    <div class="hc-container">
+      <div class="hc-divider" aria-hidden="true">
+        <svg viewBox="0 0 190 38" focusable="false">
+          <line class="hc-baseline" x1="0" y1="34" x2="190" y2="34" stroke="#399C62" stroke-width="1.5"/>
+          <g class="hc-pine" fill="#399C62">
+            <g transform="translate(70,34)"><rect x="-2" y="-5" width="4" height="9"/><path d="M0 -30 L9 -10 L-9 -10 Z"/><path d="M0 -22 L12 2 L-12 2 Z"/></g>
+            <g transform="translate(95,34)"><rect x="-2.5" y="-6" width="5" height="10"/><path d="M0 -36 L11 -12 L-11 -12 Z"/><path d="M0 -26 L14 2 L-14 2 Z"/></g>
+            <g transform="translate(120,34)"><rect x="-2" y="-5" width="4" height="9"/><path d="M0 -30 L9 -10 L-9 -10 Z"/><path d="M0 -22 L12 2 L-12 2 Z"/></g>
+          </g>
+        </svg>
+      </div>
+      <div class="hc-seltzer-head">
+        <div>
+          <span class="hc-eyebrow">The Flagship Pour</span>
+          <h2 class="hc-h2">Naturally<br>Flavored Seltzer</h2>
+          <p class="hc-lead">A 12 oz slim can made with natural fruit-based flavoring, nanoemulsified for fast onset. The seltzer most buyers start with.</p>
+        </div>
+        <div class="hc-msrp-tag">$8.00<small>MSRP per can</small></div>
+      </div>
+
+      <div class="hc-flavor-grid">
+        <div class="hc-flavor" style="--hc-flavor:#7DC4EC">
+          <img src="hc-assets/seltzer-1-front.png" alt="Blueberry Lavender seltzer can">
+          <h3 class="hc-h4">Blueberry Lavender</h3>
+          <span class="hc-dose">25mg D9</span>
+        </div>
+        <div class="hc-flavor" style="--hc-flavor:#399C62">
+          <img src="hc-assets/seltzer-2-front.png" alt="Tahitian Lime seltzer can">
+          <h3 class="hc-h4">Tahitian Lime</h3>
+          <span class="hc-dose">15mg D9 + 5mg CBD</span>
+        </div>
+        <div class="hc-flavor" style="--hc-flavor:#D28113">
+          <img src="hc-assets/seltzer-3-front.png" alt="Mango Haze seltzer can">
+          <h3 class="hc-h4">Mango Haze</h3>
+          <span class="hc-dose">5mg D9 + 5mg CBD</span>
+        </div>
+      </div>
+
+      <ul class="hc-selling">
+        <li>Natural fruit-based flavoring. It drinks like a craft seltzer, not a supplement.</li>
+        <li>Nanoemulsified for fast onset. Felt in 15 to 30 minutes rather than the 45 to 90 an edible takes.</li>
+        <li>A dose ladder across three SKUs. 5mg, 15mg, 25mg of D9. One brand covers the curious and the experienced.</li>
+        <li>Independent lab tested, with a COA on every lot.</li>
+        <li>Shelf-stable, no cold chain. Ships and stores ambient.</li>
+      </ul>
+
+      <div class="hc-specstrip">
+        <span>24 calories</span>
+        <span>4g sugar</span>
+        <span>Gluten free</span>
+        <span>12-month shelf life</span>
+        <span>Ambient storage, no cold chain</span>
+        <span>Onset 15 to 30 min</span>
+        <span>MOQ 24 units</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3a. BREADTH STATEMENT ============ -->
+  <section class="hc-dark hc-section hc-has-badges">
+    <img class="hc-badge hc-badge--d1" src="hc-assets/sticker-work-together-yellow.png" alt="" aria-hidden="true">
+    <img class="hc-badge hc-badge--d2" src="hc-assets/sticker-priority-planet.png" alt="" aria-hidden="true">
+    <div class="hc-container">
+      <div class="hc-statement">
+        <span class="hc-eyebrow">The Full Shelf</span>
+        <h2 class="hc-h2 hc-fill" data-hc-fill>Eight Categories.<br>One Vendor. One Invoice.</h2>
+        <p class="hc-lead hc-muted hc-statement-sub">Seltzer is the pour, but the line runs deep. Seven more categories behind it, so a buyer can build the entire hemp shelf without juggling vendors. 77 active SKUs in all.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3b. THE CATEGORY GRID ============ -->
+  <section id="hc-line" class="hc-dark hc-section" style="padding-top:0">
+    <div class="hc-container">
+      <div class="hc-cat-grid">
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-feel-good.png" alt="Feel Good gummies box"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">02 / Gummies</div>
+            <h3 class="hc-h4">Feel Good</h3>
+            <p class="hc-cat-desc">Wellness gummies in four moods: Balance, Relax, Relief, Uplift. Made with magnesium, L-Theanine and GABA.</p>
+            <div class="hc-cat-price">$10 pouch &middot; $40 box MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-happy-days.png" alt="Happy Days gummies box"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">03 / Gummies</div>
+            <h3 class="hc-h4">Happy Days</h3>
+            <p class="hc-cat-desc">Everyday, mood-named gummies: Buzzin', Cruise, Groove, Thrive. Bright retro packaging built for impulse buys.</p>
+            <div class="hc-cat-price">$10 pouch &middot; $40 box MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-house.png" alt="House gummies jar"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">04 / Gummies</div>
+            <h3 class="hc-h4">House</h3>
+            <p class="hc-cat-desc">Budget-tier gummies across ten cannabinoid options: THCa, Delta 9, CBN, CBD, Delta 8, Delta 10 and blends.</p>
+            <div class="hc-cat-price">$6 to $7 bag &middot; $30 to $35 jar MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-hippie-crippler.png" alt="Hippie Crippler gummies jar"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">05 / Gummies</div>
+            <h3 class="hc-h4">Hippie Crippler</h3>
+            <p class="hc-cat-desc">High potency. 100mg per piece across five live resin blends, up to a 200mg Heavy Hitter.</p>
+            <div class="hc-cat-price">$8 to $10 pouch &middot; $50 jar MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-prerolls.png" alt="Preroll glass tube"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">06 / Prerolls</div>
+            <h3 class="hc-h4">Prerolls</h3>
+            <p class="hc-cat-desc">Four tiers: House, Premium, Exotic, Reserve. 1g joints and blunts in glass tubes, plus mini packs for shelf variety.</p>
+            <div class="hc-cat-price">$10 to $25 singles &middot; $35 to $65 mini packs MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-flower.png" alt="Hemp flower bud"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">07 / Flower</div>
+            <h3 class="hc-h4">Flower</h3>
+            <p class="hc-cat-desc">3.5g jars, multiple rotating strains across four tiers. Hand trimmed with a 21-day cure.</p>
+            <div class="hc-cat-price">$30 to $55 by tier MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat">
+          <div class="hc-cat-img"><img src="hc-assets/cat-vapes.png" alt="Live resin vape kit box"></div>
+          <div class="hc-cat-body">
+            <div class="hc-cat-num">08 / Vapes</div>
+            <h3 class="hc-h4">Live Resin Vapes</h3>
+            <p class="hc-cat-desc">1g THCa live resin pod with the battery included in the kit. Eight strains, with refill pods for repeat buyers.</p>
+            <div class="hc-cat-price">$45 kit &middot; $35 refill MSRP</div>
+          </div>
+        </div>
+
+        <div class="hc-cat" style="background:var(--hc-yellow);border-color:var(--hc-yellow)">
+          <div class="hc-cat-body" style="justify-content:center;align-items:flex-start;padding-top:24px">
+            <div class="hc-cat-num" style="color:var(--hc-green)">Build Your Order</div>
+            <h3 class="hc-h4" style="color:var(--hc-green)">Live Pricing</h3>
+            <p class="hc-cat-desc" style="color:var(--hc-green);opacity:.85">See every SKU with volume tier pricing that updates as you build the basket.</p>
+            <a class="hc-btn hc-btn--orange hc-btn--sm" href="/basket/" style="margin-top:auto">Start An Order</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 4. SELL SHEET DOWNLOAD ======================= -->
+  <section id="hc-downloads" class="hc-cream hc-section hc-has-badges">
+    <img class="hc-badge hc-badge--tl" src="hc-assets/sticker-lean-into-love.png" alt="" aria-hidden="true">
+    <img class="hc-badge hc-badge--br" src="hc-assets/sticker-responsible-consumption.png" alt="" aria-hidden="true">
+    <div class="hc-container">
+      <span class="hc-eyebrow">Take It With You</span>
+      <h2 class="hc-h2">Download The<br>Line Overview</h2>
+      <p class="hc-lead" style="margin-bottom:40px">A quick reference while you decide. Full SKU detail and live tier pricing always live at Start An Order.</p>
+
+      <!-- OWNER: this PDF was built before the House tier (gummies/prerolls/flower) was
+           added and before the seltzer Variety Case was dropped. Re-verify it reflects the
+           current 77-SKU lineup, or re-upload an updated version, before relying on it. -->
+      <div class="hc-dl">
+        <div>
+          <div class="hc-dl-kicker">3 Pages &middot; Reference Only</div>
+          <div class="hc-dl-name">Full Line Overview</div>
+        </div>
+        <a class="hc-btn hc-btn--orange" href="https://beahappycamper.com/wp-content/uploads/2026/08/Happy-Camper-Wholesale-Line-Overview.pdf" target="_blank" rel="noopener">Download PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 5. THIRD-PARTY TESTING ======================= -->
+  <section id="hc-testing" class="hc-dark hc-section">
+    <div class="hc-container">
+      <div class="hc-test-grid">
+        <div>
+          <span class="hc-eyebrow">Proof, Not Promises</span>
+          <h2 class="hc-h2">Lab Tested.<br>COA On<br>Every Lot.</h2>
+          <ul class="hc-test-list">
+            <li>Independent, third-party lab tested</li>
+            <li>A COA on every lot, not a spot check</li>
+            <li>Certificates of analysis available on request</li>
+            <li>Hemp-derived and compliant with the 2018 Farm Bill</li>
+          </ul>
+        </div>
+        <div class="hc-sticker-cluster">
+          <img src="hc-assets/sticker-put-planet-first.png" alt="" aria-hidden="true">
+          <img src="hc-assets/sticker-change-the-world.png" alt="" aria-hidden="true">
+          <img src="hc-assets/sticker-make-business.png" alt="" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hc-scene-band">
+    <img src="hc-assets/scene-illustration.png" alt="" aria-hidden="true">
+  </div>
+
+  <!-- ======================= 6. OUR ROOTS ======================= -->
+  <section id="hc-about" class="hc-cream hc-section">
+    <div class="hc-container">
+      <div class="hc-roots">
+        <span class="hc-eyebrow">Our Roots</span>
+        <h2 class="hc-h2">Who Are We?</h2>
+        <img class="hc-roots-img" src="hc-assets/roots-camper.png" alt="The Happy Camper, a restored 1960s Shasta camper">
+        <div class="hc-roots-copy">
+          <p>The Happy Camper is a community-centric cannabis dispensary in Charlotte, NC, dedicated to offering high-quality cannabis products. Located in Optimist Park, we recently opened our Brick and Mortar store, and we also travel around Charlotte and the East Coast, vending out of a charming 1960&rsquo;s Shasta camper.</p>
+          <p>At The Happy Camper, we provide an extensive selection of cannabis products, including smokable, edible, tincture and topical options that feature various cannabinoids, such as THCa, Delta 9, CBN, CBD, Delta 8, HHC and more.</p>
+          <p>Beyond simply selling products, we deeply care about creating an exceptional experience for our customers. We foster a sense of community among individuals who share a passion for leading holistic lifestyles and advocating for their beliefs. Our mission is to bring joy, health, and wellness through cannabis-based education and products, all while cultivating an atmosphere of positivity for every individual who visits our camper or store.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 7. CONTACT ======================= -->
+  <section id="hc-contact" class="hc-dark hc-section">
+    <div class="hc-container">
+      <div class="hc-contact-simple">
+        <span class="hc-eyebrow">Start An Order</span>
+        <h2 class="hc-h2">Talk To Us</h2>
+        <p class="hc-lead hc-muted">Tell us what you carry and we will get you pricing, samples and the sheets that match your shelf. Or skip straight to live pricing.</p>
+        <div class="hc-btn-row" style="justify-content:center;margin-top:28px">
+          <a class="hc-btn hc-btn--yellow" href="mailto:sales@beahappycamper.com">sales@beahappycamper.com</a>
+          <a class="hc-btn hc-btn--ghost-light" href="/basket/">Start An Order</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 8. FOOTER ======================= -->
+  <footer class="hc-dark hc-footer">
+    <div class="hc-container">
+      <img class="hc-footer-logo" src="hc-assets/hc-logo-2026.png" alt="The Happy Camper">
+      <p class="hc-legal">Hemp-derived, compliant with the 2018 Farm Bill. Contains THC. Not for sale to persons under 21. Keep out of reach of children and pets. Do not drive or operate machinery after use. Verify state and local regulations before resale. Certificates of analysis available on request.</p>
+      <p class="hc-footer-meta">beahappycamper.com &middot; Wholesale</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.querySelector('.hc-lp');
+  if (!root) return;
+
+  /* Age gate */
+  var gate = document.getElementById('hc-agegate');
+  if (localStorage.getItem('hc_age_ok') === '1') { gate.style.display = 'none'; }
+  document.getElementById('hc-age-yes').addEventListener('click', function () {
+    localStorage.setItem('hc_age_ok', '1');
+    gate.style.display = 'none';
+  });
+
+  /* Smooth in-page scrolling for anchor links */
+  root.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href^="#hc-"]');
+    if (!link) return;
+    var target = document.getElementById(link.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  /* Subtle scroll-reveal */
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sel = '.hc-h2, .hc-lead, .hc-statement, .hc-flavor-grid, .hc-selling, .hc-specstrip, .hc-cat-grid, .hc-sticker-cluster, .hc-dl, .hc-test-list, .hc-roots, .hc-contact-simple';
+  var items = root.querySelectorAll(sel);
+  if (!reduce && 'IntersectionObserver' in window) {
+    items.forEach(function (el) { el.classList.add('hc-reveal'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  /* Scroll-fill headline */
+  var fills = root.querySelectorAll('[data-hc-fill]');
+  if (fills.length) {
+    if (reduce) {
+      fills.forEach(function (el) { el.style.setProperty('--p', '1'); });
+    } else {
+      var ticking = false;
+      var updateFills = function () {
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var start = vh * 0.85, end = vh * 0.32;
+        fills.forEach(function (el) {
+          var top = el.getBoundingClientRect().top;
+          var p = (start - top) / (start - end);
+          if (p < 0) p = 0; else if (p > 1) p = 1;
+          el.style.setProperty('--p', p.toFixed(3));
+        });
+        ticking = false;
+      };
+      var onScroll = function () { if (!ticking) { ticking = true; window.requestAnimationFrame(updateFills); } };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      updateFills();
+    }
+  }
+})();
+</script>
 </body>
 </html>
