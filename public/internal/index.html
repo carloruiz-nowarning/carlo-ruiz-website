@@ -84,7 +84,8 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
 /* doc overlay (receipt / invoice) */
 .docwrap{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);overflow:auto;padding:24px}
 .docwrap.open{display:block}
-.docactions{max-width:820px;margin:0 auto 12px;display:flex;gap:10px}
+.docactions{max-width:820px;margin:0 auto 12px;display:flex;gap:10px;flex-wrap:wrap}
+.docactions .btn{flex:1;min-width:140px}
 .doc{max-width:820px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .doc .dhead{background:var(--green);color:var(--cream);padding:22px 26px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
 .doc .dhead img{height:30px}
@@ -187,6 +188,7 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
       <div class="full"><label>Shipping address</label><input name="address"></div>
       <div><label>City</label><input name="city"></div>
       <div><label>State</label><input name="state"></div>
+      <div class="full"><label>Your email (to send yourself a copy)</label><input name="rep_email" type="email" placeholder="you@beahappycamper.com"></div>
     </div>
 
     <div class="tierbox">
@@ -225,6 +227,8 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
 <div class="docwrap" id="docwrap">
   <div class="docactions">
     <button class="btn btn--dark" onclick="window.print()">Print / save PDF</button>
+    <button class="btn btn--o" id="docSendSales">Send To Sales</button>
+    <button class="btn btn--ghost" style="background:#fff" id="docSendSelf">Send To Myself</button>
     <button class="btn btn--ghost" style="background:#fff" id="docBack">Back to order</button>
   </div>
   <div class="doc" id="doc"></div>
@@ -397,31 +401,51 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
 
   function openDoc(html){$('#doc').innerHTML=html;$('#docwrap').classList.add('open');$('#docwrap').scrollTop=0}
 
-  /* Every receipt and invoice generated here also goes to sales@beahappycamper.com as an
-     archival copy, submitted silently via the same Formspree endpoint as the buyer checkout.
-     If that POST ever fails, this falls back to a pre-filled mailto so the copy never just
-     disappears. Fires right after the doc renders, so the on-screen copy is unaffected either way. */
+  /* Whichever document (receipt or invoice) is currently on screen. The two send buttons in
+     the doc overlay act on this, so they always send exactly what the rep is looking at. */
   var SALES_EMAIL='sales@beahappycamper.com';
   var ARCHIVE_ENDPOINT='https://formspree.io/f/xqpzjpqp';
-  function mailArchiveCopy(kind,ref,c){
+  var currentDoc=null; // {kind, ref, c}
+
+  function docEmailText(kind,ref,c){
     var a=acct;
     var lines=Object.keys(order).map(function(id){return {sku:id,name:BYID[id].name,qty:order[id]}});
-    var payload={kind:kind,ref:ref,fields:a,tier:c.tier.name,total:c.grand,lines:lines};
+    var subject=kind+(ref?(' '+ref):'')+', '+(a.store||'no account name')+' ('+c.tier.name+', '+money(c.grand)+')';
+    var linesTxt=lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
+    var body='Type: '+kind+(ref?('\nRef: '+ref):'')+
+      '\nRep: '+(a.rep||'Not provided')+
+      '\nStore: '+(a.store||'Not provided')+'\nBuyer: '+(a.buyer||'')+'\nEmail: '+(a.email||'')+'\nPhone: '+(a.phone||'')+
+      '\nLicence: '+(a.licence||'Not provided')+
+      '\nAddress: '+(a.address||'')+', '+[a.city,a.state].filter(Boolean).join(', ')+
+      '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+linesTxt;
+    return {subject:subject,body:body,lines:lines};
+  }
 
+  /* Silent submission to the sales inbox via Formspree. Falls back to a pre-filled mailto
+     if the POST ever fails, so a copy never just disappears. */
+  function sendDocToSales(){
+    if(!currentDoc)return;
+    var kind=currentDoc.kind,ref=currentDoc.ref,c=currentDoc.c;
+    var t=docEmailText(kind,ref,c);
+    var payload={kind:kind,ref:ref,fields:acct,tier:c.tier.name,total:c.grand,lines:t.lines};
     function mailFallback(){
-      var subject=kind+' copy'+(ref?(' '+ref):'')+', '+(a.store||'no account name')+' ('+c.tier.name+', '+money(c.grand)+')';
-      var linesTxt=lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
-      var body='Type: '+kind+(ref?('\nRef: '+ref):'')+
-        '\nRep: '+(a.rep||'Not provided')+
-        '\nStore: '+(a.store||'Not provided')+'\nBuyer: '+(a.buyer||'')+'\nEmail: '+(a.email||'')+'\nPhone: '+(a.phone||'')+
-        '\nLicence: '+(a.licence||'Not provided')+
-        '\nAddress: '+(a.address||'')+', '+[a.city,a.state].filter(Boolean).join(', ')+
-        '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+linesTxt;
-      window.location.href='mailto:'+SALES_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+      window.location.href='mailto:'+SALES_EMAIL+'?subject='+encodeURIComponent(t.subject)+'&body='+encodeURIComponent(t.body);
     }
     fetch(ARCHIVE_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify(payload)})
       .then(function(res){if(!res.ok)mailFallback()})
       .catch(mailFallback);
+  }
+
+  /* Opens a copy addressed to the rep's own typed-in email, so they can grab it from their
+     own inbox (save the PDF, forward it) to send on to the actual client. Always a manual
+     mailto: there is no address here to silently deliver to. */
+  function sendDocToSelf(){
+    if(!currentDoc)return;
+    var repEmail=(acct.rep_email||'').trim();
+    if(!repEmail){alert('Enter your email above first, under Your email (to send yourself a copy).');return}
+    var kind=currentDoc.kind,ref=currentDoc.ref,c=currentDoc.c;
+    var t=docEmailText(kind,ref,c);
+    window.location.href='mailto:'+repEmail+'?subject='+encodeURIComponent(t.subject)+'&body='+encodeURIComponent(t.body);
   }
 
   function genReceipt(){
@@ -439,7 +463,7 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
         '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>'+
       '</div><div class="legal">'+TERMS+'<br><br>'+LEGAL+'</div></div>'
     );
-    mailArchiveCopy('Order receipt',null,c);
+    currentDoc={kind:'Order receipt',ref:null,c:c};
   }
 
   function genInvoice(){
@@ -456,11 +480,13 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
       '</div>'+
       '<div class="legal">'+TERMS+'<br><br>This invoice reflects wholesale pricing at the tier reached on this order. '+LEGAL+'</div></div>'
     );
-    mailArchiveCopy('Invoice',inv,c);
+    currentDoc={kind:'Invoice',ref:inv,c:c};
   }
 
   $('#genReceipt').onclick=genReceipt;
   $('#genInvoice').onclick=genInvoice;
+  $('#docSendSales').onclick=sendDocToSales;
+  $('#docSendSelf').onclick=sendDocToSelf;
   function openSheet(){renderSheet();$('#sheet').classList.add('open');$('#sheetScrim').classList.add('open')}
   function closeSheet(){$('#sheet').classList.remove('open');$('#sheetScrim').classList.remove('open')}
   $('#sheetClose').onclick=closeSheet;
