@@ -397,6 +397,24 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
 
   function openDoc(html){$('#doc').innerHTML=html;$('#docwrap').classList.add('open');$('#docwrap').scrollTop=0}
 
+  /* Every receipt and invoice generated here also goes to sales@beahappycamper.com as an
+     archival copy, same as the buyer checkout on the wholesale menu. No backend: this opens
+     a pre-filled mailto so the rep just hits send. Fires right after the doc renders, so the
+     on-screen copy is unaffected either way. */
+  var SALES_EMAIL='sales@beahappycamper.com';
+  function mailArchiveCopy(kind,ref,c){
+    var a=acct;
+    var subject=kind+' copy'+(ref?(' '+ref):'')+', '+(a.store||'no account name')+' ('+c.tier.name+', '+money(c.grand)+')';
+    var lines=Object.keys(order).map(function(id){return '- '+BYID[id].name+' x'+order[id]}).join('\n');
+    var body='Type: '+kind+(ref?('\nRef: '+ref):'')+
+      '\nRep: '+(a.rep||'Not provided')+
+      '\nStore: '+(a.store||'Not provided')+'\nBuyer: '+(a.buyer||'')+'\nEmail: '+(a.email||'')+'\nPhone: '+(a.phone||'')+
+      '\nLicence: '+(a.licence||'Not provided')+
+      '\nAddress: '+(a.address||'')+', '+[a.city,a.state].filter(Boolean).join(', ')+
+      '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+lines;
+    window.location.href='mailto:'+SALES_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  }
+
   function genReceipt(){
     var c=compute(),d=new Date();
     openDoc(
@@ -412,6 +430,7 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
         '<div class="r save"><span>Buyer retail margin</span><span class="mono">'+money(c.margin)+' ('+c.marginPct.toFixed(1)+'%)</span></div>'+
       '</div><div class="legal">'+TERMS+'<br><br>'+LEGAL+'</div></div>'
     );
+    mailArchiveCopy('Order receipt',null,c);
   }
 
   function genInvoice(){
@@ -428,6 +447,7 @@ td.n,th.n{text-align:right;font-family:var(--mono)}
       '</div>'+
       '<div class="legal">'+TERMS+'<br><br>This invoice reflects wholesale pricing at the tier reached on this order. '+LEGAL+'</div></div>'
     );
+    mailArchiveCopy('Invoice',inv,c);
   }
 
   $('#genReceipt').onclick=genReceipt;
