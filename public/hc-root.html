@@ -267,9 +267,13 @@
 /* =========================================================
    4. SELL SHEET DOWNLOAD
    ========================================================= */
-.hc-lp .hc-dl { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 28px; border-radius: var(--hc-r-card); background: #fbf9f1; border: 1px solid rgba(44,48,40,0.14); }
+.hc-lp .hc-dl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.hc-lp .hc-dl { display: flex; flex-direction: column; gap: 14px; padding: 24px; border-radius: var(--hc-r-card); background: #fbf9f1; border: 1px solid rgba(44,48,40,0.14); }
 .hc-lp .hc-dl-kicker { font-family: var(--hc-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hc-orange); }
-.hc-lp .hc-dl-name { font-family: var(--hc-head); font-weight: 600; font-size: 24px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; }
+.hc-lp .hc-dl-name { font-family: var(--hc-head); font-weight: 600; font-size: 20px; line-height: 1; text-transform: uppercase; letter-spacing: -0.01em; flex: 1; }
+.hc-lp .hc-dl.hc-dl-wide { grid-column: span 4; flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.hc-lp .hc-dl.hc-dl-wide .hc-dl-name { font-size: 24px; }
+.hc-lp .hc-dl.hc-dl-wide .hc-btn { width: auto; }
 
 /* =========================================================
    5. TESTING
@@ -378,11 +382,14 @@
   .hc-lp .hc-cat-grid { grid-template-columns: 1fr 1fr; }
   .hc-lp .hc-test-grid, .hc-lp .hc-contact-grid { grid-template-columns: 1fr; }
   .hc-lp .hc-selling { grid-template-columns: 1fr; }
-  .hc-lp .hc-dl { flex-direction: column; align-items: flex-start; }
+  .hc-lp .hc-dl-grid { grid-template-columns: 1fr 1fr; }
+  .hc-lp .hc-dl.hc-dl-wide { grid-column: span 2; }
 }
 @media (max-width: 560px) {
   .hc-lp .hc-container { padding: 0 18px; }
   .hc-lp .hc-cat-grid { grid-template-columns: 1fr; }
+  .hc-lp .hc-dl-grid { grid-template-columns: 1fr; }
+  .hc-lp .hc-dl.hc-dl-wide { grid-column: span 1; flex-direction: column; align-items: flex-start; }
   .hc-lp .hc-btn { width: 100%; }
   .hc-lp .hc-btn-row { flex-direction: column; }
 }
@@ -607,24 +614,68 @@
     </div>
   </section>
 
-  <!-- ======================= 4. SELL SHEET DOWNLOAD ======================= -->
+  <!-- ======================= 4. SELL SHEET DOWNLOADS ======================= -->
+  <!-- Hosted directly in this deployment (hc-assets/sheets/), not on WordPress, so
+       nothing depends on a manual Media Library upload. Excludes the expo-only sheets
+       (no event framing on this evergreen homepage) and 99_HC_INTERNAL_MASTER always. -->
   <section id="hc-downloads" class="hc-cream hc-section hc-has-badges">
     <img class="hc-badge hc-badge--tl" src="hc-assets/sticker-lean-into-love.png" alt="" aria-hidden="true">
     <img class="hc-badge hc-badge--br" src="hc-assets/sticker-responsible-consumption.png" alt="" aria-hidden="true">
     <div class="hc-container">
       <span class="hc-eyebrow">Take It With You</span>
-      <h2 class="hc-h2">Download The<br>Line Overview</h2>
-      <p class="hc-lead" style="margin-bottom:40px">A quick reference while you decide. Full SKU detail and live tier pricing always live at Start An Order.</p>
+      <h2 class="hc-h2">Download The<br>Sell Sheets</h2>
+      <p class="hc-lead" style="margin-bottom:40px">Wholesale pricing, MOQs and full SKU detail live in the sheets. Grab the full line, or just the categories you carry.</p>
 
-      <!-- OWNER: this PDF was built before the House tier (gummies/prerolls/flower) was
-           added and before the seltzer Variety Case was dropped. Re-verify it reflects the
-           current 77-SKU lineup, or re-upload an updated version, before relying on it. -->
-      <div class="hc-dl">
-        <div>
-          <div class="hc-dl-kicker">3 Pages &middot; Reference Only</div>
-          <div class="hc-dl-name">Full Line Overview</div>
+      <div class="hc-dl-grid">
+        <div class="hc-dl hc-dl-wide">
+          <div>
+            <div class="hc-dl-kicker">Start Here</div>
+            <div class="hc-dl-name">Full Line Overview</div>
+          </div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/00_HC_Line_Overview.pdf" target="_blank" rel="noopener">Download PDF</a>
         </div>
-        <a class="hc-btn hc-btn--orange" href="https://beahappycamper.com/wp-content/uploads/2026/08/Happy-Camper-Wholesale-Line-Overview.pdf" target="_blank" rel="noopener">Download PDF</a>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">01 / Seltzer</div>
+          <div class="hc-dl-name">Seltzer</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/01_HC_Seltzer_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">02 / Gummies</div>
+          <div class="hc-dl-name">Feel Good</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/02_HC_FeelGood_Gummies_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">03 / Gummies</div>
+          <div class="hc-dl-name">Happy Days</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/03_HC_HappyDays_Gummies_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">04 / Gummies</div>
+          <div class="hc-dl-name">Hippie Crippler</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/04_HC_HippieCrippler_Gummies_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">05 / Prerolls</div>
+          <div class="hc-dl-name">Prerolls</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/05_HC_Prerolls_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">06 / Flower</div>
+          <div class="hc-dl-name">Flower</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/06_HC_Flower_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+
+        <div class="hc-dl">
+          <div class="hc-dl-kicker">07 / Vapes</div>
+          <div class="hc-dl-name">Live Resin Vapes</div>
+          <a class="hc-btn hc-btn--orange" href="hc-assets/sheets/07_HC_Vapes_SellSheet.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
       </div>
     </div>
   </section>
