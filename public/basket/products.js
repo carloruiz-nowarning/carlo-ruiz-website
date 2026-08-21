@@ -11,7 +11,7 @@ window.HC_PRODUCTS = [
   "list": 5.2,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "seltzer-1-front.png"
+  "img": "seltzer-blueberry-lavender.png"
  },
  {
   "id": "HC-SLT-002",
@@ -24,7 +24,7 @@ window.HC_PRODUCTS = [
   "list": 5.2,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "seltzer-2-front.png"
+  "img": "seltzer-tahitian-lime.png"
  },
  {
   "id": "HC-SLT-003",
@@ -37,20 +37,7 @@ window.HC_PRODUCTS = [
   "list": 5.2,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "seltzer-3-front.png"
- },
- {
-  "id": "HC-SLT-004",
-  "cat": "Seltzer",
-  "name": "Variety Case, Mixed",
-  "format": "12 oz slim can",
-  "grade": "",
-  "size": "12 oz",
-  "moq": 24,
-  "list": 5.2,
-  "msrp": 8.0,
-  "bestseller": false,
-  "img": "happy-camper-seltzer-1.png"
+  "img": "seltzer-mango-haze.png"
  },
  {
   "id": "HC-GUM-001",
@@ -63,7 +50,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "feel-good-balance-gummy-box.png"
+  "img": "feelgood-balance-box.png"
  },
  {
   "id": "HC-GUM-002",
@@ -76,7 +63,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "feel-good-balance-gummy-pouch.png"
+  "img": "feelgood-balance-pouch.png"
  },
  {
   "id": "HC-GUM-003",
@@ -89,7 +76,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "feel-good-relax-gummy-box.png"
+  "img": "feelgood-relax-box.png"
  },
  {
   "id": "HC-GUM-004",
@@ -102,7 +89,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "feel-good-relax-gummy-pouch.png"
+  "img": "feelgood-relax-pouch.png"
  },
  {
   "id": "HC-GUM-005",
@@ -115,7 +102,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "feel-good-relief-gummy-box.png"
+  "img": "feelgood-relief-box.png"
  },
  {
   "id": "HC-GUM-006",
@@ -128,7 +115,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "feel-good-relief-gummy-box.png"
+  "img": "feelgood-relief-pouch.png"
  },
  {
   "id": "HC-GUM-007",
@@ -141,7 +128,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "feel-good-uplift-gummy-box.png"
+  "img": "feelgood-uplift-box.png"
  },
  {
   "id": "HC-GUM-008",
@@ -154,7 +141,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "feel-good-uplift-gummy-pouch.png"
+  "img": "feelgood-uplift-pouch.png"
  },
  {
   "id": "HC-GUM-009",
@@ -167,7 +154,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "happy-days-buzzin-box.png"
+  "img": "happydays-buzzin-box.png"
  },
  {
   "id": "HC-GUM-010",
@@ -180,7 +167,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "happy-days-buzzin-pouch.png"
+  "img": "happydays-buzzin-pouch.png"
  },
  {
   "id": "HC-GUM-011",
@@ -193,7 +180,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "happy-days-cruise-box.png"
+  "img": "happydays-cruise-box.png"
  },
  {
   "id": "HC-GUM-012",
@@ -206,7 +193,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "happy-days-cruise-pouch-.png"
+  "img": "happydays-cruise-pouch.png"
  },
  {
   "id": "HC-GUM-013",
@@ -219,7 +206,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "happy-days-groove-box.png"
+  "img": "happydays-groove-box.png"
  },
  {
   "id": "HC-GUM-014",
@@ -232,7 +219,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "happy-days-groove-pouch.png"
+  "img": "happydays-groove-pouch.png"
  },
  {
   "id": "HC-GUM-015",
@@ -245,7 +232,7 @@ window.HC_PRODUCTS = [
   "list": 14.0,
   "msrp": 40.0,
   "bestseller": false,
-  "img": "happy-days-thrive-box.png"
+  "img": "happydays-thrive-box.png"
  },
  {
   "id": "HC-GUM-016",
@@ -258,7 +245,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "happy-days-thrive-pouch.png"
+  "img": "happydays-thrive-pouch.png"
  },
  {
   "id": "HC-GUM-017",
@@ -271,7 +258,7 @@ window.HC_PRODUCTS = [
   "list": 17.5,
   "msrp": 50.0,
   "bestseller": false,
-  "img": "hippie-crippler-baked-gummy-jar-cut.png"
+  "img": "hippiecrippler-baked-jar.png"
  },
  {
   "id": "HC-GUM-018",
@@ -284,7 +271,7 @@ window.HC_PRODUCTS = [
   "list": 2.8,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "hippie-crippler-baked-gummy-pouch.png"
+  "img": "hippiecrippler-baked-pouch.png"
  },
  {
   "id": "HC-GUM-019",
@@ -297,7 +284,7 @@ window.HC_PRODUCTS = [
   "list": 17.5,
   "msrp": 50.0,
   "bestseller": false,
-  "img": "hippie-crippler-couch-gummy-jar-cut.png"
+  "img": "hippiecrippler-couchlock-jar.png"
  },
  {
   "id": "HC-GUM-020",
@@ -310,7 +297,7 @@ window.HC_PRODUCTS = [
   "list": 2.8,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "hippie-crippler-couch-gummy-pouch.png"
+  "img": "hippiecrippler-couchlock-pouch.png"
  },
  {
   "id": "HC-GUM-021",
@@ -323,7 +310,7 @@ window.HC_PRODUCTS = [
   "list": 17.5,
   "msrp": 50.0,
   "bestseller": false,
-  "img": "hippie-crippler-stoned-gummy-jar-cut.png"
+  "img": "hippiecrippler-blastoff-jar.png"
  },
  {
   "id": "HC-GUM-022",
@@ -336,7 +323,7 @@ window.HC_PRODUCTS = [
   "list": 2.8,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "hippie-crippler-stoned-gummy-pouch.png"
+  "img": "hippiecrippler-blastoff-pouch.png"
  },
  {
   "id": "HC-GUM-023",
@@ -349,7 +336,7 @@ window.HC_PRODUCTS = [
   "list": 17.5,
   "msrp": 50.0,
   "bestseller": false,
-  "img": "hippie-crippler-toasted-gummy-jar-cut.png"
+  "img": "hippiecrippler-toasted-jar.png"
  },
  {
   "id": "HC-GUM-024",
@@ -362,7 +349,7 @@ window.HC_PRODUCTS = [
   "list": 2.8,
   "msrp": 8.0,
   "bestseller": false,
-  "img": "hippie-crippler-toasted-gummy-pouch.png"
+  "img": "hippiecrippler-toasted-pouch.png"
  },
  {
   "id": "HC-GUM-025",
@@ -375,7 +362,7 @@ window.HC_PRODUCTS = [
   "list": 17.5,
   "msrp": 50.0,
   "bestseller": false,
-  "img": "hippie-crippler-heavy-gummy-jar-cut.png"
+  "img": "hippiecrippler-heavyhitter-jar.png"
  },
  {
   "id": "HC-GUM-026",
@@ -388,7 +375,7 @@ window.HC_PRODUCTS = [
   "list": 3.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "hippie-crippler-heavy-gummy-pouch.png"
+  "img": "hippiecrippler-heavyhitter-pouch.png"
  },
  {
   "id": "HC-PR-001",
@@ -401,7 +388,7 @@ window.HC_PRODUCTS = [
   "list": 6.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "premium-preroll-1-cut.png"
+  "img": "preroll-house.png"
  },
  {
   "id": "HC-PR-002",
@@ -414,7 +401,7 @@ window.HC_PRODUCTS = [
   "list": 9.75,
   "msrp": 15.0,
   "bestseller": false,
-  "img": "premium-preroll-1-cut.png"
+  "img": "preroll-premium.png"
  },
  {
   "id": "HC-PR-003",
@@ -427,7 +414,7 @@ window.HC_PRODUCTS = [
   "list": 13.0,
   "msrp": 20.0,
   "bestseller": false,
-  "img": "exotic-preroll-1-cut.png"
+  "img": "preroll-exotic.png"
  },
  {
   "id": "HC-PR-004",
@@ -440,7 +427,7 @@ window.HC_PRODUCTS = [
   "list": 16.25,
   "msrp": 25.0,
   "bestseller": false,
-  "img": "reserve-preroll-1-cut.png"
+  "img": "preroll-reserve.png"
  },
  {
   "id": "HC-PR-005",
@@ -453,7 +440,7 @@ window.HC_PRODUCTS = [
   "list": 6.5,
   "msrp": 10.0,
   "bestseller": false,
-  "img": "premium-preroll-2-cut.png"
+  "img": "preroll-house.png"
  },
  {
   "id": "HC-PR-006",
@@ -466,7 +453,7 @@ window.HC_PRODUCTS = [
   "list": 9.75,
   "msrp": 15.0,
   "bestseller": false,
-  "img": "premium-preroll-2-cut.png"
+  "img": "preroll-premium.png"
  },
  {
   "id": "HC-PR-007",
@@ -479,7 +466,7 @@ window.HC_PRODUCTS = [
   "list": 13.0,
   "msrp": 20.0,
   "bestseller": false,
-  "img": "exotic-preroll-2-cut.png"
+  "img": "preroll-exotic.png"
  },
  {
   "id": "HC-PR-008",
@@ -492,7 +479,7 @@ window.HC_PRODUCTS = [
   "list": 16.25,
   "msrp": 25.0,
   "bestseller": false,
-  "img": "reserve-preroll-2-cut.png"
+  "img": "preroll-reserve.png"
  },
  {
   "id": "HC-PR-009",
@@ -505,7 +492,7 @@ window.HC_PRODUCTS = [
   "list": 22.75,
   "msrp": 35.0,
   "bestseller": false,
-  "img": "premium-preroll-3-cut.png"
+  "img": "preroll-mini-house.png"
  },
  {
   "id": "HC-PR-010",
@@ -518,7 +505,7 @@ window.HC_PRODUCTS = [
   "list": 29.25,
   "msrp": 45.0,
   "bestseller": false,
-  "img": "premium-preroll-3-cut.png"
+  "img": "preroll-mini-premium.png"
  },
  {
   "id": "HC-PR-011",
@@ -531,7 +518,7 @@ window.HC_PRODUCTS = [
   "list": 35.75,
   "msrp": 55.0,
   "bestseller": false,
-  "img": "exotic-preroll-3-cut.png"
+  "img": "preroll-mini-exotic.png"
  },
  {
   "id": "HC-PR-012",
@@ -544,7 +531,7 @@ window.HC_PRODUCTS = [
   "list": 42.25,
   "msrp": 65.0,
   "bestseller": false,
-  "img": "reserve-preroll-3-cut.png"
+  "img": "preroll-mini-reserve.png"
  },
  {
   "id": "HC-FLW-001",
@@ -830,7 +817,7 @@ window.HC_PRODUCTS = [
   "list": 22.75,
   "msrp": 35.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-002",
@@ -843,7 +830,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-003",
@@ -856,7 +843,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-004",
@@ -869,7 +856,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-005",
@@ -882,7 +869,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-006",
@@ -895,7 +882,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-007",
@@ -908,7 +895,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-008",
@@ -921,7 +908,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-009",
@@ -934,7 +921,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-010",
@@ -947,7 +934,7 @@ window.HC_PRODUCTS = [
   "list": 19.5,
   "msrp": 30.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-011",
@@ -960,7 +947,7 @@ window.HC_PRODUCTS = [
   "list": 4.55,
   "msrp": 7.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-012",
@@ -973,7 +960,7 @@ window.HC_PRODUCTS = [
   "list": 3.9,
   "msrp": 6.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-013",
@@ -986,7 +973,7 @@ window.HC_PRODUCTS = [
   "list": 3.9,
   "msrp": 6.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-014",
@@ -999,7 +986,7 @@ window.HC_PRODUCTS = [
   "list": 3.9,
   "msrp": 6.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  },
  {
   "id": "HC-HSE-015",
@@ -1012,6 +999,6 @@ window.HC_PRODUCTS = [
   "list": 3.9,
   "msrp": 6.0,
   "bestseller": false,
-  "img": ""
+  "img": "house-gummies-jar.png"
  }
 ];

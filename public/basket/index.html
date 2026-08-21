@@ -502,14 +502,23 @@ footer.legal-foot .wrap{max-width:900px}
   }
 
   function submitToRep(f){
-    /* TODO: point the order at a real BDR email / routing rule.
-       Two no-backend options, pick one in the handoff:
-       1) A form-to-email service (Formspree/Basin): set ENDPOINT below and this will POST the order JSON.
-       2) mailto fallback (opens the buyer's mail client) if no endpoint is set. */
-    var ENDPOINT=''; // e.g. 'https://formspree.io/f/XXXXXXXX'  [TODO: BDR email / endpoint]
+    /* All order requests route to sales@beahappycamper.com.
+       No backend: this opens the buyer's mail client, pre-addressed and pre-filled with the
+       order, so they just hit send. To switch to a silent server-side submission instead
+       (a form-to-email service like Formspree/Basin, or your own endpoint), set ENDPOINT
+       below and this will POST the order JSON there instead of opening mail. */
+    var TO_EMAIL='sales@beahappycamper.com';
+    var ENDPOINT=''; // e.g. 'https://formspree.io/f/XXXXXXXX'
     var payload={fields:lastOrder.fields,tier:lastOrder.totals.tier.name,total:lastOrder.totals.grand,
       lines:Object.keys(basket).map(function(id){return {sku:id,name:BYID[id].name,qty:basket[id]}})};
-    if(ENDPOINT){try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})}catch(e){}}
+    if(ENDPOINT){try{fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})}catch(e){}return}
+    var c=lastOrder.totals,fl=lastOrder.fields;
+    var subject='Wholesale order request, '+(fl.store||'new buyer')+' ('+c.tier.name+', '+money(c.grand)+')';
+    var lines=payload.lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
+    var body='Store: '+(fl.store||'')+'\nBuyer: '+(fl.buyer||'')+'\nEmail: '+(fl.email||'')+'\nPhone: '+(fl.phone||'')+
+      '\nLicence: '+(fl.licence||'')+'\nAddress: '+(fl.address||'')+', '+(fl.city||'')+' '+(fl.state||'')+
+      '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+lines;
+    window.location.href='mailto:'+TO_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   }
 
   renderAll();
