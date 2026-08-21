@@ -228,7 +228,8 @@ footer.legal-foot .wrap{max-width:900px}
         <div class="field"><label>Buyer name <span class="req">*</span></label><input name="buyer" required><span class="err">Required</span></div>
         <div class="field"><label>Email <span class="req">*</span></label><input name="email" type="email" required><span class="err">Enter a valid email</span></div>
         <div class="field"><label>Phone <span class="req">*</span></label><input name="phone" required><span class="err">Required</span></div>
-        <div class="field"><label>Hemp / tobacco licence number <span class="req">*</span></label><input name="licence" required><span class="err">Required for this channel</span></div>
+        <div class="field"><label>Hemp / tobacco licence number (if applicable)</label><input name="licence"></div>
+        <div class="field"><label>Sales rep (if applicable)</label><input name="rep"></div>
         <div class="field full"><label>Shipping address <span class="req">*</span></label><input name="address" required><span class="err">Required</span></div>
         <div class="field"><label>City <span class="req">*</span></label><input name="city" required><span class="err">Required</span></div>
         <div class="field"><label>State <span class="req">*</span></label><input name="state" required><span class="err">Required</span></div>
@@ -423,7 +424,30 @@ footer.legal-foot .wrap{max-width:900px}
     $('#cartCount').textContent=c.units;
   }
 
-  function renderAll(){renderCatalogue();renderBasket();renderTierBar()}
+  /* Cheap re-render for basket changes: update quantity + price text on every existing
+     card in place, without touching <img> nodes. A full innerHTML rebuild here would
+     destroy and recreate all 77 images on every +/- tap, causing a visible blank flash
+     while the browser redecodes each one. This patches text only, so images never reload. */
+  function patchCatalogue(){
+    var t=tierFor(compute().listSub);
+    PRODUCTS.forEach(function(p){
+      var yours=round2(p.list*(1-t.off));
+      var q=basket[p.id]||0;
+      document.querySelectorAll('.stepper[data-id="'+p.id+'"]').forEach(function(step){
+        var qtyEl=step.querySelector('.qty');
+        if(qtyEl) qtyEl.textContent=q;
+        var card=step.closest('.card');
+        var yEl=card&&card.querySelector('.yours');
+        if(yEl) yEl.innerHTML=money(yours)+' <small>your price / unit</small>';
+      });
+    });
+  }
+
+  var catalogueBuilt=false;
+  function renderAll(){
+    if(!catalogueBuilt){renderCatalogue();catalogueBuilt=true}else{patchCatalogue()}
+    renderBasket();renderTierBar();
+  }
 
   /* ---------- EVENTS ---------- */
   document.addEventListener('click',function(e){
@@ -516,7 +540,8 @@ footer.legal-foot .wrap{max-width:900px}
     var subject='Wholesale order request, '+(fl.store||'new buyer')+' ('+c.tier.name+', '+money(c.grand)+')';
     var lines=payload.lines.map(function(l){return '- '+l.name+' x'+l.qty}).join('\n');
     var body='Store: '+(fl.store||'')+'\nBuyer: '+(fl.buyer||'')+'\nEmail: '+(fl.email||'')+'\nPhone: '+(fl.phone||'')+
-      '\nLicence: '+(fl.licence||'')+'\nAddress: '+(fl.address||'')+', '+(fl.city||'')+' '+(fl.state||'')+
+      '\nLicence: '+(fl.licence||'Not provided')+'\nSales rep: '+(fl.rep||'Not provided')+
+      '\nAddress: '+(fl.address||'')+', '+(fl.city||'')+' '+(fl.state||'')+
       '\n\nTier: '+c.tier.name+'\nTotal due: '+money(c.grand)+'\n\nItems:\n'+lines;
     window.location.href='mailto:'+TO_EMAIL+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   }
