@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EOS Diamond — Find her ring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:       #F6EDE3;
+    --linen:      #EFE4D2;
+    --tan:        #D9C4A9;
+    --brass:      #A8834E;
+    --brass-deep: #8A6A3B;
+    --clay:       #C09A7E;
+    --ink:        #3A3129;
+    --muted:      #7A6B5C;
+    --error:      #A34B3C;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:'Jost', sans-serif;
+    color:var(--ink);
+    min-height:100svh;
+    overflow-x:hidden;
+    background:#1c130c;
+  }
+
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* ---------- Case (background) ---------- */
+  .case{
+    position:fixed; inset:0;
+    background:linear-gradient(180deg, #5b3d22 0%, #3c2716 55%, #2a1b0f 100%);
+    overflow:hidden;
+  }
+  .case-rings{ position:absolute; inset:0; }
+  .ring{
+    position:absolute;
+    width:64px; height:64px;
+    margin:-32px 0 0 -32px;
+    opacity:1;
+    transition:opacity .3s ease, transform .3s ease;
+    will-change:opacity, transform;
+  }
+  .ring.hidden{
+    opacity:0;
+    transform:scale(.7);
+  }
+  .ring svg{ width:100%; height:100%; display:block; overflow:visible; }
+
+  .frost{
+    position:fixed; inset:0;
+    backdrop-filter:blur(14px) saturate(.9);
+    -webkit-backdrop-filter:blur(14px) saturate(.9);
+    background:rgba(246,237,227,0.35);
+    transition:backdrop-filter .8s cubic-bezier(.65,0,.35,1), -webkit-backdrop-filter .8s cubic-bezier(.65,0,.35,1), background .8s ease;
+    pointer-events:none;
+  }
+  .frost.clear{
+    backdrop-filter:blur(0px) saturate(1);
+    -webkit-backdrop-filter:blur(0px) saturate(1);
+    background:rgba(246,237,227,0.06);
+  }
+
+  /* ---------- Layout / brand mark ---------- */
+  .brandmark{
+    position:fixed; top:20px; left:0; right:0;
+    text-align:center;
+    font-family:'Jost', sans-serif;
+    font-size:11px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--linen);
+    opacity:.85;
+    pointer-events:none;
+    z-index:5;
+  }
+
+  .stage{
+    position:relative;
+    z-index:4;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:76px 18px 32px;
+  }
+
+  .panel-wrap{
+    width:100%;
+    max-width:480px;
+  }
+
+  .panel{
+    background:rgba(246,237,227,0.9);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-radius:2px;
+    padding:32px 24px;
+    box-shadow:0 30px 60px -20px rgba(20,12,4,0.45);
+    clip-path:inset(0 0 0 0);
+    transition:clip-path .35s cubic-bezier(.65,0,.35,1);
+  }
+  .panel.shut{
+    clip-path:inset(50% 0 50% 0);
+  }
+  .panel-inner{
+    transition:opacity .18s ease;
+    opacity:1;
+  }
+  .panel.fading .panel-inner{
+    opacity:0;
+  }
+
+  @media (min-width:480px){
+    .panel{ padding:44px 40px; }
+  }
+
+  .eyebrow{
+    font-family:'Jost', sans-serif;
+    font-size:11px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 14px;
+  }
+
+  h1,h2{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:400;
+    color:var(--ink);
+    margin:0 0 10px;
+    line-height:1.15;
+  }
+  h1{ font-size:clamp(30px, 6vw, 42px); }
+  h2.prompt{ font-size:clamp(28px, 5vw, 40px); font-weight:400; }
+
+  .lede, .sub{
+    font-size:15px;
+    color:var(--muted);
+    margin:0 0 26px;
+    line-height:1.5;
+  }
+
+  .cta{
+    appearance:none;
+    border:none;
+    background:var(--brass);
+    color:var(--sand);
+    font-family:'Jost', sans-serif;
+    font-size:15px;
+    font-weight:500;
+    letter-spacing:.04em;
+    padding:14px 28px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:background .2s ease;
+  }
+  .cta:hover{ background:var(--brass-deep); }
+  .cta:focus-visible{ outline:2px solid var(--brass-deep); outline-offset:3px; }
+
+  /* ---------- Options ---------- */
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin:0 0 20px;
+    list-style:none;
+    padding:0;
+  }
+  .options.grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  @media (min-width:768px){
+    .options.grid2{ grid-template-columns:1fr 1fr 1fr; }
+  }
+
+  .option{
+    appearance:none;
+    width:100%;
+    text-align:left;
+    background:var(--sand);
+    border:1.5px solid transparent;
+    box-shadow:inset 0 0 0 0.5px var(--tan);
+    border-radius:2px;
+    padding:16px 18px;
+    font-family:'Jost', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    cursor:pointer;
+    position:relative;
+    transition:border-color .25s ease, background-color .25s ease;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .options.grid2 .option{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:8px;
+    padding:16px 10px;
+  }
+  .option:hover{ border-color:var(--brass); background:var(--linen); }
+  .option:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+  .option[aria-checked="true"]{
+    border-color:var(--brass);
+    border-width:1.5px;
+    background:var(--linen);
+  }
+  .option .icon{ flex:0 0 auto; width:30px; height:30px; color:var(--brass); }
+  .option .icon svg{ width:100%; height:100%; display:block; }
+  .option .label{ flex:1 1 auto; }
+  .options.grid2 .option .label{ font-size:13px; line-height:1.3; }
+
+  .check{
+    position:absolute;
+    top:8px; right:8px;
+    width:16px; height:16px;
+    color:var(--brass);
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .option[aria-checked="true"] .check{ opacity:1; }
+
+  .diamond-mini{
+    width:16px; height:16px;
+    color:var(--brass-deep);
+    opacity:.7;
+    margin-top:2px;
+  }
+  .options.grid2 .diamond-mini{ margin-top:4px; }
+
+  .back-link{
+    display:inline-block;
+    background:none;
+    border:none;
+    padding:0;
+    font-family:'Jost', sans-serif;
+    font-size:12px;
+    color:var(--muted);
+    cursor:pointer;
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+  .back-link:focus-visible{ outline:2px solid var(--brass); outline-offset:2px; }
+
+  /* ---------- Form ---------- */
+  .field{ margin:0 0 16px; }
+  .field label{
+    display:block;
+    font-size:13px;
+    color:var(--muted);
+    margin:0 0 6px;
+  }
+  .field input, .field select, .field textarea{
+    width:100%;
+    font-family:'Jost', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    background:var(--sand);
+    border:1.5px solid var(--tan);
+    border-radius:2px;
+    padding:11px 12px;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--brass);
+    outline-offset:1px;
+    border-color:var(--brass);
+  }
+  .field textarea{ min-height:80px; resize:vertical; }
+  .field[aria-invalid="true"] input,
+  .field.invalid input, .field.invalid select, .field.invalid textarea{
+    border-color:var(--error);
+  }
+  .field-error{
+    font-size:13px;
+    color:var(--error);
+    margin:6px 0 0;
+  }
+  .req{ color:var(--brass-deep); }
+
+  /* ---------- Reveal ---------- */
+  .spec{
+    font-family:'Cormorant Garamond', serif;
+    color:var(--brass-deep);
+    font-size:clamp(20px, 4vw, 26px);
+    margin:0 0 16px;
+  }
+  .reveal-body{
+    font-size:15px;
+    color:var(--ink);
+    line-height:1.6;
+    margin:0 0 18px;
+  }
+  .reveal-list{
+    list-style:none;
+    padding:0;
+    margin:0 0 22px;
+    font-size:14px;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .reveal-list li::before{
+    content:"—  ";
+    color:var(--brass);
+  }
+  .reveal-note{
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    .ring, .panel, .panel-inner, .frost{ transition-duration:.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="case" aria-hidden="true">
+  <div class="case-rings" id="caseRings"></div>
+</div>
+<div class="frost" id="frost"></div>
+
+<div class="brandmark" aria-hidden="true">EOS Diamond</div>
+
+<div class="sr-only" aria-live="polite" id="liveRegion"></div>
+
+<main class="stage">
+  <div class="panel-wrap">
+    <div class="panel" id="panel">
+      <div class="panel-inner" id="panelInner"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+
+  /* ============ Data ============ */
+
+  var ICONS = {
+    ringsStacked: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="15" cy="9" r="6"/><circle cx="15" cy="19" r="6"/></svg>',
+    ringSingle: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="15" cy="16" r="8"/><circle cx="15" cy="9.5" r="1.6" fill="currentColor" stroke="none"/></svg>',
+    handOpen: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15V7.5a1.6 1.6 0 0 1 3.2 0V13"/><path d="M12.2 13V6.5a1.6 1.6 0 0 1 3.2 0V13"/><path d="M15.4 13V7a1.6 1.6 0 0 1 3.2 0v7"/><path d="M18.6 14V9.5a1.5 1.5 0 0 1 3 0V18c0 4-2.8 6.5-6.3 6.5-2.6 0-4-.9-5.6-2.8L6 17.8c-.6-.8-.3-1.9.6-2.2.6-.2 1.3 0 1.7.6l1.7 2.2"/></svg>',
+    pearlStrand: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 12c4 8 18 8 22 0"/><circle cx="8.3" cy="16.2" r="1.6" fill="currentColor" stroke="none"/><circle cx="12.7" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="17.3" cy="19" r="1.6" fill="currentColor" stroke="none"/><circle cx="21.7" cy="16.2" r="1.6" fill="currentColor" stroke="none"/></svg>',
+    lineSingle: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="5" y1="15" x2="25" y2="15"/></svg>',
+    filigree: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M5 22C5 14 11 10 15 15s6 9 10-1"/><circle cx="6" cy="21" r="1.3" fill="currentColor" stroke="none"/><circle cx="24" cy="9" r="1.3" fill="currentColor" stroke="none"/></svg>',
+    flame: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5c2 4-3 5-3 9a3 3 0 0 0 6 0c1.5 1.5 2 3.4 2 5a5 5 0 0 1-10 0c0-6 5-7 5-14z"/></svg>',
+    foldedCircle: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="15" cy="15" r="9"/><path d="M8 11a10 10 0 0 0 14 8"/></svg>',
+    sun: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="15" cy="15" r="5.5"/><line x1="15" y1="3" x2="15" y2="6.5"/><line x1="15" y1="23.5" x2="15" y2="27"/><line x1="3" y1="15" x2="6.5" y2="15"/><line x1="23.5" y1="15" x2="27" y2="15"/><line x1="6.5" y1="6.5" x2="9" y2="9"/><line x1="21" y1="21" x2="23.5" y2="23.5"/><line x1="23.5" y1="6.5" x2="21" y2="9"/><line x1="9" y1="21" x2="6.5" y2="23.5"/></svg>',
+    leaf: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 24C6 12 15 5 25 5c0 10-7 19-19 19z"/><path d="M8 22C13 16 17 12 24 6"/></svg>',
+    snowflake: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="15" y1="4" x2="15" y2="26"/><line x1="5.6" y1="9.5" x2="24.4" y2="20.5"/><line x1="5.6" y1="20.5" x2="24.4" y2="9.5"/></svg>',
+    blossom: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="15" cy="10" r="4"/><circle cx="21" cy="14.5" r="4"/><circle cx="18.7" cy="21.5" r="4"/><circle cx="11.3" cy="21.5" r="4"/><circle cx="9" cy="14.5" r="4"/><circle cx="15" cy="16" r="2" fill="currentColor" stroke="none"/></svg>',
+    mountain: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 23 11 10l5 7 3-4 8 10z"/></svg>',
+    book: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 9c-2-2-6-2.5-10-2v16c4-.5 8 0 10 2 2-2 6-2.5 10-2V7c-4-.5-8 0-10 2z"/><line x1="15" y1="9" x2="15" y2="23"/></svg>',
+    palette: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5a10 10 0 1 0 0 20c1.4 0 2-1 2-2s-.6-1.6-1-2.2c-.5-.8 0-1.8 1-1.8H19a5 5 0 0 0 5-5c0-5-4-9-9-9z"/><circle cx="11" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="16" cy="10" r="1.2" fill="currentColor" stroke="none"/><circle cx="20" cy="13" r="1.2" fill="currentColor" stroke="none"/></svg>',
+    overlappingCircles: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="15" r="7.5"/><circle cx="18" cy="15" r="7.5"/></svg>',
+    sailboat: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><line x1="15" y1="4" x2="15" y2="21"/><path d="M15 6c4 1 6 5 6 9H15z"/><path d="M15 12c-3 .5-5 3-6 6h6z"/><path d="M4 24c3 2 19 2 22 0"/></svg>',
+    citySkyline: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="4" y="14" width="5" height="10"/><rect x="11" y="8" width="5" height="16"/><rect x="18" y="12" width="4" height="12"/><rect x="24" y="17" width="3" height="7"/></svg>',
+    palm: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 26V13"/><path d="M15 13c-2-4-6-5-10-4 2 3 5 4 10 4z"/><path d="M15 13c2-4 6-5 10-4-2 3-5 4-10 4z"/><path d="M15 13c-1-4-1-7 1-10"/><path d="M15 13c1-4 3-6 6-7"/></svg>',
+    castle: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M6 26V12h3V9h3v3h6V9h3v3h3v14z"/><line x1="6" y1="18" x2="24" y2="18"/></svg>',
+    blossomBranch: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><line x1="5" y1="25" x2="25" y2="5"/><circle cx="12" cy="18" r="2.2"/><circle cx="18" cy="12" r="2.2"/><circle cx="22" cy="8" r="1.6"/></svg>',
+    grapeCluster: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><line x1="15" y1="4" x2="15" y2="9" stroke-linecap="round"/><circle cx="15" cy="12" r="2.6"/><circle cx="11.5" cy="16" r="2.6"/><circle cx="18.5" cy="16" r="2.6"/><circle cx="9" cy="20.5" r="2.6"/><circle cx="15" cy="20.5" r="2.6"/><circle cx="21" cy="20.5" r="2.6"/></svg>',
+    ruler: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="22" height="8" transform="rotate(0 15 15)"/><line x1="8" y1="11" x2="8" y2="14"/><line x1="12" y1="11" x2="12" y2="14"/><line x1="16" y1="11" x2="16" y2="14"/><line x1="20" y1="11" x2="20" y2="14"/></svg>',
+    package: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 15 5l11 5-11 5z"/><path d="M4 10v11l11 5V15z"/><path d="M26 10v11l-11 5V15z"/></svg>',
+    questionCircle: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="15" cy="15" r="10.5"/><path d="M12 12c0-1.8 1.4-3 3-3s3 1.1 3 2.8c0 1.7-1.5 2.1-2.3 2.9-.5.5-.7 1-.7 1.8"/><circle cx="15" cy="20.2" r="0.9" fill="currentColor" stroke="none"/></svg>',
+    bandsInterlocking: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="15" r="7"/><circle cx="18" cy="15" r="7"/></svg>',
+    bandSingle: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="15" cy="15" r="8"/></svg>',
+    bandFaded: '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 3" opacity="0.6"><circle cx="15" cy="15" r="8"/></svg>'
+  };
+
+  var DIAMOND_SHAPES = {
+    Pear: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M10 2c3 4 6 7 6 10.5A6 6 0 0 1 4 12.5C4 9 7 6 10 2z"/></svg>',
+    Marquise: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M10 2c4 3 7 6 7 8s-3 5-7 8c-4-3-7-6-7-8s3-5 7-8z"/></svg>',
+    Round: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="10" cy="10" r="7.5"/></svg>',
+    Princess: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="3" width="14" height="14"/></svg>',
+    Emerald: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6.5 2.5h7L17 6v8l-3.5 3.5h-7L3 14V6z"/></svg>',
+    Oval: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="10" cy="10" rx="6" ry="8"/></svg>'
+  };
+
+  var CHECK = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 6.5 12 13 4"/></svg>';
+
+  var QUESTIONS = [
+    {
+      key: 'q1_datenight',
+      prompt: "It's date night. What is she wearing?",
+      grid: false,
+      options: [
+        { label:'Always wearing jewelry', icon:'ringsStacked', attr:{ head:'Basket' } },
+        { label:'Sometimes wearing jewelry', icon:'ringSingle', attr:{ head:'Tulip cathedral' } },
+        { label:'Rarely or never', icon:'handOpen', attr:{ head:'Cathedral' } }
+      ]
+    },
+    {
+      key: 'q2_style',
+      prompt: 'How would you describe her style?',
+      grid: true,
+      options: [
+        { label:'Classic & timeless', icon:'pearlStrand', attr:{ setting:'Hidden halo' } },
+        { label:'Modern & minimal', icon:'lineSingle', attr:{ setting:'Solitaire' } },
+        { label:'Vintage', icon:'filigree', attr:{ setting:'Pavé' } },
+        { label:'Bold & spicy', icon:'flame', attr:{ setting:'Three-stone' } },
+        { label:'Comfortable', icon:'foldedCircle', attr:{ setting:'Halo' } }
+      ]
+    },
+    {
+      key: 'q3_season',
+      prompt: 'Which season does she shine in?',
+      grid: false,
+      options: [
+        { label:'Summer', icon:'sun', attr:{ metal:'Yellow gold' } },
+        { label:'Fall', icon:'leaf', attr:{ metal:'Yellow gold' } },
+        { label:'Winter', icon:'snowflake', attr:{ metal:'White metal' } },
+        { label:'Spring', icon:'blossom', attr:{ metal:'White metal' } }
+      ]
+    },
+    {
+      key: 'q4_freetime',
+      prompt: 'How does she spend her free time?',
+      grid: false,
+      options: [
+        { label:'Active, climbing, hiking, in the water', icon:'mountain', attr:{ band:'Wide' } },
+        { label:'Comfortable, reading, meditating, still', icon:'book', attr:{ band:'Slender' } },
+        { label:'Creative, multiple hobbies, renaissance', icon:'palette', attr:{ band:'Twist' } },
+        { label:'A mix of the above', icon:'overlappingCircles', attr:{ band:'Medium classic' } }
+      ]
+    },
+    {
+      key: 'q5_honeymoon',
+      prompt: 'How are you spending your honeymoon?',
+      grid: true,
+      options: [
+        { label:'Passionate Greek getaway', icon:'sailboat', attr:{ shape:'Pear' } },
+        { label:'Live the city life', icon:'citySkyline', attr:{ shape:'Marquise' } },
+        { label:'Tropical paradise', icon:'palm', attr:{ shape:'Round' } },
+        { label:'Castle in Europe', icon:'castle', attr:{ shape:'Princess' } },
+        { label:'Blossoms in Kyoto', icon:'blossomBranch', attr:{ shape:'Emerald' } },
+        { label:'Vineyards in Italy', icon:'grapeCluster', attr:{ shape:'Oval' } }
+      ]
+    },
+    {
+      key: 'q6_ringsize',
+      prompt: 'Do you know her ring size?',
+      grid: false,
+      options: [
+        { label:'Yes, I know it', icon:'ruler' },
+        { label:'I can send in one of her rings', icon:'package' },
+        { label:'No idea yet', icon:'questionCircle' }
+      ]
+    },
+    {
+      key: 'q7_matchingband',
+      prompt: 'Interested in a matching wedding band down the line?',
+      grid: false,
+      options: [
+        { label:'Yes, definitely', icon:'bandsInterlocking' },
+        { label:'Maybe later', icon:'bandSingle' },
+        { label:'Not right now', icon:'bandFaded' }
+      ]
+    }
+  ];
+
+  var SCREENS = ['welcome','q1','q2','q3','q4','q5','q6','q7','form','reveal'];
+  var RING_COUNTS = { welcome:24, q1:24, q2:18, q3:13, q4:9, q5:5, q6:3, q7:3, form:2, reveal:1 };
+
+  var METAL_LABEL = { 'Yellow gold':'Yellow gold', 'White metal':'White metal' };
+
+  /* ============ State ============ */
+
+  var state = {
+    screenIndex: 0,
+    answers: {},         // key -> label chosen
+    ring: {},             // metal/shape/setting/head/band
+    lead: {}
+  };
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============ Ring case ============ */
+
+  var TOTAL_RINGS = 24;
+  var COLS = 6, ROWSCT = 4;
+  var ringMeta = [];
+
+  (function buildRings(){
+    var container = document.getElementById('caseRings');
+    var colors = ['#A8834E', '#D9C4A9', '#EFE4D2'];
+    var i = 0;
+    for (var r = 0; r < ROWSCT; r++){
+      for (var c = 0; c < COLS; c++){
+        var baseX = (c + 0.5) / COLS * 100;
+        var baseY = (r + 0.5) / ROWSCT * 100;
+        var jitterX = (Math.sin(i * 12.9898) * 43758.5453 % 1) * 6 - 3;
+        var jitterY = (Math.sin(i * 78.233) * 12543.135 % 1) * 6 - 3;
+        var rot = ((Math.sin(i * 37.719) * 90000) % 1) * 40 - 20;
+        var x = baseX + jitterX;
+        var y = baseY + jitterY;
+        var color = colors[i % colors.length];
+        var hasStone = (i % 3 === 0);
+
+        var dx = baseX - 50, dy = baseY - 50;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+
+        ringMeta.push({ id:'ring-' + i, x:x, y:y, dist:dist });
+
+        var div = document.createElement('div');
+        div.className = 'ring';
+        div.id = 'ring-' + i;
+        div.style.left = x + '%';
+        div.style.top = y + '%';
+        div.style.transform = 'rotate(' + rot.toFixed(1) + 'deg)';
+        div.innerHTML = '<svg viewBox="0 0 64 64" fill="none">' +
+          '<circle cx="32" cy="32" r="19" stroke="' + color + '" stroke-width="3.2"/>' +
+          (hasStone ? '<circle cx="32" cy="13" r="3" fill="' + color + '"/>' : '') +
+          '</svg>';
+        container.appendChild(div);
+        i++;
+      }
+    }
+
+    var order = ringMeta.slice().sort(function(a,b){ return b.dist - a.dist; });
+    order.forEach(function(m, idx){
+      m.rank = order.length - 1 - idx; // 0 = most central (last removed)
+    });
+  })();
+
+  function setRingVisibility(count){
+    ringMeta.forEach(function(m){
+      var el = document.getElementById(m.id);
+      var visible = m.rank < count;
+      if (visible){ el.classList.remove('hidden'); }
+      else { el.classList.add('hidden'); }
+    });
+  }
+  setRingVisibility(RING_COUNTS.welcome);
+
+  var frostEl = document.getElementById('frost');
+
+  /* ============ Rendering ============ */
+
+  var panel = document.getElementById('panel');
+  var panelInner = document.getElementById('panelInner');
+  var liveRegion = document.getElementById('liveRegion');
+
+  function attrLine(o){
+    return o.attr ? Object.assign({}, o.attr) : {};
+  }
+
+  function renderWelcome(){
+    panelInner.innerHTML =
+      '<p class="eyebrow">EOS Diamond</p>' +
+      '<h1>Welcome to EOS</h1>' +
+      '<p class="lede">Let’s find your ring.</p>' +
+      '<button class="cta" id="beginBtn" type="button">Begin</button>';
+    document.getElementById('beginBtn').addEventListener('click', function(){
+      goTo(1, 'forward');
+    });
+  }
+
+  function renderQuestion(qIndex){
+    var q = QUESTIONS[qIndex];
+    var selected = state.answers[q.key];
+    var html = '<h2 class="prompt">' + q.prompt + '</h2>';
+    html += '<div class="options' + (q.grid ? ' grid2' : '') + '" role="radiogroup" aria-label="' + q.prompt.replace(/"/g,'&quot;') + '" id="optionsGroup">';
+    q.options.forEach(function(o, i){
+      var isSel = selected === o.label;
+      var diamondBit = '';
+      if (q.key === 'q5_honeymoon' && o.attr && o.attr.shape){
+        diamondBit = '<span class="diamond-mini" aria-hidden="true">' + DIAMOND_SHAPES[o.attr.shape] + '</span>';
+      }
+      html += '<button type="button" class="option" role="radio" aria-checked="' + isSel + '" ' +
+        'tabindex="' + (i === 0 ? '0' : '-1') + '" data-index="' + i + '" data-label="' + o.label.replace(/"/g,'&quot;') + '">' +
+        '<span class="icon" aria-hidden="true">' + ICONS[o.icon] + '</span>' +
+        diamondBit +
+        '<span class="label">' + o.label + '</span>' +
+        '<span class="check" aria-hidden="true">' + CHECK + '</span>' +
+        '</button>';
+    });
+    html += '</div>';
+    if (qIndex > 0 || true){
+      html += '<button type="button" class="back-link" id="backLink">Back</button>';
+    }
+    panelInner.innerHTML = html;
+
+    var group = document.getElementById('optionsGroup');
+    var buttons = Array.prototype.slice.call(group.querySelectorAll('.option'));
+
+    function selectByIndex(i){
+      var o = q.options[i];
+      state.answers[q.key] = o.label;
+      Object.assign(state.ring, attrLine(o));
+      buttons.forEach(function(b){ b.setAttribute('aria-checked', 'false'); b.tabIndex = -1; });
+      buttons[i].setAttribute('aria-checked', 'true');
+      buttons[i].tabIndex = 0;
+      window.setTimeout(function(){
+        advanceFromQuestion();
+      }, 150);
+    }
+
+    buttons.forEach(function(btn, i){
+      btn.addEventListener('click', function(){ selectByIndex(i); });
+      btn.addEventListener('keydown', function(e){
+        var cols = q.grid ? (window.innerWidth >= 768 ? 3 : 2) : 1;
+        var next = null;
+        if (e.key === 'ArrowRight') next = i + 1;
+        else if (e.key === 'ArrowLeft') next = i - 1;
+        else if (e.key === 'ArrowDown') next = i + cols;
+        else if (e.key === 'ArrowUp') next = i - cols;
+        if (next !== null){
+          e.preventDefault();
+          next = Math.max(0, Math.min(buttons.length - 1, next));
+          buttons.forEach(function(b){ b.tabIndex = -1; });
+          buttons[next].tabIndex = 0;
+          buttons[next].focus();
+        }
+      });
+    });
+
+    var backLink = document.getElementById('backLink');
+    if (backLink){
+      backLink.addEventListener('click', function(){
+        goTo(state.screenIndex - 1, 'back');
+      });
+    }
+
+    announceScreen(q.prompt, qIndex + 1, QUESTIONS.length);
+  }
+
+  function renderForm(){
+    var html =
+      '<p class="eyebrow">Almost there</p>' +
+      '<h2>Tell us where to send it</h2>' +
+      '<p class="sub">We’ll follow up within one business day.</p>' +
+      '<form id="leadForm" novalidate>';
+
+    function field(id, label, type, required, extra){
+      return '<div class="field" id="field-' + id + '">' +
+        '<label for="' + id + '">' + label + (required ? ' <span class="req">*</span>' : '') + '</label>' +
+        (extra || ('<input type="' + type + '" id="' + id + '" name="' + id + '"' + (required ? ' aria-required="true"' : '') + '>')) +
+        '<div class="field-error sr-only" id="err-' + id + '"></div>' +
+        '</div>';
+    }
+
+    html += field('name', 'What should we call you?', 'text', true);
+    html += field('partnerName', 'And who is this for?', 'text', true);
+    html += field('email', 'Email', 'email', true);
+    html += field('phone', 'Phone', 'tel', false);
+
+    html += field('timeline', 'When are you hoping to propose?', null, true,
+      '<select id="timeline" name="timeline" aria-required="true">' +
+      '<option value="">Select one</option>' +
+      '<option>Within 1 month</option><option>1–3 months</option>' +
+      '<option>3–6 months</option><option>6–12 months</option>' +
+      '<option>Just exploring</option></select>');
+
+    html += field('surpriseOrJoint', 'Is this a surprise, or are you deciding together?', null, true,
+      '<select id="surpriseOrJoint" name="surpriseOrJoint" aria-required="true">' +
+      '<option value="">Select one</option>' +
+      '<option>A complete surprise</option><option>We’re deciding together</option></select>');
+
+    html += field('budget', 'A comfortable investment range?', null, true,
+      '<select id="budget" name="budget" aria-required="true">' +
+      '<option value="">Select one</option>' +
+      '<option>Under $5,000</option><option>$5,000–$10,000</option>' +
+      '<option>$10,000–$20,000</option><option>$20,000 and above</option>' +
+      '<option>Prefer to discuss</option></select>');
+
+    html += '<div class="field" id="field-notes">' +
+      '<label for="notes">Notes &amp; style reference</label>' +
+      '<textarea id="notes" name="notes"></textarea>' +
+      '<label for="styleReference" style="margin-top:10px;">Reference link (optional)</label>' +
+      '<input type="url" id="styleReference" name="styleReference" placeholder="https://…">' +
+      '</div>';
+
+    html += '<button class="cta" type="submit">See her ring</button>';
+    html += '<div><button type="button" class="back-link" id="backLink" style="margin-top:16px;">Back</button></div>';
+    html += '</form>';
+
+    panelInner.innerHTML = html;
+
+    var form = document.getElementById('leadForm');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      submitForm(form);
+    });
+
+    ['name','partnerName','email','phone','timeline','surpriseOrJoint','budget','notes','styleReference'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('input', function(){ clearFieldError(id); });
+      el.addEventListener('change', function(){ clearFieldError(id); });
+    });
+
+    document.getElementById('backLink').addEventListener('click', function(){
+      goTo(state.screenIndex - 1, 'back');
+    });
+
+    announceScreen('Tell us where to send it', null, null);
+  }
+
+  function clearFieldError(id){
+    var fieldEl = document.getElementById('field-' + id);
+    var errEl = document.getElementById('err-' + id);
+    var inputEl = document.getElementById(id);
+    if (fieldEl) fieldEl.classList.remove('invalid');
+    if (errEl){ errEl.textContent = ''; errEl.classList.add('sr-only'); }
+    if (inputEl) inputEl.removeAttribute('aria-invalid');
+  }
+
+  function setFieldError(id, message){
+    var fieldEl = document.getElementById('field-' + id);
+    var errEl = document.getElementById('err-' + id);
+    var inputEl = document.getElementById(id);
+    fieldEl.classList.add('invalid');
+    errEl.textContent = message;
+    errEl.classList.remove('sr-only');
+    errEl.id = 'err-' + id;
+    inputEl.setAttribute('aria-invalid', 'true');
+    inputEl.setAttribute('aria-describedby', 'err-' + id);
+  }
+
+  function submitForm(form){
+    var data = {
+      name: form.name.value.trim(),
+      partnerName: form.partnerName.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      timeline: form.timeline.value,
+      surpriseOrJoint: form.surpriseOrJoint.value,
+      budget: form.budget.value,
+      notes: form.notes.value.trim(),
+      styleReference: form.styleReference.value.trim()
+    };
+
+    var errors = [];
+    if (!data.name) errors.push(['name', 'Please tell us what to call you.']);
+    if (!data.partnerName) errors.push(['partnerName', 'Please tell us who this is for.']);
+    if (!data.email) errors.push(['email', 'Please enter your email.']);
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.push(['email', 'That email doesn’t look right.']);
+    if (!data.timeline) errors.push(['timeline', 'Please pick a timeline.']);
+    if (!data.surpriseOrJoint) errors.push(['surpriseOrJoint', 'Please pick one.']);
+    if (!data.budget) errors.push(['budget', 'Please pick a range.']);
+
+    ['name','partnerName','email','timeline','surpriseOrJoint','budget'].forEach(clearFieldError);
+
+    if (errors.length){
+      errors.forEach(function(pair){ setFieldError(pair[0], pair[1]); });
+      document.getElementById(errors[0][0]).focus();
+      liveRegion.textContent = 'There ' + (errors.length === 1 ? 'is 1 error' : 'are ' + errors.length + ' errors') + ' in the form.';
+      return;
+    }
+
+    state.lead = data;
+
+    var payload = {
+      source: 'ring-finder-quiz',
+      answers: {
+        q1_datenight: state.answers.q1_datenight,
+        q2_style: state.answers.q2_style,
+        q3_season: state.answers.q3_season,
+        q4_freetime: state.answers.q4_freetime,
+        q5_honeymoon: state.answers.q5_honeymoon,
+        q6_ringsize: state.answers.q6_ringsize,
+        q7_matchingband: state.answers.q7_matchingband
+      },
+      ring: {
+        metal: state.ring.metal,
+        shape: state.ring.shape,
+        setting: state.ring.setting,
+        head: state.ring.head,
+        band: state.ring.band
+      },
+      spec: buildSpec(),
+      lead: {
+        name: data.name,
+        partnerName: data.partnerName,
+        email: data.email,
+        phone: data.phone,
+        timeline: data.timeline,
+        surpriseOrJoint: data.surpriseOrJoint,
+        budget: data.budget,
+        notes: data.notes,
+        styleReference: data.styleReference
+      },
+      submittedAt: new Date().toISOString()
+    };
+
+    console.log(payload);
+
+    goTo(SCREENS.length - 1, 'forward');
+  }
+
+  function buildSpec(){
+    var r = state.ring;
+    return r.metal + ' ' + r.shape.toLowerCase() + ' · ' +
+      r.setting.toLowerCase() + ' setting · ' +
+      r.head.toLowerCase() + ' head · ' +
+      r.band.toLowerCase() + ' band';
+  }
+
+  function renderReveal(){
+    var spec = buildSpec();
+    var summaryItems = [
+      state.answers.q1_datenight,
+      state.answers.q2_style,
+      state.answers.q3_season,
+      state.answers.q4_freetime,
+      state.answers.q5_honeymoon
+    ];
+
+    var html =
+      '<p class="eyebrow">Curated for you</p>' +
+      '<h2>Her ring</h2>' +
+      '<p class="spec">' + spec + '</p>' +
+      '<p class="reveal-body">Built from the way she already moves through the world — what she wears without thinking, the season she lights up in, and the honeymoon you’re already imagining together.</p>' +
+      '<ul class="reveal-list">' +
+      summaryItems.map(function(s){ return '<li>' + s + '</li>'; }).join('') +
+      '</ul>' +
+      '<p class="reveal-note">A member of our team will reach out within one business day.</p>';
+
+    panelInner.innerHTML = html;
+    frostEl.classList.add('clear');
+    announceScreen('Her ring is ready', null, null);
+  }
+
+  function announceScreen(prompt, qNum, qTotal){
+    var msg = prompt;
+    if (qNum){ msg = 'Question ' + qNum + ' of ' + qTotal + '. ' + prompt; }
+    liveRegion.textContent = msg;
+  }
+
+  /* ============ Screen transition (shutter) ============ */
+
+  var transitioning = false;
+
+  function renderScreen(){
+    var name = SCREENS[state.screenIndex];
+    if (name === 'welcome') renderWelcome();
+    else if (name === 'form') renderForm();
+    else if (name === 'reveal') renderReveal();
+    else {
+      var qIndex = SCREENS.indexOf(name) - 1;
+      renderQuestion(qIndex);
+    }
+  }
+
+  function advanceFromQuestion(){
+    goTo(state.screenIndex + 1, 'forward');
+  }
+
+  function goTo(newIndex, direction){
+    if (transitioning) return;
+    if (newIndex < 0 || newIndex >= SCREENS.length) return;
+    transitioning = true;
+
+    var targetCount = RING_COUNTS[SCREENS[newIndex]];
+
+    if (reducedMotion){
+      panel.classList.add('fading');
+      window.setTimeout(function(){
+        setRingVisibility(targetCount);
+        state.screenIndex = newIndex;
+        renderScreen();
+        panel.classList.remove('fading');
+        transitioning = false;
+      }, 200);
+      return;
+    }
+
+    panel.classList.add('fading');
+    window.setTimeout(function(){
+      panel.classList.add('shut');
+      window.setTimeout(function(){
+        setRingVisibility(targetCount);
+        state.screenIndex = newIndex;
+        renderScreen();
+        window.setTimeout(function(){
+          panel.classList.remove('shut');
+          panel.classList.remove('fading');
+          window.setTimeout(function(){
+            transitioning = false;
+          }, 350);
+        }, 20);
+      }, 350);
+    }, 100);
+  }
+
+  renderScreen();
+
+})();
+</script>
+</body>
+</html>
